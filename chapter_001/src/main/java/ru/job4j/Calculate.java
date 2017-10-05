@@ -1,17 +1,26 @@
 package ru.job4j;
 
 /**
-  * Класс Calculate является первым показательным классом для демонстрации работы Java.
-  * Содержит в себе единственный метод main
+  * class Calculate is the first class for Java demonstration.
+  * Contains of single method "main"
 */
 public class Calculate {
 
   /**
-    * Выводит сообщение "Hello, World!"
-    * @param Принимает в массив элементов типа String
-    * @return Ничего не возвращает, ибо void
+    * Output Message "Hello, World!"
+    * @param args - String type array
   */
   public static void main(String[] args) {
-	System.out.println("Hello, World!");
+	System.out.println("Hello World");
   }
+
+  /**
+    * Method echo.
+    * @param name Your name
+    * @return Echo plus your name
+   */
+  public String echo(String name) {
+    return "Echo, echo, echo : " + name;
+}
+
 }
