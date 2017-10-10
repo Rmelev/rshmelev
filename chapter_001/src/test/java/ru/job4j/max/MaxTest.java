@@ -16,21 +16,33 @@ public class MaxTest {
      * Test max().
      */
     @Test
-    public void whenFirstLessSecond() {
+    public void whenFirstLessSecondThenSecond() {
         Max maxim = new Max();
         int result = maxim.max(1, 2);
         assertThat(result, is(2));
     }
     @Test
-    public void whenFirstMoreSecond() {
+    public void whenFirstMoreSecondThenFirst() {
         Max maxim = new Max();
         int result = maxim.max(3, 2);
         assertThat(result, is(3));
     }
     @Test
-    public void whenFirstLessSecondBigNumbers() {
+    public void whenFirstLessSecondBigNumbersThenSecond() {
         Max maxim = new Max();
         int result = maxim.max(7843723, 78437231);
         assertThat(result, is(78437231));
+    }
+    @Test
+    public void whenFirstIsBiggestOfThreeNumbersThenFirst() {
+        Max maxim = new Max();
+        int result = maxim.max(7843723, 7843, 12345);
+        assertThat(result, is(7843723));
+    }
+    @Test
+    public void whenSecondIsBiggestOfThreeNumbersThenSecond() {
+        Max maxim = new Max();
+        int result = maxim.max(784, 7843, 123);
+        assertThat(result, is(7843));
     }
 }
