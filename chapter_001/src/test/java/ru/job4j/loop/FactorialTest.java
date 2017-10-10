@@ -24,4 +24,10 @@ public class FactorialTest {
         int result = fact.calc(0);
         assertThat(result, is(1));
     }
+    @Test
+    public void whenN5ThenFactorial120Recursion() {
+        Factorial fact = new Factorial();
+        int result = fact.calcRec(5);
+        assertThat(result, is(120));
+    }
 }

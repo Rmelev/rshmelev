@@ -14,4 +14,13 @@ class Factorial {
         }
         return mult;
     }
+
+    public int calcRec(int n) {
+        if (n==0) {
+            return 1;
+        } else {
+            int mult = n * calcRec(n - 1);
+            return mult;
+        }
+    }
 }
