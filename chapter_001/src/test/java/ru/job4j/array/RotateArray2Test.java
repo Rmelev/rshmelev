@@ -1,13 +1,13 @@
 package ru.job4j.array;
 
-import org.junit.Test;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+        import org.junit.Test;
+        import static org.hamcrest.core.Is.is;
+        import static org.junit.Assert.assertThat;
 
-public class RotateArrayTest {
-    /**
-     * Chech 3x3 array
-     */
+/**
+ * Test realizations with helper array.
+ */
+public class RotateArray2Test {
     @Test
     public void when123456789Then741852963() {
         RotateArray array = new RotateArray();
@@ -16,10 +16,6 @@ public class RotateArrayTest {
         int[][] resultTest = {{7, 4, 1}, {8, 5, 2}, {9, 6, 3}};
         assertThat(result, is(resultTest));
     }
-
-    /**
-     * Chech 2x2 array
-     */
     @Test
     public void when1234Then3142() {
         RotateArray array = new RotateArray();
@@ -28,10 +24,6 @@ public class RotateArrayTest {
         int[][] resultTest = {{3, 1}, {4, 2}};
         assertThat(result, is(resultTest));
     }
-
-    /**
-     * Check 4x4 array
-     */
     @Test
     public void when4x4Then4x4() {
         RotateArray array = new RotateArray();
