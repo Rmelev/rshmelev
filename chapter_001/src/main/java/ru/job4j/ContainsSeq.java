@@ -1,6 +1,12 @@
 package ru.job4j;
 
 public class ContainsSeq {
+    /**
+     *
+     * @param origin - origin string, there we're looking for sub string.
+     * @param sub - what we are looking for.
+     * @return - true if we have found.
+     */
     boolean contains(String origin, String sub) {
         boolean flag = false;
         char[] chAr = origin.toCharArray();
