@@ -59,8 +59,8 @@ public class Triangle {
      * @return
      */
     private boolean exist(double ab, double ac, double bc) {
-        boolean ex = true;
-        if ((ab + bc == ac) || (ab + ac == bc) || (ac + bc == ac)) ex = false;
+        boolean ex = false;
+        if ((ab + bc > ac) & (ab + ac > bc) & (ac + bc > ac)) ex = true;
         return ex;
     }
 }
