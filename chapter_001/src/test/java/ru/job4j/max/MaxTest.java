@@ -21,24 +21,40 @@ public class MaxTest {
         int result = maxim.max(1, 2);
         assertThat(result, is(2));
     }
+
+    /**
+     * test2.
+     */
     @Test
     public void whenFirstMoreSecondThenFirst() {
         Max maxim = new Max();
         int result = maxim.max(3, 2);
         assertThat(result, is(3));
     }
+
+    /**
+     * test3.
+     */
     @Test
     public void whenFirstLessSecondBigNumbersThenSecond() {
         Max maxim = new Max();
         int result = maxim.max(7843723, 78437231);
         assertThat(result, is(78437231));
     }
+
+    /**
+     * test4.
+     */
     @Test
     public void whenFirstIsBiggestOfThreeNumbersThenFirst() {
         Max maxim = new Max();
         int result = maxim.max(7843723, 7843, 12345);
         assertThat(result, is(7843723));
     }
+
+    /**
+     * test5.
+     */
     @Test
     public void whenSecondIsBiggestOfThreeNumbersThenSecond() {
         Max maxim = new Max();

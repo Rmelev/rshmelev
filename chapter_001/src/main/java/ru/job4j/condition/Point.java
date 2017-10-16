@@ -1,8 +1,19 @@
 package ru.job4j.condition;
 
+/**
+ * class, that is meaning point with x and y coordinates.
+ */
 public class Point {
+    /**
+     * coordinats of point.
+     */
     private int x, y;
 
+    /**
+     * Constructor.
+     * @param x - x coordinate.
+     * @param y - y coordinate.
+     */
     public Point(int x, int y) {
         this.x = x;
         this.y = y;

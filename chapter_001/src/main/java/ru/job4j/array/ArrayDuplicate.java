@@ -1,8 +1,15 @@
 package ru.job4j.array;
 
 import java.util.Arrays;
-
+/**
+ * Class for remove duplicates from array.
+ */
 public class ArrayDuplicate {
+    /**
+     *
+     * @param array - entrance array for remove duplicates.
+     * @return array without duplicates.
+     */
     public String[] remove(String[] array) {
         int counter = 0;
         for (int i = 0; i < array.length; i++) {

@@ -4,6 +4,9 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for turn of array.
+ */
 public class TurnTest {
     /**
      * Reverse odd Array.

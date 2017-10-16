@@ -4,6 +4,9 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for test calculate of odd numbers.
+ */
 public class CounterTest {
     /**
      * Calculates odd numbers from 1 to 10.
@@ -14,6 +17,10 @@ public class CounterTest {
         int result = counter.add(1, 10);
         assertThat(result, is(30));
     }
+
+    /**
+     * Test2.
+     */
     @Test
     public void whenFromFourToFourteenThen54() {
         Counter counter = new Counter();

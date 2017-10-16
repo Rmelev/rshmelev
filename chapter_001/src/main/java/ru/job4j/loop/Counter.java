@@ -1,5 +1,7 @@
 package ru.job4j.loop;
-
+/**
+ * class for count sum of odd numbers.
+ */
 public class Counter {
     /**
      * adds odd numbers from first to finish.

@@ -4,7 +4,13 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for test arrays combine.
+ */
 public class TwoArraysCombineTest {
+    /**
+     * test1.
+     */
     @Test
     public void when46789I1247121519Then124467789121519() {
         TwoArraysCombine arr = new TwoArraysCombine();
@@ -14,6 +20,10 @@ public class TwoArraysCombineTest {
         int[] expected = {1, 2, 4, 4, 6, 7, 7, 8, 9, 12, 15, 19};
         assertThat(result, is(expected));
     }
+
+    /**
+     * test2.
+     */
     @Test
     public void whenTwoArrsThenOneArr() {
         TwoArraysCombine arr = new TwoArraysCombine();

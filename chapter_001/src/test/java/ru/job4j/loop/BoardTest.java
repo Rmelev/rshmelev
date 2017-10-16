@@ -4,7 +4,13 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for test of chess board.
+ */
 public class BoardTest {
+    /**
+     * test1.
+     */
     @Test
     public void whenWidth3Height3Then3x3() {
         Board board = new Board();
@@ -13,6 +19,10 @@ public class BoardTest {
         String expected = String.format("x x%s x %sx x%s", line, line, line);
         assertThat(result, is(expected));
     }
+
+    /**
+     * test2.
+     */
     @Test
     public void whenPaintBoardWithWidthFiveAndHeightFourThenStringWithFiveColsAndFourRows() {
         Board board = new Board();

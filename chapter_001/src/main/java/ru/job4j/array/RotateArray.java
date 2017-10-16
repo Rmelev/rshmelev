@@ -1,6 +1,13 @@
 package ru.job4j.array;
-
+/**
+ * class for array rotate.
+ */
 public class RotateArray {
+    /**
+     *
+     * @param ar - array for rotate.
+     * @return rotated array.
+     */
     public int[][] rotate(int[][] ar) {
         int n = ar.length;
         int[][] arRes = new int[n][n];

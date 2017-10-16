@@ -1,5 +1,8 @@
 package ru.job4j;
 
+/**
+ * class for looking for sub string.
+ */
 public class ContainsSeq {
     /**
      *
@@ -14,8 +17,9 @@ public class ContainsSeq {
         for (int i = 0; i < chAr.length; i++) {
             if (chAr[i] == chArSub[0]) {
                 for (int j = 1; j < chArSub.length; j++) {
-                    if (chAr[i + j] == chArSub[j]);
-                    else return flag;
+                    if (chAr[i + j] != chArSub[j]) {
+                        return flag;
+                    }
                 }
                 flag = true;
             }

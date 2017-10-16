@@ -5,6 +5,9 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for calculate of equation.
+ */
 public class PointTest {
     /**
      * Equation: y(x) = ax + b.

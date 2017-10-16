@@ -1,5 +1,7 @@
 package ru.job4j.array;
-
+/**
+ * class for array rotate, second edirion.
+ */
 public class RotateArray2 {
     /**
      * Realization with helper array.

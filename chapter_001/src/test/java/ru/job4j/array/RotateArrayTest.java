@@ -4,9 +4,12 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * test for array rotate.
+ */
 public class RotateArrayTest {
     /**
-     * Chech 3x3 array
+     * Chech 3x3 array.
      */
     @Test
     public void when123456789Then741852963() {
@@ -18,7 +21,7 @@ public class RotateArrayTest {
     }
 
     /**
-     * Chech 2x2 array
+     * Chech 2x2 array.
      */
     @Test
     public void when1234Then3142() {
@@ -30,7 +33,7 @@ public class RotateArrayTest {
     }
 
     /**
-     * Check 4x4 array
+     * Check 4x4 array.
      */
     @Test
     public void when4x4Then4x4() {

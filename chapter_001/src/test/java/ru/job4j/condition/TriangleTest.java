@@ -1,13 +1,15 @@
 package ru.job4j.condition;
 
 import org.junit.Test;
-
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for test calculation area of triangle.
+ */
 public class TriangleTest {
     /**
-     * Simple rectangular triangle
+     * Simple rectangular triangle.
      */
     @Test
     public void whenAreaSetThreePointsThenTriangleArea() {

@@ -1,5 +1,8 @@
 package ru.job4j.array;
 
+/**
+ * class for bubblesort.
+ */
 class BubbleSort {
     /**
      * Method for sort with bubblesort method.

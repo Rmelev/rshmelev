@@ -4,6 +4,9 @@ import org.junit.Test;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+/**
+ * class for test of factorial calculation.
+ */
 public class FactorialTest {
     /**
      * Factorial if n = 5.
@@ -24,6 +27,10 @@ public class FactorialTest {
         int result = fact.calc(0);
         assertThat(result, is(1));
     }
+
+    /**
+     * test3.
+     */
     @Test
     public void whenN5ThenFactorial120Recursion() {
         Factorial fact = new Factorial();
