@@ -1,17 +1,46 @@
 package ru.job4j;
 
+/**
+ * class for interaction user with programm.
+ */
 public class StartUI {
+    /**
+     * variable for interaction with input system.
+     */
     private Input input;
 
+    /**
+     * Constuctor.
+     * @param input - initialization variable.
+     */
     public StartUI(Input input) {
         this.input = input;
     }
-    Tracker tracker = new Tracker();
-    private String idSwitch = null;
-    private String nameSwitch = null;
-    private String descSwitch = null;
-    String name = null;
 
+    /**
+     * new Tracker object.
+     */
+    private Tracker tracker = new Tracker();
+    /**
+     * variable for reading users id input.
+     */
+    private String idSwitch;
+    /**
+     * variable for reading users name input.
+     */
+    private String nameSwitch;
+    /**
+     * variable for reading users description input.
+     */
+    private String descSwitch;
+    /**
+     * user's choice.
+     */
+    private String name;
+
+    /**
+     * user' menu.
+     */
     public void menuPrint() {
         System.out.println();
         System.out.println("0. Add new Item");
@@ -23,6 +52,9 @@ public class StartUI {
         System.out.println("6. Exit Program");
     }
 
+    /**
+     * method for add item.
+     */
     public void addItem() {
         nameSwitch = input.ask("Input user name: ");
         descSwitch = input.ask("Input item description: ");
@@ -32,6 +64,9 @@ public class StartUI {
         System.out.println(itemSwitch.getId() + " " + itemSwitch.getName() + " " + itemSwitch.getDesc());
     }
 
+    /**
+     * method for show all items.
+     */
     public void showAllItems() {
         for (Item item : tracker.getAll()) {
             if (item != null) {
@@ -41,6 +76,9 @@ public class StartUI {
         }
     }
 
+    /**
+     * method for update item.
+     */
     public void updateItem() {
         idSwitch = input.ask("Input id of the item to update: ");
         Item returnItem = tracker.findById(idSwitch);
@@ -52,12 +90,18 @@ public class StartUI {
         System.out.println("Done");
     }
 
+    /**
+     * method for delete item.
+     */
     public void deleteItem() {
         idSwitch = input.ask("Input id of the item to remove: ");
         tracker.delete(tracker.findById(idSwitch));
         System.out.println("Done");
     }
 
+    /**
+     * method for find item, using id.
+     */
     public void findItemById() {
         idSwitch = input.ask("Input id of the item to find: ");
         for (Item item : tracker.getAll()) {
@@ -67,6 +111,9 @@ public class StartUI {
         }
     }
 
+    /**
+     * method for find item, using user's name.
+     */
     public void findItemByName() {
         nameSwitch = input.ask("Input user name to search for related items: ");
         for (Item item : tracker.getAll()) {
@@ -76,6 +123,9 @@ public class StartUI {
         }
     }
 
+    /**
+     * method to execute user's choice.
+     */
     public void init() {
         while (true) {
             name = input.ask("Select: ");
@@ -121,6 +171,10 @@ public class StartUI {
 
     }
 
+    /**
+     * main().
+     * @param args - arguments from console.
+     */
     public static void main(String[] args) {
         Input input = new ConsoleInput();
         StartUI startUI = new StartUI(input);
