@@ -39,6 +39,7 @@ public class TrackerTest {
         tracker.delete(item1);
         tracker.delete(item2);
         Item[] result = {item0, item3};
+        System.out.println();
         assertThat(tracker.getAll(), is(result));
     }
 

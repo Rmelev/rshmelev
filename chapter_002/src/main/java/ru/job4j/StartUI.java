@@ -10,13 +10,14 @@ public class StartUI {
     private Input input;
 
     /**
-     * Constuctor.
-     * @param input - initialization variable.
+     * Constractor for JUnit testing.
+     * @param input - Input object.
+     * @param tracker - Tracker object.
      */
-    public StartUI(Input input) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
+        this.tracker = tracker;
     }
-
     /**
      * new Tracker object.
      */
@@ -53,15 +54,16 @@ public class StartUI {
     }
 
     /**
-     * method for add item.
+     *
+     * @param tracker - tracker for adding items.
      */
-    public void addItem() {
+    public void addItem(Tracker tracker) {
         nameSwitch = input.ask("Input user name: ");
         descSwitch = input.ask("Input item description: ");
         Item itemSwitch = new Item(nameSwitch, descSwitch, 1234L);
         tracker.add(itemSwitch);
-        System.out.print("Added item:   ");
-        System.out.println(itemSwitch.getId() + " " + itemSwitch.getName() + " " + itemSwitch.getDesc());
+        //System.out.print("Added item:   ");
+        //System.out.println(itemSwitch.getId() + " " + itemSwitch.getName() + " " + itemSwitch.getDesc());
     }
 
     /**
@@ -87,7 +89,7 @@ public class StartUI {
         descSwitch = input.ask("Input new item description: ");
         returnItem.setDesc(descSwitch);
         tracker.update(returnItem);
-        System.out.println("Done");
+        //System.out.println("Done");
     }
 
     /**
@@ -95,8 +97,12 @@ public class StartUI {
      */
     public void deleteItem() {
         idSwitch = input.ask("Input id of the item to remove: ");
+        if (tracker.findById(idSwitch) == null) {
+            System.out.println("Tracker haven't this item");
+            return;
+        }
         tracker.delete(tracker.findById(idSwitch));
-        System.out.println("Done");
+        //System.out.println("Done");
     }
 
     /**
@@ -131,37 +137,37 @@ public class StartUI {
             name = input.ask("Select: ");
             switch (name) {
                 case "0":
-                    this.addItem();
-                    this.menuPrint();
+                    this.addItem(tracker);
+                    //this.menuPrint();
                     break;
                 case "1": // get all items
                     this.showAllItems();
-                    this.menuPrint();
+                    //this.menuPrint();
                     break;
                 case "2": // Update item
-                    System.out.println();
-                    System.out.println("List of items to choose id below:");
-                    this.showAllItems();
+                    //System.out.println();
+                    //System.out.println("List of items to choose id below:");
+                    //this.showAllItems();
                     this.updateItem();
-                    this.menuPrint();
+                    //this.menuPrint();
                     break;
                 case "3": // Delete item
-                    System.out.println();
-                    System.out.println("List of items to choose id below:");
-                    this.showAllItems();
+                    //System.out.println();
+                    //System.out.println("List of items to choose id below:");
+                    //this.showAllItems();
                     this.deleteItem();
-                    this.menuPrint();
+                    //this.menuPrint();
                     break;
                 case "4": // find item by id
                     this.findItemById();
-                    this.menuPrint();
+                    //this.menuPrint();
                     break;
                 case "5": // find by name
                     this.findItemByName();
-                    this.menuPrint();
+                    //this.menuPrint();
                     break;
                 case "6" :
-                    System.out.println("You decided to quit");
+                    //System.out.println("You decided to quit");
                     return;
                 default:
                     System.out.println("Please, choose number from 1 to 6");
@@ -177,7 +183,7 @@ public class StartUI {
      */
     public static void main(String[] args) {
         Input input = new ConsoleInput();
-        StartUI startUI = new StartUI(input);
+        StartUI startUI = new StartUI(input, new Tracker());
         startUI.menuPrint();
         startUI.init();
     }

@@ -52,6 +52,21 @@ public class Tracker {
                 items[i] = null;
             }
         }
+        int counter = 0;
+        for (Item it : items) {
+            if (it == null) {
+                counter++;
+            }
+        }
+        for (int i = 0; i < items.length - counter; i++) {
+            for (int j = 1; j < items.length - 1 - i; j++) {
+                if (items[j] == null) {
+                    Item temp = items[j];
+                    items[j] = items[j + 1];
+                    items[j + 1] = temp;
+                }
+            }
+        }
     }
 
     /**
@@ -89,13 +104,14 @@ public class Tracker {
      */
     public Item[] getAll() {
         int counter = 0;
-        for (Item item : items) {
-            if (item == null) {
+        for (Item it : items) {
+            if (it == null) {
                 counter++;
+                //System.out.print(counter);
             }
         }
         for (int i = 0; i < items.length - counter; i++) {
-            for (int j = 1; j < items.length - 1 - i; j++) {
+            for (int j = 0; j < items.length - 1 - i; j++) {
                 if (items[j] == null) {
                     Item temp = items[j];
                     items[j] = items[j + 1];
@@ -103,6 +119,7 @@ public class Tracker {
                 }
             }
         }
+        System.out.println("Длина: " + items.length  + "counter: " + counter);
         return Arrays.copyOf(items, items.length - counter);
     }
 }

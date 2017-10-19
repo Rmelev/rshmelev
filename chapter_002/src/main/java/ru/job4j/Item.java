@@ -39,6 +39,13 @@ public class Item {
     }
 
     /**
+     * default Constructor.
+     */
+    public Item() {
+        this.id = Long.toString((long) (Math.random() * 10000) + System.currentTimeMillis());
+    }
+
+    /**
      * @param id - item ID.
      */
     public void setId(String id) {
