@@ -22,22 +22,6 @@ public class StartUI {
      * new Tracker object.
      */
     private Tracker tracker = new Tracker();
-    /**
-     * variable for reading users id input.
-     */
-    private String idSwitch;
-    /**
-     * variable for reading users name input.
-     */
-    private String nameSwitch;
-    /**
-     * variable for reading users description input.
-     */
-    private String descSwitch;
-    /**
-     * user's choice.
-     */
-    private String name;
 
     /**
      * user' menu.
@@ -58,12 +42,8 @@ public class StartUI {
      * @param tracker - tracker for adding items.
      */
     public void addItem(Tracker tracker) {
-        nameSwitch = input.ask("Input user name: ");
-        descSwitch = input.ask("Input item description: ");
-        Item itemSwitch = new Item(nameSwitch, descSwitch, 1234L);
+        Item itemSwitch = new Item(input.ask("Input user name: "), input.ask("Input item description: "), 1234L);
         tracker.add(itemSwitch);
-        //System.out.print("Added item:   ");
-        //System.out.println(itemSwitch.getId() + " " + itemSwitch.getName() + " " + itemSwitch.getDesc());
     }
 
     /**
@@ -82,36 +62,32 @@ public class StartUI {
      * method for update item.
      */
     public void updateItem() {
-        idSwitch = input.ask("Input id of the item to update: ");
-        Item returnItem = tracker.findById(idSwitch);
-        nameSwitch = input.ask("Input new user name: ");
-        returnItem.setName(nameSwitch);
-        descSwitch = input.ask("Input new item description: ");
-        returnItem.setDesc(descSwitch);
+        //idSwitch = input.ask("Input id of the item to update: ");
+        Item returnItem = tracker.findById(input.ask("Input id of the item to update: "));
+        returnItem.setName(input.ask("Input new user name: "));
+        returnItem.setDesc(input.ask("Input new item description: "));
         tracker.update(returnItem);
-        //System.out.println("Done");
     }
 
     /**
      * method for delete item.
      */
     public void deleteItem() {
-        idSwitch = input.ask("Input id of the item to remove: ");
+        String idSwitch = input.ask("Input id of the item to remove: ");
         if (tracker.findById(idSwitch) == null) {
             System.out.println("Tracker haven't this item");
             return;
         }
         tracker.delete(tracker.findById(idSwitch));
-        //System.out.println("Done");
     }
 
     /**
      * method for find item, using id.
      */
     public void findItemById() {
-        idSwitch = input.ask("Input id of the item to find: ");
+        //idSwitch = input.ask("Input id of the item to find: ");
         for (Item item : tracker.getAll()) {
-            if (item != null && item.getId().equals(idSwitch)) {
+            if (item != null && item.getId().equals(input.ask("Input id of the item to find: "))) {
                 System.out.println(item.getId() + " " + item.getName() + " " + item.getDesc());
             }
         }
@@ -121,9 +97,9 @@ public class StartUI {
      * method for find item, using user's name.
      */
     public void findItemByName() {
-        nameSwitch = input.ask("Input user name to search for related items: ");
+        //nameSwitch = input.ask("Input user name to search for related items: ");
         for (Item item : tracker.getAll()) {
-            if (item != null && item.getName().equals(nameSwitch)) {
+            if (item != null && item.getName().equals(input.ask("Input user name to search for related items: "))) {
                 System.out.println(item.getId() + " " + item.getName() + " " + item.getDesc());
             }
         }
@@ -134,8 +110,7 @@ public class StartUI {
      */
     public void init() {
         while (true) {
-            name = input.ask("Select: ");
-            switch (name) {
+            switch (input.ask("Select: ")) {
                 case "0":
                     this.addItem(tracker);
                     //this.menuPrint();
