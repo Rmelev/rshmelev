@@ -8,6 +8,38 @@ public class StartUI {
      * variable for interaction with input system.
      */
     private Input input;
+    /**
+     * new Tracker object.
+     */
+    private Tracker tracker = new Tracker();
+    /**
+     * for switch.
+     */
+    private static final String ADD = "0";
+    /**
+     * for switch.
+     */
+    private static final String GETALL = "1";
+    /**
+     * for switch.
+     */
+    private static final String EDIT = "2";
+    /**
+     * for switch.
+     */
+    private static final String DEL = "3";
+    /**
+     * for switch.
+     */
+    private static final String ID = "4";
+    /**
+     * for switch.
+     */
+    private static final String NAME = "5";
+    /**
+     * for switch.
+     */
+    private static final String QUIT = "6";
 
     /**
      * Constractor for JUnit testing.
@@ -18,10 +50,6 @@ public class StartUI {
         this.input = input;
         this.tracker = tracker;
     }
-    /**
-     * new Tracker object.
-     */
-    private Tracker tracker = new Tracker();
 
     /**
      * user' menu.
@@ -113,37 +141,37 @@ public class StartUI {
     public void init() {
         while (true) {
             switch (input.ask("Select: ")) {
-                case "0":
+                case ADD:
                     this.addItem(tracker);
                     //this.menuPrint();
                     break;
-                case "1": // get all items
+                case GETALL: // get all items
                     this.showAllItems();
                     //this.menuPrint();
                     break;
-                case "2": // Update item
+                case EDIT: // Update item
                     //System.out.println();
                     //System.out.println("List of items to choose id below:");
                     //this.showAllItems();
                     this.updateItem();
                     //this.menuPrint();
                     break;
-                case "3": // Delete item
+                case DEL: // Delete item
                     //System.out.println();
                     //System.out.println("List of items to choose id below:");
                     //this.showAllItems();
                     this.deleteItem();
                     //this.menuPrint();
                     break;
-                case "4": // find item by id
+                case ID: // find item by id
                     this.findItemById();
                     //this.menuPrint();
                     break;
-                case "5": // find by name
+                case NAME: // find by name
                     this.findItemByName();
                     //this.menuPrint();
                     break;
-                case "6" :
+                case QUIT:
                     //System.out.println("You decided to quit");
                     return;
                 default:
