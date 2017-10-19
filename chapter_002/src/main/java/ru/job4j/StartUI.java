@@ -73,6 +73,8 @@ public class StartUI {
      * method for delete item.
      */
     public void deleteItem() {
+        //  нельзя убрать переменную idSwitch, потому что запрос
+        // tracker.delete(tracker.findById(idSwitch)); получит уже следующий ответ массива ответов
         String idSwitch = input.ask("Input id of the item to remove: ");
         if (tracker.findById(idSwitch) == null) {
             System.out.println("Tracker haven't this item");
