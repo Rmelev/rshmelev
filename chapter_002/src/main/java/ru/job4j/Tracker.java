@@ -119,7 +119,7 @@ public class Tracker {
                 }
             }
         }
-        System.out.println("Длина: " + items.length  + "counter: " + counter);
+        //System.out.println("Длина: " + items.length  + "counter: " + counter);
         return Arrays.copyOf(items, items.length - counter);
     }
 }
