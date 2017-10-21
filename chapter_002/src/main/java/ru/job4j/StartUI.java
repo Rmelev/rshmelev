@@ -8,19 +8,25 @@ public class StartUI {
      * input.
      */
     private Input input;
+    /**
+     * tracker.
+     */
+    private Tracker tracker;
 
     /**
      * @param input - input.
+     * @param tracker - tracker.
      */
-    public StartUI(Input input) {
+    public StartUI(Input input, Tracker tracker) {
         this.input = input;
+        this.tracker = tracker;
     }
 
     /**
      * method for run program.
      */
     public void init() {
-        Tracker tracker = new Tracker();
+        //Tracker tracker = new Tracker();
         MenuTracker menu = new MenuTracker(this.input, tracker);
         menu.fillActions();
         do {
@@ -34,7 +40,7 @@ public class StartUI {
                 return;
             }
             menu.select(key);
-        } while (!"y".equals(input.ask("Exit?(y):  ")));
+        } while (true);
     }
 
     /**
@@ -43,7 +49,8 @@ public class StartUI {
      */
     public static void main(String[] args) {
         ConsoleInput input = new ConsoleInput();
-        StartUI start = new StartUI(input);
+        Tracker tracker = new Tracker();
+        StartUI start = new StartUI(input, tracker);
         start.init();
     }
 }

@@ -250,7 +250,7 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Input name to search for related items: ");
-            if (tracker.findById(name) == null) {
+            if (tracker.findByName(name) == null) {
                 System.out.println("Tracker haven't items with this name");
                 return;
             }
