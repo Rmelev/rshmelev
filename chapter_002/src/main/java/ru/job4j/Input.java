@@ -10,4 +10,12 @@ public interface Input {
      * @return - user's choice.
      */
     String ask(String question);
+
+    /**
+     * overloading method.
+     * @param question - question.
+     * @param range - array of choices.
+     * @return - user's choice.
+     */
+    int ask(String question, int[] range);
 }

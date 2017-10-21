@@ -59,6 +59,41 @@ public class MenuTracker {
         }
     }
 
+/*
+    public int getAddKey() {
+        return new MenuTracker.AddItem().key();
+    }
+
+
+    public int getShowKey() {
+        return new MenuTracker.ShowItems().key();
+    }
+
+
+    public int getEditKey() {
+        return new MenuTracker.EditItem().key();
+    }
+
+
+    public int getDelKey() {
+        return new MenuTracker.DeleteItem().key();
+    }
+
+
+    public int getFindByIdKey() {
+        return new MenuTracker.FindItemById().key();
+    }
+
+
+    public int getFindByNameKey() {
+        return new MenuTracker.FindItemByName().key();
+    }
+
+
+    public int getExitKey() {
+        return new MenuTracker.Exit().key();
+    }
+*/
     /**
      * action class for add.
      */
