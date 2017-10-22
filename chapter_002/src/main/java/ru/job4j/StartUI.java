@@ -27,8 +27,7 @@ public class StartUI {
      */
     public void init() {
         MenuTracker menu = new MenuTracker(this.input, tracker);
-        int[] ranges = menu.initializer(new int[menu.getActions().length]);
-        menu.fillActions();
+        int[] ranges = menu.initializer();
         do {
             menu.show();
             int key = input.ask("Select: ", ranges);

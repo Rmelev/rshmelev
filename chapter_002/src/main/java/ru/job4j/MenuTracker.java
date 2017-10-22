@@ -28,19 +28,12 @@ public class MenuTracker {
     }
 
     /**
-     * getter for actions.
-     * @return - actions.
-     */
-    public UserAction[] getActions() {
-        return actions;
-    }
-    /**
      * initialization array of user's choice.
-     * @param ar - empty array for initialization.
      * @return - initializated array
      */
-    public int[] initializer(int[] ar) {
+    public int[] initializer() {
         fillActions();
+        int[] ar = new int[this.actions.length];
         for (int i = 0; i < actions.length; i++) {
             ar[i] = actions[i].key();
         }
