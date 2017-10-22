@@ -51,13 +51,13 @@ public class MenuTracker {
      * filling of action's array.
      */
     public void fillActions() {
-        this.actions[0] = new MenuTracker.AddItem();
-        this.actions[1] = new MenuTracker.ShowItems();
-        this.actions[2] = new MenuTracker.EditItem();
-        this.actions[3] = new MenuTracker.DeleteItem();
-        this.actions[4] = new MenuTracker.FindItemById();
-        this.actions[5] = new MenuTracker.FindItemByName();
-        this.actions[6] = new MenuTracker.Exit();
+        this.actions[0] = new MenuTracker.AddItem("Add the new item.", 1);
+        this.actions[1] = new MenuTracker.ShowItems("Show all items.", 2);
+        this.actions[2] = new MenuTracker.EditItem("Edit the item.", 3);
+        this.actions[3] = new MenuTracker.DeleteItem("Delete item.", 4);
+        this.actions[4] = new MenuTracker.FindItemById("Find item by id.", 5);
+        this.actions[5] = new MenuTracker.FindItemByName("Find item by name.", 6);
+        this.actions[6] = new MenuTracker.Exit("EXIT.", 7);
     }
 
     /**
@@ -79,45 +79,19 @@ public class MenuTracker {
         }
     }
 
-/*
-    public int getAddKey() {
-        return new MenuTracker.AddItem().key();
-    }
-
-
-    public int getShowKey() {
-        return new MenuTracker.ShowItems().key();
-    }
-
-
-    public int getEditKey() {
-        return new MenuTracker.EditItem().key();
-    }
-
-
-    public int getDelKey() {
-        return new MenuTracker.DeleteItem().key();
-    }
-
-
-    public int getFindByIdKey() {
-        return new MenuTracker.FindItemById().key();
-    }
-
-
-    public int getFindByNameKey() {
-        return new MenuTracker.FindItemByName().key();
-    }
-
-
-    public int getExitKey() {
-        return new MenuTracker.Exit().key();
-    }
-*/
     /**
      * action class for add.
      */
-    private static class AddItem implements UserAction {
+    private static class AddItem extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        AddItem(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * @return - numder of action.
          */
@@ -134,20 +108,20 @@ public class MenuTracker {
             String desc = input.ask("Please, enter the task's desk: ");
             tracker.add(new Item(name, desc, 12345L));
         }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Add the new item.");
-        }
     }
 
     /**
      * action class for show all.
      */
-    private static class ShowItems implements UserAction {
+    private static class ShowItems extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        ShowItems(String name, int key) {
+            super(name, key);
+        }
         /**
          * @return - numder of action.
          */
@@ -164,20 +138,21 @@ public class MenuTracker {
                 System.out.println(String.format("%s  %s  %s", item.getId(), item.getName(), item.getDesc()));
             }
         }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Show all items.");
-        }
     }
 
     /**
      * action class for edit.
      */
-    private static class EditItem implements UserAction {
+    private static class EditItem extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        EditItem(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * @return - numder of action.
          */
@@ -201,20 +176,21 @@ public class MenuTracker {
             item.setId(id);
             tracker.update(item);
         }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Edit the item.");
-        }
     }
 
     /**
      * action class for delete.
      */
-    private static class DeleteItem implements UserAction {
+    private static class DeleteItem extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        DeleteItem(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * @return - numder of action.
          */
@@ -240,20 +216,21 @@ public class MenuTracker {
             tracker.delete(tracker.findById(id));
 
         }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Delete item.");
-        }
     }
 
     /**
      * action class for find by id.
      */
-    private static class FindItemById implements UserAction {
+    private static class FindItemById extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        FindItemById(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * @return - numder of action.
          */
@@ -278,20 +255,21 @@ public class MenuTracker {
             }
 
         }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by id.");
-        }
     }
 
     /**
      * action class for find by name.
      */
-    private static class FindItemByName implements UserAction {
+    private static class FindItemByName extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        FindItemByName(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * @return - numder of action.
          */
@@ -316,20 +294,21 @@ public class MenuTracker {
             }
 
         }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "Find item by name.");
-        }
     }
 
     /**
      * action class for exit.
      */
-    private static class Exit implements UserAction {
+    private static class Exit extends BaseAction {
+        /**
+         * Constructor with reference to superclass.
+         * @param name - name of operation.
+         * @param key - name of operation.
+         */
+        Exit(String name, int key) {
+            super(name, key);
+        }
+
         /**
          * @return - numder of action.
          */
@@ -343,14 +322,6 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
 
-        }
-
-        /**
-         * info about action for menu.
-         * @return - string.
-         */
-        public String info() {
-            return String.format("%s. %s", this.key(), "EXIT.");
         }
     }
 }
