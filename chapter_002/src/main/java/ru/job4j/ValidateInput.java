@@ -6,7 +6,7 @@ package ru.job4j;
 public class ValidateInput extends ConsoleInput {
 
     /**
-     * check user's input.
+     * overriding method from ConsoleInput.
      * @param question - question.
      * @param range - array of choice.
      * @return - user's choice.

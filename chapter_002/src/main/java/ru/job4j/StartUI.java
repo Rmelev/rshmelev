@@ -4,10 +4,8 @@ package ru.job4j;
  * run programm.
  */
 public class StartUI {
-    /**
-     * array of legal user's choice.
-     */
-    private int[] ranges = new int[] {1, 2, 3, 4, 5, 6, 7};
+
+    //private int[] ranges = new int[] {1, 2, 3, 4, 5, 6, 7};
     /**
      * input.
      */
@@ -25,6 +23,13 @@ public class StartUI {
         this.input = input;
         this.tracker = tracker;
     }
+
+    /**
+     * initialization array of user's choice instead line8.
+     */
+    private int[] ranges = new MenuTracker(new ConsoleInput(), new Tracker()).initializer(
+            new int[new MenuTracker(new ConsoleInput(), new Tracker()).getActions().length]
+            );
 
     /**
      * method for run program.

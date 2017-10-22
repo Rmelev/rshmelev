@@ -21,7 +21,7 @@ public class ConsoleInput implements Input {
     }
 
     /**
-     * overriding method with catching exceptions.
+     * overloading method with catching exceptions.
      * @param question - question.
      * @param range - array of choices.
      * @return - user's choice.
