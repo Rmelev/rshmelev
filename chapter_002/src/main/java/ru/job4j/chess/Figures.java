@@ -6,9 +6,31 @@ abstract class Figures {
     abstract boolean specify(Cell cell1, Cell cell2);
 
     /**
+     * положение в массиве (линейный от 1 до 64).
+     */
+    int x;
+
+    boolean y;
+
+    /**
+     * Constructor.
+     * @param x - place on the board.
+     */
+    public Figures(int x, boolean y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * default Constructor.
+     */
+    public Figures() {
+    }
+
+    /**
      * превращает значение ячейки в 1-мерном массиве в значение ячейки в 2-мерном массиве.
-     * @param step
-     * @return
+     * @param step - step.
+     * @return - array.
      */
     public int[] trans(int step) {
         int count = 0;

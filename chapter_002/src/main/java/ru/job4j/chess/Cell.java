@@ -4,24 +4,13 @@ package ru.job4j.chess;
  * cell of board.
  */
 public class Cell extends Figures{
-    /**
-     * положение в массиве (линейный от 1 до 64).
-     */
-    int x;
 
-    /**
-     * Занята или свободна. Если занята - то тип фигуры, если свободна - то null.
-     */
-    Figures statement;
+    public Cell() {
+    }
 
-    /**
-     * Constructor.
-     * @param x -  first index in array (board).
-     * @param statement - who's there.
-     */
-    Cell(int x, Figures statement) {
+    public Cell(int x, boolean y) {
         this.x = x;
-        this.statement = statement;
+        this.y = y;
     }
 
     boolean specify(Cell cellSource, Cell cellDist) {
