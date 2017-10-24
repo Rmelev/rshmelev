@@ -3,12 +3,22 @@ package ru.job4j.chess;
 /**
  * cell of board.
  */
-public class Cell{
+class Cell {
+    /**
+     * coordinate x on board.
+     */
     int x;
-
+    /**
+     * coordinate y.
+     */
     int y;
 
-    public Cell(int x, int y) {
+    /**
+     * Constructor.
+     * @param x - x.
+     * @param y - y.
+     */
+    Cell(int x, int y) {
         this.x = x;
         this.y = y;
     }

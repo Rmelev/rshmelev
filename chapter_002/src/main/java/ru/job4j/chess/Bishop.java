@@ -2,15 +2,21 @@ package ru.job4j.chess;
 
 import java.util.Arrays;
 
+/**
+ * Bishop figure.
+ */
 public class Bishop extends Figures {
-
-    public Bishop(Cell position) {
+    /**
+     * Constractor.
+     * @param position - position of figure on start.
+     */
+    Bishop(Cell position) {
         this.position = position;
     }
     /**
-     * собирает ячейки, через которые нужно пройти.
-     * @param dist - на какую ячейку идем.
-     * @return - массив ячеек, через которые нужно пройти.
+     * pick cells for way..
+     * @param dist - where want to step.
+     * @return - array of cells for the way.
      */
     public Cell[] way(Cell dist) {
         Cell[] arr = new Cell[7];
@@ -39,35 +45,26 @@ public class Bishop extends Figures {
             return null;
         }
 
-        System.out.println(dir);
         if (dir.equals("lv")) {
             for (int i = 0; i < xCount; i++) {
                 arr[i] = new Cell(position.x - i - 1, position.y - i - 1);
-                System.out.println("lv добавил: " + (position.x - i - 1) + "  " + (position.y - i - 1));
             }
         }
-
         if (dir.equals("pv")) {
             for (int i = 0; i < xCount; i++) {
                 arr[i] = new Cell(position.x - i - 1, position.y + i + 1);
-                System.out.println("pv добавил: " + (position.x - i - 1) + "  " + (position.y + i + 1));
             }
         }
-
         if (dir.equals("ln")) {
             for (int i = 0; i < xCount; i++) {
                 arr[i] = new Cell(position.x + i + 1, position.y - i - 1);
-                System.out.println("ln добавил: " + (position.x + i + 1) + "  " + (position.y - i - 1));
             }
         }
-
         if (dir.equals("pn")) {
             for (int i = 0; i < xCount; i++) {
                 arr[i] = new Cell(position.x + i + 1, position.y + i + 1);
-                System.out.println("pn добавил: " + (position.x + i + 1) + "  " + (position.y + i + 1));
             }
         }
         return Arrays.copyOf(arr, xCount);
     }
-
 }
