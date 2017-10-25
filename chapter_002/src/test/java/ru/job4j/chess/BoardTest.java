@@ -18,7 +18,7 @@ public class BoardTest {
         Input input = new StubInput(new String[]{"7", "2", "5", "0", "y", "5", "0", "2", "3", "n"});
         Board board = new Board(input);
         board.init();
-        assertThat(board.getFigureNewCoordinateX(), is(2));
+        assertThat(board.getArrCell()[0].getX(), is(2));
     }
 
     /**
@@ -29,7 +29,7 @@ public class BoardTest {
         Input input = new StubInput(new String[]{"7", "2", "5", "0", "y", "5", "0", "2", "3", "n"});
         Board board = new Board(input);
         board.init();
-        assertThat(board.getFigureNewCoordinateY(), is(3));
+        assertThat(board.getArrCell()[0].getY(), is(3));
     }
 
     /**
@@ -40,7 +40,7 @@ public class BoardTest {
         Input input = new StubInput(new String[]{"7", "2", "4", "5", "y", "4", "5", "3", "4", "n"});
         Board board = new Board(input);
         board.init();
-        assertThat(board.getFigureNewCoordinateX(), is(7));
+        assertThat(board.getArrCell()[0].getX(), is(7));
     }
 
     /**
@@ -51,6 +51,6 @@ public class BoardTest {
         Input input = new StubInput(new String[]{"7", "2", "2", "0", "y", "2", "0", "4", "2", "n"});
         Board board = new Board(input);
         board.init();
-        assertThat(board.getFigureNewCoordinateX(), is(7));
+        assertThat(board.getArrCell()[0].getX(), is(7));
     }
 }

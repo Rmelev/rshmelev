@@ -7,11 +7,11 @@ class Cell {
     /**
      * coordinate x on board.
      */
-    int x;
+    private int x;
     /**
      * coordinate y.
      */
-    int y;
+    private int y;
 
     /**
      * Constructor.
@@ -21,5 +21,21 @@ class Cell {
     Cell(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    /**
+     * getter.
+     * @return - x.
+     */
+    public int getX() {
+        return this.x;
+    }
+
+    /**
+     * getter.
+     * @return - x.
+     */
+    public int getY() {
+        return this.y;
     }
 }

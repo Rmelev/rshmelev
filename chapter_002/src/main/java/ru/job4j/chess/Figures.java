@@ -9,24 +9,29 @@ abstract class Figures {
     /**
      * position of figure.
      */
-    protected Cell position;
+    private Cell position;
 
     /**
-     * Constructor.
-     * @param dist - we will stand.
-     * @return - figure with coordinates of cell.
+     * Constuctor.
+     * @param position - initializator cell.
      */
-    public Figures clone(Cell dist) {
-        this.position.x = dist.x;
-        this.position.y = dist.y;
-        return this;
+    Figures(Cell position) {
+        this.position = position;
     }
 
     /**
      * abstract method for way array.
+     *
      * @param dist - where we want to step.
      * @return - array of cells.
      * @throws ImpossibleMoveException - ImpossibleMoveException.
      */
     abstract Cell[] way(Cell dist) throws ImpossibleMoveException;
+
+    /**
+     * method for realy step.
+     * @param dist - we will stand.
+     * @return - figure with coordinates of cell.
+     */
+    abstract Figures clone(Cell dist);
 }

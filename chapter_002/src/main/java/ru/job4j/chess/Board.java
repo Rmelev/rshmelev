@@ -1,6 +1,8 @@
 package ru.job4j.chess;
 
+//import ru.job4j.ConsoleInput;
 import ru.job4j.Input;
+import ru.job4j.MenuOutException;
 import ru.job4j.chess.exceptions.FigureNotFoundException;
 import ru.job4j.chess.exceptions.ImpossibleMoveException;
 import ru.job4j.chess.exceptions.OccupiedWayException;
@@ -12,16 +14,32 @@ public class Board {
     /**
      * array of figures.
      */
-    private Figures[] figures = new Figures[2];
+    private Figures[] figures = new Figures[32];
+
+    /**
+     * array of cells.
+     */
+    private Cell[] arrCell = new Cell[32];
+
+    /**
+     * counter of cells in array.
+     */
+    private int countCell = 0;
 
     /**
      * counter of figures in array.
      */
-    private int count = 0;
+    private int countFigure = 0;
+
     /**
      * variable for StubInput tests.
      */
     private Input input;
+
+    /**
+     * range of possible steps.
+     */
+    private int[] range = {0, 1, 2, 3, 4, 5, 6, 7};
 
     /**
      * Constructor.
@@ -29,24 +47,66 @@ public class Board {
      */
     public Board(Input input) {
         this.input = input;
+        Cell cell72 = new Cell(7, 2);
+        addCell(cell72);
+        Bishop bishop1 = new Bishop(cell72);
+        addFigure(bishop1);
+        Cell cell54 = new Cell(5, 4);
+        Bishop bishop2 = new Bishop(cell54);
+        addFigure(bishop2);
+        addCell(cell54);
+    }
+
+    /**
+     * getter.
+     * @return - array of engaged cells.
+     */
+    public Cell[] getArrCell() {
+        return this.arrCell;
+    }
+
+    /**
+     * getter.
+     * @return - range.
+     */
+    public int[] getRange() {
+        return range;
+    }
+
+    /**
+     * adder of cells.
+     * @param cell - additional cell.
+     */
+    void addCell(Cell cell) {
+        arrCell[countCell++] = cell;
+
+    }
+
+    /**
+     * adder of figures.
+     * @param figure - - additional figure.
+     */
+    void addFigure(Figures figure) {
+        figures[countFigure++] = figure;
     }
 
     /**
      * game method.
      */
     void init() {
-        addFigure(new Bishop(new Cell(7, 2)));
-        addFigure(new Bishop(new Cell(5, 4)));
         do {
             try {
-                int xSource = Integer.valueOf(input.ask("Ведите координату х исходной позиции: "));
-                int ySource = Integer.valueOf(input.ask("Ведите координату y исходной позиции: "));
-                int xDist = Integer.valueOf(input.ask("Ведите координату х ячейки, куда идете: "));
-                int yDist = Integer.valueOf(input.ask("Ведите координату y ячейки, куда идете: "));
-                for (Figures arr : figures) {
-                    if (move(new Cell(xSource, ySource), new Cell(xDist, yDist)) && arr.position.x == xSource && arr.position.y == ySource) {
-                        arr.clone(new Cell(xDist, yDist));
-                        break;
+                int xSource = input.ask("Ведите координату х исходной позиции: ", getRange());
+                int ySource = input.ask("Ведите координату y исходной позиции: ", getRange());
+                int xDist = input.ask("Ведите координату х ячейки, куда идете: ", getRange());
+                int yDist = input.ask("Ведите координату y ячейки, куда идете: ", getRange());
+                for (int i = 0; i < arrCell.length; i++) {
+                    if (arrCell[i] != null) {
+                        if (move(new Cell(xSource, ySource), new Cell(xDist, yDist)) && arrCell[i].getX() == xSource && arrCell[i].getY() == ySource) {
+                            figures[i] = figures[i].clone(new Cell(xDist, yDist));
+                            arrCell[i] = new Cell(xDist, yDist);
+                            break;
+                        }
                     }
                 }
                 System.out.println("Успешный ход! ");
@@ -56,52 +116,34 @@ public class Board {
                 System.out.println("Так фигура не ходит. Выберите другую ячейку: ");
             } catch (OccupiedWayException owe) {
                 System.out.println("Путь к ячеке занят. Выберите другой ход: ");
+            } catch (MenuOutException moe) {
+                System.out.println("Выбирайте ячейку из диапазона от 0 до 7: ");
+            } catch (NumberFormatException nfe) {
+                System.out.println("Номер ячейки может быть только цифрой от 0 до 7. Попробуйте снова: ");
             }
         } while (input.ask("Хотите продолжить? y/n ").equals("y"));
     }
 
-    /**
-     * getter for x Cell position (for testing).
-     * @return - x.
-     */
-    int getFigureNewCoordinateX() {
-        return figures[0].position.x;
-    }
 
     /**
-     * getter for y Cell position (for testing).
-     * @return - y.
-     */
-    int getFigureNewCoordinateY() {
-        return figures[0].position.y;
-    }
-
-    /**
-     * adder of figures.
-     * @param figure - figure for add.
-     */
-    void addFigure(Figures figure) {
-        figures[count++] = figure;
-    }
-
-    /**
-     * possible of figure trancefer.
-     * @param source - from where.
-     * @param dist - where.
-     * @return - possible of figure trancefer.
-     * @throws ImpossibleMoveException - ImpossibleMoveException.
-     * @throws OccupiedWayException - OccupiedWayException.
-     * @throws FigureNotFoundException - FigureNotFoundException.
+     * @param source - source cell.
+     * @param dist - dist cell.
+     * @return - true, if move is possible.
+     * @throws ImpossibleMoveException - exception.
+     * @throws OccupiedWayException - exception.
+     * @throws FigureNotFoundException - exception.
      */
     boolean move(Cell source, Cell dist) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
         boolean flag = false;
         int finder = -1;
 
-        for (int i = 0; i < figures.length; i++) {
-            if (source.x == figures[i].position.x && source.y == figures[i].position.y) {
-                flag = true;
-                finder = i;
-                break;
+        for (int i = 0; i < arrCell.length; i++) {
+            if (arrCell[i] != null) {
+                if (source.getX() == arrCell[i].getX() && source.getY() == arrCell[i].getY()) {
+                    flag = true;
+                    finder = i;
+                    break;
+                }
             }
         }
         if (!flag) {
@@ -113,18 +155,28 @@ public class Board {
         if (cellArr == null) {
             throw new ImpossibleMoveException("Туда не ходит. ");
         }
-        for (Figures arrFig : figures) {
-            if (dist.x == arrFig.position.x && dist.y == arrFig.position.y) {
-                throw new ImpossibleMoveException("Целевая ячейка занята. ");
+        for (Cell arr : arrCell) {
+            if (arr != null) {
+                if (dist.getX() == arr.getX() && dist.getY() == arr.getY()) {
+                    throw new ImpossibleMoveException("Целевая ячейка занята. ");
+                }
             }
         }
-        for (Figures arrFig : figures) {
-            for (Cell cell : cellArr) {
-                if (cell.x == arrFig.position.x && cell.y == arrFig.position.y) {
-                    throw new OccupiedWayException("На пути стоит фигура. Так ходить нельзя. ");
+        for (Cell arr : arrCell) {
+            if (arr != null) {
+                for (Cell cell : cellArr) {
+                    if (cell.getX() == arr.getX() && cell.getY() == arr.getY()) {
+                        throw new OccupiedWayException("На пути стоит фигура. Так ходить нельзя. ");
+                    }
                 }
             }
         }
         return true;
     }
+
+//    public static void main(String[] args) {
+//        Input input = new ConsoleInput();
+//        Board board = new Board(input);
+//        board.init();
+//    }
 }
