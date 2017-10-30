@@ -41,54 +41,46 @@ public class Bishop extends Figures {
      */
     public Cell[] way(Cell dist) {
         Cell[] arr = new Cell[7];
-        int xCount = -1;
-        String dir = null;
+        int xCount = Math.abs(x - dist.getX());
+        boolean dir = false;
+        int k1 = 1;
+        int k2 = 1;
         for (int i = 1; i < 8; i++) {
             if (dist.getX() == x - i && dist.getY() == y - i) {
-                xCount = i;
-                dir = "lv";
+                dir = true;
+                break;
             }
+
             if (dist.getX() == x - i && dist.getY() == y + i) {
-                xCount = i;
-                dir = "pv";
+                k1 = 1;
+                k2 = -1;
+                dir = true;
+                break;
             }
+
             if (dist.getX() == x + i && dist.getY() == y - i) {
-                xCount = i;
-                dir = "ln";
+                k1 = -1;
+                k2 = 1;
+                dir = true;
+                break;
             }
+
             if (dist.getX() == x + i && dist.getY() == y + i) {
-                xCount = i;
-                dir = "pn";
+                k1 = -1;
+                k2 = -1;
+                dir = true;
+                break;
             }
         }
 
-        if (dir == null) {
+        if (!dir) {
             return null;
         }
 
-        if (dir.equals("lv")) {
-            for (int i = 0; i < xCount; i++) {
-                arr[i] = new Cell(x - i - 1, y - i - 1);
-            }
+        for (int i = 0; i < xCount; i++) {
+            arr[i] = new Cell(dist.getX() + i * k1, dist.getY() + i * k2);
         }
 
-        if (dir.equals("pv")) {
-            for (int i = 0; i < xCount; i++) {
-                arr[i] = new Cell(x - i - 1, y + i + 1);
-            }
-        }
-
-        if (dir.equals("ln")) {
-            for (int i = 0; i < xCount; i++) {
-                arr[i] = new Cell(x + i + 1, y - i - 1);
-            }
-        }
-
-        if (dir.equals("pn")) {
-            for (int i = 0; i < xCount; i++) {
-                arr[i] = new Cell(x + i + 1, y + i + 1);
-            }
-        }
         return Arrays.copyOf(arr, xCount);
     }
 }
