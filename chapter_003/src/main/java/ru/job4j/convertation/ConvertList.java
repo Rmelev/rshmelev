@@ -7,8 +7,9 @@ import java.util.List;
 /**
  * Convert array[][] to List and back.
  */
-public class ConvertList {
+class ConvertList {
     List<Integer> list = new ArrayList<>();
+    //List<int[]> listIntArr = new ArrayList<>();
 
     /**
      * Convert array[][] to List.
@@ -56,17 +57,37 @@ public class ConvertList {
         }
         return arrSquare;
     }
+
+    /**
+     * Convert List<int[]> to List<Integer>.
+     * @param list - List<int[]>.
+     * @return - List<Integer>.
+     */
+    public List<Integer> convert (List<int[]> list) {
+        List<Integer> result = new ArrayList<>();
+        for (int[] intArr : list) {
+            for (int intEl : intArr) {
+                result.add(intEl);
+            }
+        }
+        return result;
+    }
 }
 /*
 public class ConvertList {
     public static void main(String[] args) {
-        Convert convert = new Convert();
+        Convert convertOb = new Convert();
         int[][] arrAdd = {{1, 2, 3}, {4, 5, 6}, {7}};
-        convert.list = convert.toList(arrAdd);
-        int[][] arr = convert.toArray(convert.list, 3);
+        convertOb.list = convertOb.toList(arrAdd);
+        int[][] arr = convertOb.toArray(convertOb.list, 3);
         for (int tempArr[] : arr) {
             System.out.println(Arrays.toString(tempArr));
         }
+        convertOb.listIntArr.add(new int[]{1, 2});
+        convertOb.listIntArr.add(new int[]{3, 4, 5, 6});
+        convertOb.listIntArr.add(new int[]{7, 8, 9, 10, 11, 12});
+        List<Integer> result = convertOb.convert(convertOb.listIntArr);
+        System.out.println(result);
     }
 }
 */
