@@ -1,5 +1,8 @@
 package ru.job4j;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * helper class for munu work.
  */
@@ -15,7 +18,7 @@ public class MenuTracker {
     /**
      * set of user actions.
      */
-    private UserAction[] actions = new UserAction[7];
+    private List<UserAction> actions = new ArrayList<>();
 
     /**
      * Constructor.
@@ -33,9 +36,10 @@ public class MenuTracker {
      */
     public int[] initializer() {
         fillActions();
-        int[] ar = new int[this.actions.length];
-        for (int i = 0; i < actions.length; i++) {
-            ar[i] = actions[i].key();
+        int[] ar = new int[this.actions.size()];
+        int i = 0;
+        for (UserAction action : actions) {
+            ar[i++] = action.key();
         }
         return ar;
     }
@@ -44,13 +48,13 @@ public class MenuTracker {
      * filling of action's array.
      */
     public void fillActions() {
-        this.actions[0] = new MenuTracker.AddItem("Add the new item.", 1);
-        this.actions[1] = new MenuTracker.ShowItems("Show all items.", 2);
-        this.actions[2] = new MenuTracker.EditItem("Edit the item.", 3);
-        this.actions[3] = new MenuTracker.DeleteItem("Delete item.", 4);
-        this.actions[4] = new MenuTracker.FindItemById("Find item by id.", 5);
-        this.actions[5] = new MenuTracker.FindItemByName("Find item by name.", 6);
-        this.actions[6] = new MenuTracker.Exit("EXIT.", 7);
+        this.actions.add(new MenuTracker.AddItem("Add the new item.", 1));
+        this.actions.add(new MenuTracker.ShowItems("Show all items.", 2));
+        this.actions.add(new MenuTracker.EditItem("Edit the item.", 3));
+        this.actions.add(new MenuTracker.DeleteItem("Delete item.", 4));
+        this.actions.add(new MenuTracker.FindItemById("Find item by id.", 5));
+        this.actions.add(new MenuTracker.FindItemByName("Find item by name.", 6));
+        this.actions.add(new MenuTracker.Exit("EXIT.", 7));
     }
 
     /**
@@ -58,7 +62,7 @@ public class MenuTracker {
      * @param key - numder parameter of reaction.
      */
     public  void select(int key) {
-        this.actions[key - 1].execute(this.input, this.tracker);
+        this.actions.get(key - 1).execute(this.input, this.tracker);
     }
 
     /**
@@ -99,7 +103,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Please, enter the task's name: ");
             String desc = input.ask("Please, enter the task's desk: ");
-            tracker.add(new Item(name, desc, 12345L));
+            tracker.getItems().add(new Item(name, desc, 12345L));
         }
     }
 
@@ -127,7 +131,7 @@ public class MenuTracker {
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
-            for (Item item : tracker.getAll()) {
+            for (Item item : tracker.getItems()) {
                 System.out.println(String.format("%s  %s  %s", item.getId(), item.getName(), item.getDesc()));
             }
         }
@@ -201,12 +205,7 @@ public class MenuTracker {
                 System.out.println("Tracker haven't this item");
                 return;
             }
-            for (Item item : tracker.getAll()) {
-                if (item != null && item.getId().equals(id)) {
-                    System.out.println("Deleted: " + item.getId() + " " + item.getName() + " " + item.getDesc());
-                }
-            }
-            tracker.delete(tracker.findById(id));
+            tracker.getItems().remove(tracker.findById(id));
 
         }
     }
@@ -241,7 +240,7 @@ public class MenuTracker {
                 System.out.println("Tracker haven't this item");
                 return;
             }
-            for (Item item : tracker.getAll()) {
+            for (Item item : tracker.getItems()) {
                 if (item != null && item.getId().equals(id)) {
                     System.out.println(item.getId() + " " + item.getName() + " " + item.getDesc());
                 }
@@ -280,7 +279,7 @@ public class MenuTracker {
                 System.out.println("Tracker haven't items with this name");
                 return;
             }
-            for (Item item : tracker.getAll()) {
+            for (Item item : tracker.getItems()) {
                 if (item != null && item.getName().equals(name)) {
                     System.out.println(item.getId() + " " + item.getName() + " " + item.getDesc());
                 }
