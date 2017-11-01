@@ -1,6 +1,7 @@
 package ru.job4j.convertation;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * class for convert List to HashMap.
@@ -9,7 +10,7 @@ public class UserConvert {
     /**
      * HashMap of keys & users.
      */
-    HashMap<Integer, User> userMap = new HashMap<>();
+    private HashMap<Integer, User> userMap = new HashMap<>();
 
     /**
      * convertation.
@@ -18,7 +19,7 @@ public class UserConvert {
      */
     public HashMap<Integer, User> process(List<User> list) {
         for (User listTemp : list) {
-            userMap.put(listTemp.id++, listTemp);
+            userMap.put(listTemp.getId(), listTemp);
         }
         return userMap;
     }

@@ -7,24 +7,33 @@ public class User {
     /**
      * - user's id.
      */
-    int id;
+    private int id;
     /**
      * - user's name.
      */
-    String name;
+    private String name;
     /**
      * - user's city.
      */
-    String city;
+    private String city;
 
     /**
      * Constructor.
      * @param name - user's name.
      * @param city - user's city.
      */
-    public User(String name, String city){
+    public User(String name, String city) {
+        id = (int) System.currentTimeMillis();
         this.name = name;
         this.city = city;
+    }
+
+    /**
+     * getter.
+     * @return - id.
+     */
+    public int getId() {
+        return id;
     }
 
     /**
@@ -33,9 +42,9 @@ public class User {
      */
     @Override
     public String toString() {
-        return "User{" +
-                "name='" + name + '\'' +
-                ", city='" + city + '\'' +
-                '}';
+        return "User{"
+                + "name='" + name + '\''
+                + ", city='" + city + '\''
+                + '}';
     }
 }

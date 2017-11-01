@@ -8,15 +8,26 @@ import java.util.List;
  * Convert array[][] to List and back.
  */
 class ConvertList {
-    List<Integer> list = new ArrayList<>();
+    /**
+     * list to add elems from int[][] array.
+     */
+    private List<Integer> list = new ArrayList<>();
     //List<int[]> listIntArr = new ArrayList<>();
+
+    /**
+     * getter for list.
+     * @return - list.
+     */
+    public List<Integer> getList() {
+        return list;
+    }
 
     /**
      * Convert array[][] to List.
      * @param array - array.
      * @return - list.
      */
-    public List<Integer> toList (int[][] array) {
+    public List<Integer> toList(int[][] array) {
         for (int[] temp1 : array) {
             for (int temp2 : temp1) {
                 list.add(temp2);
@@ -32,7 +43,7 @@ class ConvertList {
      * @param rows - rows of returned array.
      * @return - array[][].
      */
-    public int[][] toArray (List<Integer> list, int rows) {
+    public int[][] toArray(List<Integer> list, int rows) {
         int count = 0;
         int countInRow;
         if (list.size() % rows != 0) {
@@ -63,7 +74,7 @@ class ConvertList {
      * @param list - List<int[]>.
      * @return - List<Integer>.
      */
-    public List<Integer> convert (List<int[]> list) {
+    public List<Integer> convert(List<int[]> list) {
         List<Integer> result = new ArrayList<>();
         for (int[] intArr : list) {
             for (int intEl : intArr) {

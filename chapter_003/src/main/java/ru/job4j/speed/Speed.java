@@ -1,22 +1,52 @@
 package ru.job4j.speed;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.TreeSet;
+import java.util.Collection;
+import java.util.Iterator;
 
+/**
+ * class for add & del elems from collections.
+ */
 class CollAddDel {
     /**
      * ArrayList.
      */
-    ArrayList<String> arrArray = new ArrayList<>();
+    private ArrayList<String> arrArray = new ArrayList<>();
     /**
      * LinkedList.
      */
-    LinkedList<String> arrLinked = new LinkedList<>();
+    private LinkedList<String> arrLinked = new LinkedList<>();
     /**
      * TreeSet.
      */
-    TreeSet<String> arrTree = new TreeSet<>();
+    private TreeSet<String> arrTree = new TreeSet<>();
     //ArrayList<String> toDelete = new ArrayList<>();
-    Set<String> jknf;
+
+    /**
+     * getter.
+     * @return - arrArray.
+     */
+    public ArrayList<String> getArrArray() {
+        return arrArray;
+    }
+
+    /**
+     * getter.
+     * @return - arrLinked.
+     */
+    public LinkedList<String> getArrLinked() {
+        return arrLinked;
+    }
+
+    /**
+     * getter.
+     * @return - arrTree.
+     */
+    public TreeSet<String> getArrTree() {
+        return arrTree;
+    }
 
     /**
      * add element.
@@ -69,8 +99,8 @@ public class Speed {
      */
     public static void main(String[] args) {
         CollAddDel test = new CollAddDel();
-        System.out.println(String.format("Время метода add:  %, d", test.add(test.arrArray, 20000000)));
-        System.out.println(String.format("Время метода del:  %, d", test.add(test.arrArray, 1400000)));
+        System.out.println(String.format("Время метода add:  %, d", test.add(test.getArrArray(), 20000000)));
+        System.out.println(String.format("Время метода del:  %, d", test.add(test.getArrArray(), 1400000)));
         //System.out.println(String.format("Время метода add:  %, d", test.add(test.arrLinked, 20000000)));
         //System.out.println(String.format("Время метода del:  %, d", test.add(test.arrLinked, 1400000)));
         //System.out.println(String.format("Время метода add:  %, d", test.add(test.arrTree, 20000000)));
