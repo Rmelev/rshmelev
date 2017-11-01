@@ -37,6 +37,22 @@ public class User {
     }
 
     /**
+     * getter.
+     * @return - name.
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * getter.
+     * @return - city.
+     */
+    public String getCity() {
+        return city;
+    }
+
+    /**
      * overrided method toString().
      * @return - understandable note.
      */
