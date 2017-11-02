@@ -32,6 +32,14 @@ public class User implements Comparable<User> {
     }
 
     /**
+     * getter.
+     * @return - age.
+     */
+    public Integer getAge() {
+        return age;
+    }
+
+    /**
      * overrided toString().
      * @return - usability information.
      */
