@@ -1,5 +1,7 @@
 package ru.job4j.chess;
 
+import ru.job4j.chess.exceptions.ImpossibleMoveException;
+
 import java.util.Arrays;
 
 /**
@@ -42,45 +44,25 @@ public class Bishop extends Figures {
     public Cell[] way(Cell dist) {
         Cell[] arr = new Cell[7];
         int xCount = Math.abs(x - dist.getX());
-        boolean dir = false;
-        int k1 = 1;
-        int k2 = 1;
-        for (int i = 1; i < 8; i++) {
-            if (dist.getX() == x - i && dist.getY() == y - i) {
-                dir = true;
-                break;
-            }
-
-            if (dist.getX() == x - i && dist.getY() == y + i) {
-                k1 = 1;
-                k2 = -1;
-                dir = true;
-                break;
-            }
-
-            if (dist.getX() == x + i && dist.getY() == y - i) {
-                k1 = -1;
-                k2 = 1;
-                dir = true;
-                break;
-            }
-
-            if (dist.getX() == x + i && dist.getY() == y + i) {
-                k1 = -1;
-                k2 = -1;
-                dir = true;
-                break;
-            }
+        int yCount = Math.abs(y - dist.getY());
+        if (x - dist.getX() > 0 && y - dist.getY() > 0 && xCount == yCount) {
+            arr = wayHelp(dist, arr, xCount, 1, 1);
+        } else if (x - dist.getX() > 0 && y - dist.getY() < 0 && xCount == yCount) {
+            arr = wayHelp(dist, arr, xCount, 1, -1);
+        } else if (x - dist.getX() < 0 && y - dist.getY() < 0 && xCount == yCount) {
+            arr = wayHelp(dist, arr, xCount, -1, 1);
+        } else if (x - dist.getX() < 0 && y - dist.getY() > 0 && xCount == yCount) {
+            arr = wayHelp(dist, arr, xCount, -1, -1);
+        } else {
+            throw new ImpossibleMoveException("Туда не ходит. ");
         }
+        return Arrays.copyOf(arr, xCount);
+    }
 
-        if (!dir) {
-            return null;
-        }
-
+    public Cell[] wayHelp(Cell dist, Cell[] arr, int xCount, int k1, int k2) {
         for (int i = 0; i < xCount; i++) {
             arr[i] = new Cell(dist.getX() + i * k1, dist.getY() + i * k2);
         }
-
-        return Arrays.copyOf(arr, xCount);
+        return arr;
     }
 }

@@ -152,9 +152,6 @@ public class Board {
 
         Cell[] cellArr = figures[finder].way(dist);
 
-        if (cellArr == null) {
-            throw new ImpossibleMoveException("Туда не ходит. ");
-        }
         for (Cell arr : arrCell) {
             if (arr != null) {
                 if (dist.getX() == arr.getX() && dist.getY() == arr.getY()) {
