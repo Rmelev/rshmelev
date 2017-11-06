@@ -3,7 +3,6 @@ package ru.job4j.bank;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.ArrayList;
 
 /**
@@ -24,11 +23,6 @@ public class Bank {
     }
 
     /**
-     * Set representation for HashMap.
-     */
-    private Set<Map.Entry<User, List<Account>>> set = bankClients.entrySet();
-
-    /**
      * Constructor.
      * @param user - added user.
      */
@@ -37,20 +31,10 @@ public class Bank {
     }
 
     /**
-     *
      * @param user - deletted user.
      */
     public void deleteUser(User user) {
-        // без temp при удалении выдает ConcurrentModificationException.
-        Map.Entry<User, List<Account>> temp = null;
-        for (Map.Entry<User, List<Account>> client : set) {
-            if (client.getKey().equals(user)) {
-                temp = client;
-            }
-        }
-        if (temp != null) {
-            bankClients.remove(temp.getKey());
-        }
+        bankClients.remove(user);
     }
 
     /**
@@ -58,11 +42,7 @@ public class Bank {
      * @param account - added account.
      */
     public void addAccountToUser(User user, Account account) {
-        for (Map.Entry<User, List<Account>> client : set) {
-            if (client.getKey().equals(user)) {
-                bankClients.get(client.getKey()).add(account);
-            }
-        }
+        bankClients.get(user).add(account);
     }
 
     /**
@@ -70,11 +50,7 @@ public class Bank {
      * @param account - deletted account.
      */
     public void deleteAccountFromUser(User user, Account account) {
-        for (Map.Entry<User, List<Account>> client : set) {
-            if (client.getKey().equals(user)) {
-                bankClients.get(client.getKey()).remove(account);
-            }
-        }
+        bankClients.get(user).remove(account);
     }
 
     /**
@@ -87,54 +63,29 @@ public class Bank {
      * @return - true, if success.
      */
     public boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
-        boolean flagSrcUser = false;
-        boolean flagDstUser = false;
-        boolean flagSrcAccount = false;
-        boolean flagDstAccount = false;
-        List<Account> foundUsersSrcAccounts = null;
-        List<Account> foundUsersDstAccounts = null;
-        for (Map.Entry<User, List<Account>> client : set) {
-            if (client.getKey().equals(srcUser)) {
-                foundUsersSrcAccounts = client.getValue();
-                flagSrcUser = true;
-            }
-            if (client.getKey().equals(dstUser)) {
-                foundUsersDstAccounts = client.getValue();
-                flagDstUser = true;
-            }
-        }
-        if (!flagSrcUser) {
-            System.out.println("Client for withdrawal wasn't found.");
-            return false;
-        }
-        if (!flagDstUser) {
-            System.out.println("Client for deposit wasn't found.");
-            return false;
-        }
-        for (Account tempAccount : foundUsersSrcAccounts) {
+        boolean flag = false;
+
+        for (Account tempAccount : bankClients.get(srcUser)) {
             if (tempAccount.equals(srcAccount)) {
-                flagSrcAccount = true;
-                if (tempAccount.getValue() > amount) {
+                if (tempAccount.getValue() >= amount) {
                     tempAccount.setValue(tempAccount.getValue() - amount);
+                    flag = true;
+                    break;
                 } else {
                     System.out.println("Haven't enough money for finish operation.");
+                    flag = false;
                 }
             }
         }
-        if (!flagSrcAccount) {
-            System.out.println("Source account wasn't found.Try another account!");
-            return false;
-        }
-        for (Account tempAccount : foundUsersDstAccounts) {
-            if (tempAccount.equals(dstAccount)) {
-                flagDstAccount = true;
-                tempAccount.setValue(tempAccount.getValue() + amount);
+
+        if (flag) {
+            for (Account tempAccount : bankClients.get(dstUser)) {
+                if (tempAccount.equals(dstAccount)) {
+                    tempAccount.setValue(tempAccount.getValue() + amount);
+                    break;
+                }
             }
         }
-        if (!flagDstAccount) {
-            System.out.println("Distance account wasn't found.Try another account!");
-            return false;
-        }
-        return true;
+        return flag;
     }
 }

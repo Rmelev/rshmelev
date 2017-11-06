@@ -59,6 +59,15 @@ public class Bishop extends Figures {
         return Arrays.copyOf(arr, xCount);
     }
 
+    /**
+     * helper method for way.
+     * @param dist - Cell listination.
+     * @param arr - array for filling.
+     * @param xCount - absolute difference between source cell & distance cell.
+     * @param k1 - 1st parametr of way direction.
+     * @param k2 - 2nd parametr of way direction.
+     * @return - array of way cells.
+     */
     public Cell[] wayHelp(Cell dist, Cell[] arr, int xCount, int k1, int k2) {
         for (int i = 0; i < xCount; i++) {
             arr[i] = new Cell(dist.getX() + i * k1, dist.getY() + i * k2);

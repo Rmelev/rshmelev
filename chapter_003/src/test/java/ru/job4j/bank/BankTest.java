@@ -46,7 +46,14 @@ public class BankTest {
         for (Map.Entry<User, List<Account>> client : set) {
             System.out.println(client.getKey() + " счета:" + client.getValue());
         }
+        double result = 0;
+        for (Account temp : bank.getBankClients().get(roma)) {
+            if (temp.equals(romaAcc3)) {
+                result = temp.getValue();
+            }
+        }
         assertThat(bank.transferMoney(leha, lehaAcc1, roma, romaAcc1, 10000), is(true));
         assertThat(bank.getBankClients().size(), is(3));
+        assertThat(result, is(33333.33));
     }
 }
