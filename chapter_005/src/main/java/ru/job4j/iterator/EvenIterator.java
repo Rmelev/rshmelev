@@ -12,7 +12,7 @@ public class EvenIterator implements Iterator {
      */
     private int[] arr;
     /**
-     * helper index.
+     * index of current element.
      */
     private int index = 0;
 
@@ -29,18 +29,11 @@ public class EvenIterator implements Iterator {
      */
     @Override
     public Object next() {
-        Integer flag = null;
-        for (int i = index; i < arr.length; i++) {
-            if (arr[i] % 2 == 0 && arr[i] != 1 && arr[i] != 0) {
-                flag = arr[i];
-                index = ++i;
-                break;
-            }
-        }
-        if (flag == null) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
+        } else {
+            return arr[index++];
         }
-        return flag;
     }
 
     /**
@@ -51,6 +44,7 @@ public class EvenIterator implements Iterator {
         boolean flag = false;
         for (int i = index; i < arr.length; i++) {
             if (arr[i] % 2 == 0 && arr[i] != 1 && arr[i] != 0) {
+                index = i;
                 flag = true;
                 break;
             }
