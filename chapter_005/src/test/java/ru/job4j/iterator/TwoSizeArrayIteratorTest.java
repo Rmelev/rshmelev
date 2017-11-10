@@ -25,11 +25,16 @@ public class TwoSizeArrayIteratorTest {
         TwoSizeArrayIterator iter = new TwoSizeArrayIterator(new int[][] {{1, 2, 3}, {3, 4}, {5}});
         iter.next();
         iter.next();
+        iter.hasNext();
+        iter.hasNext();
         iter.next();
         iter.next();
+        assertThat(iter.hasNext(), is(true));
         iter.next();
         int result = (Integer) iter.next();
         assertThat(result, is(5));
+        assertThat(iter.hasNext(), is(false));
+        iter.hasNext();
     }
 
     /*@Before
