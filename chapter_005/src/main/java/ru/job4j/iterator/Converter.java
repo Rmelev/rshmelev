@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
  */
 public class Converter {
     /**
-     * helper variable, inner iterator.
+     * inner iterator.
      */
     private Iterator<Integer> iterInt;
 
@@ -21,7 +21,7 @@ public class Converter {
         iterInt = it.next();
 
         return new Iterator<Integer>() {
-            public void perehod() {
+            public void transit() {
                 if (!iterInt.hasNext() && it.hasNext()) {
                     iterInt = it.next();
                 }
@@ -29,18 +29,17 @@ public class Converter {
 
             @Override
             public Integer next() {
-                perehod();
-                if (!it.hasNext() && !iterInt.hasNext()) {
+                if (hasNext()) {
+                    return iterInt.next();
+                } else {
                     throw new NoSuchElementException();
                 }
-
-                return iterInt.next();
             }
 
             @Override
             public boolean hasNext() {
                 boolean flag = false;
-                perehod();
+                transit();
                 if (iterInt.hasNext()) {
                     flag = true;
                 }
