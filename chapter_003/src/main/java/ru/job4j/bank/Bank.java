@@ -63,29 +63,42 @@ public class Bank {
      * @return - true, if success.
      */
     public boolean transferMoney(User srcUser, Account srcAccount, User dstUser, Account dstAccount, double amount) {
-        boolean flag = false;
-
-        for (Account tempAccount : bankClients.get(srcUser)) {
-            if (tempAccount.equals(srcAccount)) {
-                if (tempAccount.getValue() >= amount) {
-                    tempAccount.setValue(tempAccount.getValue() - amount);
-                    flag = true;
-                    break;
-                } else {
-                    System.out.println("Haven't enough money for finish operation.");
-                    flag = false;
-                }
-            }
+        Account source = findRequiredAcc(srcUser, srcAccount);
+        if (source == null) {
+            System.out.println("Source account doesn't found. Please, try again");
         }
 
-        if (flag) {
-            for (Account tempAccount : bankClients.get(dstUser)) {
-                if (tempAccount.equals(dstAccount)) {
-                    tempAccount.setValue(tempAccount.getValue() + amount);
-                    break;
-                }
+        Account dest = findRequiredAcc(dstUser, dstAccount);
+        if (dest == null) {
+            System.out.println("Destination account doesn't found. Please, try again");
+        }
+
+        boolean allow = source.getValue() > amount;
+
+        if (allow) {
+            source.setValue(source.getValue() - amount);
+            dest.setValue(dest.getValue() + amount);
+        } else {
+            System.out.println("Haven't enough money for finish operation.");
+        }
+
+        return allow;
+    }
+
+    /**
+     * find required account.
+     * @param user - User.
+     * @param account - required User's account.
+     * @return - required account or null.
+     */
+    public Account findRequiredAcc(User user, Account account) {
+        Account reqAccount = null;
+        for (Account tempAccount : bankClients.get(user)) {
+            if (tempAccount.equals(account)) {
+                reqAccount = tempAccount;
+                break;
             }
         }
-        return flag;
+        return reqAccount;
     }
 }
