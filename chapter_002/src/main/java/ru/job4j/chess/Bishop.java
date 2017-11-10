@@ -46,21 +46,21 @@ public class Bishop extends Figures {
         int xCount = Math.abs(x - dist.getX());
         int yCount = Math.abs(y - dist.getY());
         if (x - dist.getX() > 0 && y - dist.getY() > 0 && xCount == yCount) {
-            arr = wayHelp(dist, arr, xCount, 1, 1);
+            arr = direction(dist, arr, xCount, 1, 1);
         } else if (x - dist.getX() > 0 && y - dist.getY() < 0 && xCount == yCount) {
-            arr = wayHelp(dist, arr, xCount, 1, -1);
+            arr = direction(dist, arr, xCount, 1, -1);
         } else if (x - dist.getX() < 0 && y - dist.getY() < 0 && xCount == yCount) {
-            arr = wayHelp(dist, arr, xCount, -1, 1);
+            arr = direction(dist, arr, xCount, -1, 1);
         } else if (x - dist.getX() < 0 && y - dist.getY() > 0 && xCount == yCount) {
-            arr = wayHelp(dist, arr, xCount, -1, -1);
+            arr = direction(dist, arr, xCount, -1, -1);
         } else {
-            throw new ImpossibleMoveException("Туда не ходит. ");
+            throw new ImpossibleMoveException("Impossible step. Choose another. ");
         }
         return Arrays.copyOf(arr, xCount);
     }
 
     /**
-     * helper method for way.
+     * get direction for the way.
      * @param dist - Cell listination.
      * @param arr - array for filling.
      * @param xCount - absolute difference between source cell & distance cell.
@@ -68,7 +68,7 @@ public class Bishop extends Figures {
      * @param k2 - 2nd parametr of way direction.
      * @return - array of way cells.
      */
-    public Cell[] wayHelp(Cell dist, Cell[] arr, int xCount, int k1, int k2) {
+    public Cell[] direction(Cell dist, Cell[] arr, int xCount, int k1, int k2) {
         for (int i = 0; i < xCount; i++) {
             arr[i] = new Cell(dist.getX() + i * k1, dist.getY() + i * k2);
         }
