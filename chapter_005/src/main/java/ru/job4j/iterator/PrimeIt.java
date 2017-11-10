@@ -30,20 +30,11 @@ public class PrimeIt implements Iterator {
      */
     @Override
     public Object next() {
-        Integer simple = null;
-        for (int i = count; i < arr.length; i++) {
-            if (arr[i] > 1) {
-                if (isThisSimple(arr[i])) {
-                    count = i + 1;
-                    simple = arr[i];
-                    break;
-                }
-            }
-        }
-        if (simple == null) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
+        } else {
+            return arr[count++];
         }
-        return simple;
     }
 
     /**
@@ -56,6 +47,7 @@ public class PrimeIt implements Iterator {
             if (arr[i] > 1) {
                 if (isThisSimple(arr[i])) {
                     flag = true;
+                    count = i;
                     break;
                 }
             }
