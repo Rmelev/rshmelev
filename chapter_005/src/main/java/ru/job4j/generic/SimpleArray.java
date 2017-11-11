@@ -2,9 +2,9 @@ package ru.job4j.generic;
 
 /**
  * own array with generic type of elements.
- * @param <E> - generic type of elements.
+ * @param <T> - generic type of elements.
  */
-public class SimpleArray<E> {
+public class SimpleArray<T> {
     /**
      * array of Objects.
      */
@@ -23,10 +23,18 @@ public class SimpleArray<E> {
     }
 
     /**
+     * getter.
+     * @return - objects.
+     */
+    public Object[] getObjects() {
+        return objects;
+    }
+
+    /**
      * add method.
      * @param elem - new element in array.
      */
-    public void add(E elem) {
+    public void add(T elem) {
         this.objects[index++] = elem;
     }
 
@@ -35,8 +43,8 @@ public class SimpleArray<E> {
      * @param position = position of element.
      * @return element.
      */
-    public E get(int position) {
-        return (E) this.objects[position];
+    public T get(int position) {
+        return (T) this.objects[position];
     }
 
     /**
@@ -44,10 +52,10 @@ public class SimpleArray<E> {
      * @param elem - element.
      * @return - index of element.
      */
-    public int getIndex(E elem) {
+    public int getIndex(T elem) {
         int indexOfElem = -1;
         for (int i = 0; i < objects.length; i++) {
-            if (elem.equals((E) objects[i])) {
+            if (elem.equals((T) objects[i])) {
                 indexOfElem = i;
             }
         }
@@ -60,9 +68,9 @@ public class SimpleArray<E> {
      * @param newElem - new element.
      * @return - new element.
      */
-    public E update(E elem, E newElem) {
+    public T update(T elem, T newElem) {
         for (int i = 0; i < objects.length; i++) {
-            if (elem.equals((E) objects[i])) {
+            if (elem.equals((T) objects[i])) {
                 objects[i] = newElem;
             }
         }
@@ -74,11 +82,11 @@ public class SimpleArray<E> {
      * @param elem - deleted element.
      * @return - true if successful.
      */
-    public boolean delete(E elem) {
+    public boolean delete(T elem) {
         boolean flag = false;
         int del = getIndex(elem);
         for (int i = 0; i < objects.length; i++) {
-            if (elem.equals((E) objects[i])) {
+            if (elem.equals((T) objects[i])) {
                 flag = true;
             }
         }
