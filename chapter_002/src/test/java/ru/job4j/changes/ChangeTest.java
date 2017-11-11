@@ -11,6 +11,7 @@ import static org.junit.Assert.assertThat;
 public class ChangeTest {
     /**
      * Test1.
+     *
      */
     @Test
     public void whenGive100ThenGetChange() {
