@@ -4,7 +4,7 @@ package ru.job4j.generic;
  * common class for different stores.
  * @param <T> - type of store elements.
  */
-abstract class AbstractStore<T extends Base> {
+abstract class AbstractStore<T extends Base> implements Store<T> {
     /**
      * store SimpleArray type.
      */
