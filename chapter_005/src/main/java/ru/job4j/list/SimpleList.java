@@ -55,11 +55,7 @@ public class SimpleList<E> implements SimpleContainer<E> {
             private int nextElem = 0;
             @Override
             public boolean hasNext() {
-                boolean flag = false;
-                if (nextElem < index) {
-                    flag = true;
-                }
-                return flag;
+                return nextElem < index;
             }
 
             @Override
