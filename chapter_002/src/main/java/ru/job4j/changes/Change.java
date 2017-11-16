@@ -10,10 +10,7 @@ public class Change {
      * array for returning change.
      */
     private int[] arrReturn = new int[10];
-    /**
-     * array coins choice.
-     */
-    private int[] arrChange = {10, 5, 2, 1};
+
     /**
      * count of elements in returning array.
      */
@@ -30,6 +27,7 @@ public class Change {
      * @return - array of change coins.
      */
     int[] changes(int value, int price) {
+        int[] arrChange = {10, 5, 2, 1};
         int remainder = value - price;
         return Arrays.copyOf(picker(remainder, arrChange), count);
     }
