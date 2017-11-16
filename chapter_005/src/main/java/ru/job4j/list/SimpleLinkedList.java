@@ -16,10 +16,43 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * first element of list.
      */
     private Node<E> first;
+
+    /**
+     * get first.
+     * @return - the first.
+     */
+    public E getFirstForQueue() {
+        if (size == 0) {
+            throw new NoSuchElementException("There are no more elements in queue.");
+        }
+        if (size == 1) {
+            last = null;  //in order to filling queue from start position. See line 102.
+        }
+        E temp = first.item;
+        first = first.next;
+        size--;
+        return temp;
+    }
+
     /**
      * last element of list.
      */
     private Node<E> last;
+
+    /**
+     * get last.
+     * @return - the last.
+     */
+    public E getLastForStack() {
+        if (size == 0) {
+            throw new NoSuchElementException("There are no more elements in stack.");
+        }
+        E temp = last.item;
+        last = last.prev;
+        size--;
+        return temp;
+    }
+
     /**
      * current position of itertor.
      */
