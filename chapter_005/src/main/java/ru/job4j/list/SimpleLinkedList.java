@@ -18,6 +18,14 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
     private Node<E> first;
 
     /**
+     * getter.
+     * @return - first.
+     */
+    public Node<E> getFirst() {
+        return first;
+    }
+
+    /**
      * get first.
      * @return - the first.
      */
@@ -62,15 +70,33 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * inner class of list elements.
      * @param <E> - type parameter.
      */
-    private static class Node<E> {
+    public static class Node<E> {
         /**
          * meaning of element.
          */
         private E item;
+
+        /**
+         * getter.
+         * @return - item of Node.
+         */
+        public E getItem() {
+            return this.item;
+        }
+
         /**
          * next elem.
          */
         private Node<E> next;
+
+        /**
+         * getter.
+         * @return - next of Node.
+         */
+        public Node<E> getNext() {
+            return this.next;
+        }
+
         /**
          * previous elem.
          */
