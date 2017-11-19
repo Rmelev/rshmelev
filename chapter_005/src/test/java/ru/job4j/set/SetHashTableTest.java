@@ -18,6 +18,8 @@ public class SetHashTableTest {
         setHash.add(9);
         setHash.add(45);
         setHash.add(21);
+        setHash.add(21);
+        setHash.add(21);
         setHash.add(47);
         setHash.add(15);
         setHash.add(37);
