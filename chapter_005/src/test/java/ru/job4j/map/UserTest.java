@@ -47,7 +47,7 @@ public class UserTest {
     }
 
     /**
-     * test2.
+     * test3.
      */
     @Test
     public void mapTaskThree() {
@@ -65,5 +65,26 @@ public class UserTest {
         mapTaskThree.put(first, object1);
         mapTaskThree.put(second, object2);
         System.out.println(mapTaskThree);
+    }
+
+    /**
+     * test4.
+     */
+    @Test
+    public void mapTaskFour() {
+        Map<User, Object> mapTaskFour = new HashMap<>();
+        Calendar date1 = new GregorianCalendar(1914, Calendar.JUNE, 30);
+        Calendar date2 = new GregorianCalendar(1914, Calendar.JUNE, 30);
+        User first = new User("Velozeraptor", 15, date1);
+        User second = new User("Velozeraptor", 15, date2);
+        Object object1 = new Object() {
+            private String objectName = "Trash";
+        };
+        Object object2 = new Object() {
+            private String objectName = "Trash";
+        };
+        mapTaskFour.put(first, object1);
+        mapTaskFour.put(second, object2);
+        System.out.println(mapTaskFour);
     }
 }
