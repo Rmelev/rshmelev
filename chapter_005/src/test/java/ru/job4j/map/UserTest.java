@@ -22,23 +22,27 @@ public class UserTest {
         Map<User, Object> mapTaskOne = new HashMap<>();
         Calendar calendar = Calendar.getInstance();
         User first = new User("Heisenberg", 3, new GregorianCalendar(1975, Calendar.MARCH, 15));
-        User second = new User("Sol", 2, new GregorianCalendar(1978, Calendar.APRIL, 12));
-        mapTaskOne.put(first, new Object() {
-            private String objectName = "Bullet";
-
-            @Override
-            public String toString() {
-                return objectName;
-            }
-        });
-        mapTaskOne.put(second, new Object() {
-            private String objectName = "Bayonet";
-
-            @Override
-            public String toString() {
-                return objectName;
-            }
-        });
+        User second = new User("Heisenberg", 3, new GregorianCalendar(1975, Calendar.MARCH, 15));
+        mapTaskOne.put(first, new Object());
+        mapTaskOne.put(second, new Object());
         System.out.println(mapTaskOne);
+    }
+
+    /**
+     * test2.
+     */
+    @Test
+    public void mapTaskTwo() {
+        Map<User, Object> mapTaskTwo = new HashMap<>();
+        Calendar date1 = new GregorianCalendar(1811, Calendar.JUNE, 30);
+        Calendar date2 = new GregorianCalendar(1811, Calendar.JUNE, 30);
+        User first = new User("Velozeraptor", 12, date1);
+        User second = new User("Velozeraptor", 12, date2);
+        Object object = new Object() {
+            private String objectName = "Bullet";
+        };
+        mapTaskTwo.put(first, object);
+        mapTaskTwo.put(second, object);
+        System.out.println(mapTaskTwo);
     }
 }
