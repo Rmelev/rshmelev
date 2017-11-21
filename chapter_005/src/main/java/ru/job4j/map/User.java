@@ -35,7 +35,7 @@ public class User {
      * overrided toString().
      * @return - string representation.
      */
-    /*@Override
+    @Override
     public String toString() {
         return "User{"
                 + "name='" + name + '\''
@@ -44,7 +44,7 @@ public class User {
                 + "/" + birthday.get(Calendar.MONTH)
                 + "/" + birthday.get(Calendar.YEAR)
                 + '}';
-    }*/
+    }
 
     /**
      * @return - hashcode.
