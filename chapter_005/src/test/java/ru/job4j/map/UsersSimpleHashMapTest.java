@@ -11,7 +11,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 /**
- * Test for user's hashmap.
+ * Test for user's hash map.
  */
 public class UsersSimpleHashMapTest {
     /**

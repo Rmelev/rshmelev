@@ -4,7 +4,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
- * user's hashmap.
+ * user's hash map.
  * @param <K> - key.
  * @param <V> - value.
  */
