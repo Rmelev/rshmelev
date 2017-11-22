@@ -47,7 +47,7 @@ public class SimpleSet<E> implements Iterable {
         for (int i = 0; i < index; i++) {
             if (elem.equals(objects[i])) {
                 flag = true;
-                return flag;
+                break;
             }
         }
         return flag;
