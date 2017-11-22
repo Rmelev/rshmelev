@@ -1,5 +1,7 @@
 package ru.job4j.set;
 
+import java.util.Objects;
+
 /**
  * set on hash table base.
  * @param <E>
@@ -51,13 +53,8 @@ public class SetHashTable<E> {
      * @return - index(key).
      */
     int hashFunction(E elem) {
-        String temp = elem.toString();
-        char[] chars = temp.toCharArray();
-        int sum = 0;
-        for (char charsElem : chars) {
-            sum += charsElem;
-        }
-        return sum % arrsize;
+        int hash = Objects.hashCode(elem);
+        return hash % arrsize;
     }
 
     /**
@@ -71,7 +68,12 @@ public class SetHashTable<E> {
         }
         flag = true;
         int key = hashFunction(e);
-        objects[hashFunction(e)] = e;
+        if (objects[key] != null) {
+            growSize();
+            add(e);
+        } else {
+            objects[key] = e;
+        }
         return flag;
     }
 
@@ -109,13 +111,25 @@ public class SetHashTable<E> {
      */
     boolean findElem(E e) {
         boolean flag = false;
-        for (int i = 0; i < arrsize; i++) {
-            E temp = (E) objects[i];
-            if (temp != null && temp.equals(e)) {
-                flag = true;
-                findInex = i;
-            }
+        int tempIndex = hashFunction(e);
+        if (objects[tempIndex] != null && objects[tempIndex].equals(e)) {
+            flag = true;
+            findInex = tempIndex;
         }
         return flag;
+    }
+
+    /**
+     * increase size of array, if array cell is occupied.
+     */
+    public void growSize() {
+        arrsize *= 1.5;
+        Object[] tempTable = objects;
+        objects = new Object[arrsize];
+        for (Object tempElem :  tempTable) {
+            if (tempElem != null) {
+                add((E) tempElem);
+            }
+        }
     }
 }

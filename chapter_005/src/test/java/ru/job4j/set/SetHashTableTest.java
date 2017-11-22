@@ -14,7 +14,7 @@ public class SetHashTableTest {
      */
     @Test
     public void whenSetOnHashTableBaseThenCorrectResults() {
-        SetHashTable<Integer> setHash = new SetHashTable<>(13);
+        SetHashTable<Integer> setHash = new SetHashTable<>(5);
         setHash.add(9);
         setHash.add(45);
         setHash.add(21);
@@ -31,8 +31,12 @@ public class SetHashTableTest {
         System.out.println();
         assertThat(setHash.contains(15), is(true));
         assertThat(setHash.contains(16), is(false));
+        assertThat(setHash.contains(37), is(true));
         assertThat(setHash.remove(37), is(true));
+        assertThat(setHash.contains(37), is(false));
+        assertThat(setHash.contains(3), is(true));
         assertThat(setHash.remove(3), is(true));
+        assertThat(setHash.contains(3), is(false));
         for (int i = 0; i < setHash.getArrsize(); i++) {
             System.out.print(setHash.getObjects()[i] + "  ");
         }
@@ -43,7 +47,7 @@ public class SetHashTableTest {
      */
     @Test
     public void whenSetOnHashTableBaseStringElementsThenCorrectResults() {
-        SetHashTable<String> setHash = new SetHashTable<>(13);
+        SetHashTable<String> setHash = new SetHashTable<>(5);
         setHash.add("A");
         setHash.add("B");
         setHash.add("C");
