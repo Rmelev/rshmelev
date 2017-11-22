@@ -41,11 +41,11 @@ public class UsersSimpleHashMapTest {
         System.out.println();
         assertThat(iter.hasNext(), is(true));
         assertThat(iter.hasNext(), is(true));
-        assertThat(iter.next(), is("Pool"));
-        assertThat(iter.next(), is("Edva"));
-        assertThat(iter.next(), is("Bond"));
-        iter.next(); iter.next(); iter.next(); iter.next();
+        assertThat(iter.next(), is("Medved"));
         assertThat(iter.next(), is("Vera"));
+        assertThat(iter.next(), is("Rand"));
+        iter.next(); iter.next(); iter.next(); iter.next();
+        assertThat(iter.next(), is("Pool"));
         assertThat(iter.hasNext(), is(false));
         iter.next();
     }
@@ -77,8 +77,8 @@ public class UsersSimpleHashMapTest {
         assertThat(iter.hasNext(), is(true));
         assertThat(iter.hasNext(), is(true));
         assertThat(iter.next(), is("Edva"));
-        assertThat(iter.next(), is("Vera"));
         assertThat(iter.next(), is("Mira"));
+        assertThat(iter.next(), is("Vera"));
         assertThat(iter.hasNext(), is(false));
     }
 
@@ -110,9 +110,9 @@ public class UsersSimpleHashMapTest {
         }
         assertThat(iter.hasNext(), is(true));
         assertThat(iter.hasNext(), is(true));
-        assertThat(iter.next(), is(user4));
-        assertThat(iter.next(), is(user1));
         assertThat(iter.next(), is(user2));
+        assertThat(iter.next(), is(user1));
+        assertThat(iter.next(), is(user4));
         assertThat(iter.hasNext(), is(false));
     }
 }

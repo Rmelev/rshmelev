@@ -2,6 +2,7 @@ package ru.job4j.map;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * user's hash map.
@@ -108,14 +109,8 @@ public class UsersSimpleHashMap<K, V> implements Iterable<V> {
      * @return - hash code.
      */
     <K> int hashFunction(K key) {
-        String universeVar = key.toString();
-
-        char[] chars = universeVar.toCharArray();
-        int sum = 0;
-        for (char charsElem : chars) {
-            sum += charsElem;
-        }
-        return sum % table.length;
+        int hash = Objects.hashCode(key);
+        return hash % table.length;
     }
 
     /**
