@@ -30,13 +30,27 @@ public class SimpleSet<E> implements Iterable {
      * @param elem - added element.
      */
     public void add(E elem) {
+        if (!findDupl(elem)) {
+            this.objects[index++] = elem;
+        } else {
+            System.out.println("Equals element(" + elem + ") is already in set");
+        }
+    }
+
+    /**
+     * find duplicate element before add to set.
+     * @param elem - checking element.
+     * @return - true, if found.
+     */
+    public boolean findDupl(E elem) {
+        boolean flag = false;
         for (int i = 0; i < index; i++) {
             if (elem.equals(objects[i])) {
-                System.out.println("Equals element(" + objects[i] + ") is already in set");
-                return;
+                flag = true;
+                return flag;
             }
         }
-        this.objects[index++] = elem;
+        return flag;
     }
 
     /**
