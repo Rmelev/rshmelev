@@ -26,7 +26,11 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return this.root;
     }
 
-    //boolean rootWasAdded = false; - variable for method: public List<Node<E>> toList (Node<E> node).
+    /**
+     * variable for method: public List<Node<E>> toList (Node<E> node).
+     * flag to add root.children elements.
+     */
+    private boolean rootWasAdded = false;
     /**
      * List of values of all nodes in Tree.
      */
@@ -120,6 +124,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     /**
      * Return element(parent), where we add child.
+     * Уже был написан, когда пытался сделать предыдущее задание, но не использован в итоговой версии.
      * @param node - node for start search.
      * @param parent - parent for node  add.
      * @param child - child to add.
@@ -142,7 +147,28 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         return foundNode;
     }
 
-    /*public List<Node<E>> toList (Node<E> node) {
+    /**
+     * check: is this tree binary.
+     * @return - true, if tree is binary.
+     */
+    public boolean isBinary() {
+        rootWasAdded = false;
+        boolean flag = true;
+        for (Node<E> tempNode : toList(root)) {
+            if (tempNode.children.size() > 2) {
+                flag = false;
+                break;
+            }
+        }
+        return flag;
+    }
+
+    /**
+     * pick elements from all tree in List<Node>.
+     * @param node - node for beginning.
+     * @return - list of nodes.
+     */
+    public List<Node<E>> toList(Node<E> node) {
         List<Node<E>> totalList = new LinkedList<>();
 
         if (!rootWasAdded) {
@@ -160,7 +186,7 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
         }
 
         return totalList;
-    }*/
+    }
 
     /**
      *iterator for user's tree.

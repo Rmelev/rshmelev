@@ -3,7 +3,7 @@ package ru.job4j.bank;
 /**
  * bank client.
  */
-public class User {
+public class User implements Comparable<User> {
     /**
      * client's name.
      */
@@ -18,7 +18,7 @@ public class User {
      * @param name - client's name.
      * @param passport - client's number of passport.
      */
-    User(String name, int passport) {
+    public User(String name, int passport) {
         this.name = name;
         this.passport = passport;
     }
@@ -59,5 +59,14 @@ public class User {
     @Override
     public String toString() {
         return "name: " + name + "  passport: " + passport;
+    }
+
+    /**
+     * @param o - user to compare.
+     * @return - more, less or equals zero, like super.compareTo().
+     */
+    @Override
+    public int compareTo(User o) {
+        return this.name.compareTo(o.name);
     }
 }

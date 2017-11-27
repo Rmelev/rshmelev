@@ -1,6 +1,7 @@
 package ru.job4j.tree;
 
 import org.junit.Test;
+import ru.job4j.bank.User;
 
 import java.util.Arrays;
 import java.util.Iterator;
@@ -24,9 +25,7 @@ public class TreeTest {
         assertThat(tree.add(80, 100), is(false));
         assertThat(tree.add(9, 10), is(true));
         assertThat(tree.add(9, 10), is(false));
-
         assertThat(tree.add(9, 12), is(true));
-
         assertThat(tree.add(9, 13), is(true));
         assertThat(tree.add(9, 14), is(true));
         assertThat(tree.add(10, 15), is(true));
@@ -88,4 +87,49 @@ public class TreeTest {
             System.out.print(iter.next() + "  ");
         }
     }
+
+    /**
+     * test3.
+     */
+    @Test
+    public void whenIsBinaryIntegerThenTrueAndConversely() {
+        Tree<Integer> tree = new Tree<>(9);
+        tree.add(9, 10);
+        tree.add(9, 11);
+        //tree.add(9, 19);
+        tree.add(10, 12);
+        tree.add(10, 13);
+        tree.add(11, 14);
+        tree.add(11, 15);
+        tree.add(12, 16);
+        tree.add(12, 17);
+        //tree.add(11, 18);
+        assertThat(tree.isBinary(), is(true));
+        tree.add(17, 20);
+        assertThat(tree.isBinary(), is(true));
+        tree.add(11, 19);
+        assertThat(tree.isBinary(), is(false));
+    }
+
+    /**
+     * test4.
+     */
+    @Test
+    public void whenIsBinaryStringThenTrueAndConversely() {
+        User userJohn = new User("John", 11111);
+        User userPaul = new User("Paul", 22222);
+        User userTony = new User("Tony", 33333);
+        User userBrad = new User("Brad", 44444);
+        User userMicky = new User("Micky", 55555);
+        User userClaudia = new User("Claudia", 66666);
+        Tree<User> tree = new Tree<>(userJohn);
+        tree.add(userJohn, userPaul);
+        tree.add(userJohn, userTony);
+        tree.add(userTony, userBrad);
+        tree.add(userTony, userMicky);
+        assertThat(tree.isBinary(), is(true));
+        tree.add(userTony, userClaudia);
+        assertThat(tree.isBinary(), is(false));
+    }
+
 }
