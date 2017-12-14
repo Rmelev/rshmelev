@@ -1,7 +1,5 @@
 package ru.job4j.tree;
 
-//import java.util.*;
-
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -112,7 +110,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
             root.children.add(new Node<>(child));
             return true;
         }
-        // возвращает элемент-parent, в который мы потом добавляем child.
         tempList = findToAdd(root, parent, child);
         if (tempList != null) {
             added.add(child);
@@ -124,7 +121,6 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
 
     /**
      * Return element(parent), where we add child.
-     * Уже был написан, когда пытался сделать предыдущее задание, но не использован в итоговой версии.
      * @param node - node for start search.
      * @param parent - parent for node  add.
      * @param child - child to add.

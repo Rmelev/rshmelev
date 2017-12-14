@@ -6,8 +6,8 @@ package ru.job4j.tree;
  */
 public interface SimpleTree<E extends Comparable<E>> extends Iterable<E> {
     /**
-     * Добавить элемент child в parent.
-     * Parent может иметь список child.
+     * Add element child in parent.
+     * Parent can have list if children.
      * @param parent parent.
      * @param child child.
      * @return - true, if successful.
