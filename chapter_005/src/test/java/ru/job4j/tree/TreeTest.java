@@ -103,12 +103,16 @@ public class TreeTest {
         tree.add(11, 15);
         tree.add(12, 16);
         tree.add(12, 17);
-        //tree.add(11, 18);
-        assertThat(tree.isBinary(), is(true));
         tree.add(17, 20);
+        //assertThat(tree.isBinary(), is(true));
+        tree.add(20, 21);
         assertThat(tree.isBinary(), is(true));
-        tree.add(11, 19);
+        tree.add(20, 22);
+        assertThat(tree.isBinary(), is(true));
+        tree.add(20, 23);
         assertThat(tree.isBinary(), is(false));
+        //tree.add(11, 19);
+        //assertThat(tree.isBinary(), is(false));
     }
 
     /**

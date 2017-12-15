@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ArrayDeque;
 import java.util.NoSuchElementException;
 
 /**
@@ -144,44 +145,23 @@ public class Tree<E extends Comparable<E>> implements SimpleTree<E> {
     }
 
     /**
-     * check: is this tree binary.
-     * @return - true, if tree is binary.
+     * control,is this tree binary.
+     * @return - true, if binary.
      */
     public boolean isBinary() {
-        rootWasAdded = false;
         boolean flag = true;
-        for (Node<E> tempNode : toList(root)) {
-            if (tempNode.children.size() > 2) {
+        ArrayDeque<Node<E>> queue = new ArrayDeque<>();
+        queue.push(root);
+        while (queue.size() > 0) {
+            if (queue.peekFirst().getChildren().size() > 2) {
                 flag = false;
                 break;
             }
-        }
-        return flag;
-    }
-
-    /**
-     * pick elements from all tree in List<Node>.
-     * @param node - node for beginning.
-     * @return - list of nodes.
-     */
-    public List<Node<E>> toList(Node<E> node) {
-        List<Node<E>> totalList = new LinkedList<>();
-
-        if (!rootWasAdded) {
-            totalList.add(root);
-            totalList.addAll(root.children);
-            rootWasAdded = true;
-        }
-        for (Node<E> tempNode : node.children) {
-            if (tempNode.children.size() != 0) {
-                totalList.addAll(tempNode.children);
-                if (tempNode.children.size() != 0) {
-                    totalList.addAll(toList(tempNode));
-                }
+            for (Node<E> tempNode : queue.pop().getChildren()) {
+                queue.push(tempNode);
             }
         }
-
-        return totalList;
+        return flag;
     }
 
     /**
