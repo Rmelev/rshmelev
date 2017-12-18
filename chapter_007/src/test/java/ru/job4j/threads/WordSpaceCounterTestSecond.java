@@ -48,4 +48,41 @@ public class WordSpaceCounterTestSecond {
         }
         System.out.println("End of program working.");
     }
+
+    /**
+     * Test2. Task 1019.
+     */
+    @Test
+    public void whenHaveTextInBookThenTask1019IsSuccess() {
+        System.out.println("Program starts!");
+        long start = System.currentTimeMillis();
+        Thread thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    File myFile = new File("/Users/romansmelev/projects/rshmelev/chapter_007/src/main/java/ru/job4j/threads/Oruell.txt");
+                    FileReader fileReader = new FileReader(myFile);
+                    BufferedReader reader = new BufferedReader(fileReader);
+                    int countChars = 0;
+                    int next = reader.read();
+                    while (next != -1) {
+                        countChars++;
+                        next = reader.read();
+                    }
+                    System.out.println("Number of chars: " + countChars);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        thread.start();
+        try {
+            thread.join(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        long finish = System.currentTimeMillis();
+        System.out.println("Time of program working is: " + (finish - start) + "ms");
+        System.out.println("Maximum time for this program is 100ms");
+    }
 }
