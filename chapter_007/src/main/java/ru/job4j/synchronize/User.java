@@ -8,7 +8,7 @@ public class User implements Comparable<User> {
     /**
      * client id.
      */
-    private int id;
+    final int id;
 
     /**
      * id getter.

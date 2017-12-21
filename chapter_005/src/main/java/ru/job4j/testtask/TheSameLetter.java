@@ -1,5 +1,8 @@
 package ru.job4j.testtask;
 
+/**
+ * word to compare and method to compare.
+ */
 public class TheSameLetter {
     /**
      * word to compare.

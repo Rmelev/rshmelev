@@ -1,17 +1,22 @@
 package ru.job4j.list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
  * generic class, user's list with generic elements.
- * @param <E> - tipe of elements in array.
+ * @param <E> - type of elements in array.
  */
+@ThreadSafe
 public class SimpleList<E> implements SimpleContainer<E> {
     /**
      * array of elements.
      */
+    @GuardedBy("this")
     private Object[] container;
     /**
      * counter of elements.
@@ -29,7 +34,7 @@ public class SimpleList<E> implements SimpleContainer<E> {
      * add elements in list.
      * @param e - element.
      */
-    public void add(E e) {
+    public synchronized void add(E e) {
         if (index == container.length - 1) {
             this.grow();
         }
@@ -41,13 +46,13 @@ public class SimpleList<E> implements SimpleContainer<E> {
      * @param index - index of element in array.
      * @return - element with required index.
      */
-    public E get(int index) {
+    public synchronized E get(int index) {
         return (E) container[index];
     }
 
     /**
      * iterator for user's list.
-     * @return
+     * @return - iterator.
      */
     @Override
     public Iterator<E> iterator() {
@@ -57,11 +62,11 @@ public class SimpleList<E> implements SimpleContainer<E> {
             public boolean hasNext() {
                 return nextElem < index;
             }
-
             @Override
             public E next() {
                 if (hasNext()) {
-                    return (E) container[nextElem++];
+                    nextElem++;
+                    return get(nextElem - 1);
                 } else {
                     throw new NoSuchElementException();
                 }
@@ -72,7 +77,7 @@ public class SimpleList<E> implements SimpleContainer<E> {
     /**
      * increase size of array if necessary.
      */
-    private void grow() {
+    private synchronized void grow() {
         int oldCapacity = container.length;
         int newCapacity = oldCapacity + (oldCapacity >> 1);
         container = Arrays.copyOf(container, newCapacity);

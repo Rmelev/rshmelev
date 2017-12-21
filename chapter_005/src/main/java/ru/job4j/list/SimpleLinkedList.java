@@ -1,5 +1,8 @@
 package ru.job4j.list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -7,6 +10,7 @@ import java.util.NoSuchElementException;
  * user's linked list.
  * @param <E> - type parameter.
  */
+@ThreadSafe
 public class SimpleLinkedList<E> implements SimpleContainer<E> {
     /**
      * counter of list size.
@@ -15,13 +19,14 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
     /**
      * first element of list.
      */
+    @GuardedBy("this")
     private Node<E> first;
 
     /**
      * getter.
      * @return - first.
      */
-    public Node<E> getFirst() {
+    public synchronized Node<E> getFirst() {
         return first;
     }
 
@@ -29,7 +34,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * get first.
      * @return - the first.
      */
-    public E getFirstForQueue() {
+    public synchronized E getFirstForQueue() {
         if (size == 0) {
             throw new NoSuchElementException("There are no more elements in queue.");
         }
@@ -45,13 +50,14 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
     /**
      * last element of list.
      */
+    @GuardedBy("this")
     private Node<E> last;
 
     /**
      * get last.
      * @return - the last.
      */
-    public E getLastForStack() {
+    public synchronized E getLastForStack() {
         if (size == 0) {
             throw new NoSuchElementException("There are no more elements in stack.");
         }
@@ -120,7 +126,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * @param e - added elem.
      */
     @Override
-    public void add(E e) {
+    public synchronized void add(E e) {
         final Node<E> l = last;
         final Node<E> newNode = new Node<>(l, e, null);
         last = newNode;
@@ -139,7 +145,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * @return - element.
      */
     @Override
-    public E get(int index) {
+    public synchronized E get(int index) {
         checkElementIndex(index);
         return node(index).item;
     }
@@ -177,7 +183,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
      * @param index - needfull index.
      * @return - needfull element.
      */
-    Node<E> node(int index) {
+    synchronized Node<E> node(int index) {
         if (index < (size >> 1)) {
             Node<E> x = first;
             for (int i = 0; i < index; i++) {
@@ -210,7 +216,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
             @Override
             public E next() {
                 if (!hasNext()) {
-                    countIter = first;
+                    countIter = getFirst();
                     throw new NoSuchElementException();
                 }
                 nextElem++;
@@ -219,7 +225,7 @@ public class SimpleLinkedList<E> implements SimpleContainer<E> {
                     return countIter.prev.item;
                 } else {
                     Node<E> temp = countIter;
-                    countIter = first;
+                    countIter = getFirst();
                     return temp.item;
                 }
             }

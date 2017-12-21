@@ -13,6 +13,37 @@ import static org.junit.Assert.assertThat;
  */
 public class SimpleListTest {
     /**
+     * thread for SimpleList.
+     */
+    private class SimpleListThread extends Thread {
+        /**
+         * pole.
+         */
+        private final SimpleList<Integer> simpleList;
+
+        /**
+         * Constructor.
+         * @param simpleList - simpleList.
+         */
+        SimpleListThread(SimpleList<Integer> simpleList) {
+            this.simpleList = simpleList;
+            for (int i = 1; i < 7; i = i + 1) {
+                simpleList.add(i);
+            }
+        }
+
+        /**
+         * run().
+         */
+        @Override
+        public void run() {
+
+            for (int i = 1; i < 7; i++) {
+                System.out.println(simpleList.get(i));
+            }
+        }
+    }
+    /**
      * test1. For Integer.
      */
     @Test
@@ -60,5 +91,20 @@ public class SimpleListTest {
         assertThat(iter.next(), is("Kuala-Lumpur"));
         assertThat(iter.hasNext(), is(false));
         iter.next();
+    }
+
+    /**
+     * Test. Threads.
+     * @throws InterruptedException - exception.
+     */
+    @Test
+    public void whenThreeTreadsThenCorrectResult() throws InterruptedException {
+        final SimpleList<Integer> simpleList = new SimpleList<>();
+        Thread first = new SimpleListThread(simpleList);
+        Thread second = new SimpleListThread(simpleList);
+        first.start();
+        second.start();
+        first.join();
+        second.join();
     }
 }
