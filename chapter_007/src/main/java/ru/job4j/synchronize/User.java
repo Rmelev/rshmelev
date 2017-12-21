@@ -8,7 +8,7 @@ public class User implements Comparable<User> {
     /**
      * client id.
      */
-    final int id;
+    private final int id;
 
     /**
      * id getter.
@@ -28,7 +28,6 @@ public class User implements Comparable<User> {
      * getter.
      * @return - amount.
      */
-    @GuardedBy("amount")
     synchronized double getAmount() {
         return amount;
     }
@@ -37,7 +36,6 @@ public class User implements Comparable<User> {
      * setter.
      * @param amount - amount.
      */
-    @GuardedBy("amount")
     synchronized void setAmount(double amount) {
         this.amount = amount;
     }
@@ -56,7 +54,7 @@ public class User implements Comparable<User> {
      * @return - string representation.
      */
     @Override
-    public String toString() {
+    public synchronized String toString() {
         return "User{" + "id=" + id + ", amount=" + amount + '}' + '\n';
     }
 
