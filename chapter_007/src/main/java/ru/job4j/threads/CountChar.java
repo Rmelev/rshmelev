@@ -33,7 +33,7 @@ public class CountChar implements Runnable {
             BufferedReader reader = new BufferedReader(fileReader);
             int countChars = 0;
             int next = reader.read();
-            while (next != -1 && !flag) {
+            while (!Thread.currentThread().isInterrupted() && next != -1) {
                 countChars++;
                 next = reader.read();
             }

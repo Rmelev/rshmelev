@@ -16,23 +16,15 @@ public class Time implements Runnable {
      */
     @Override
     public void run() {
-        try {
-            start = System.currentTimeMillis();
-            CountChar countChar = new CountChar();
-            Thread threadCount = new Thread(countChar);
-            threadCount.start();
-            while (finish - start < 5) {
-                finish = System.currentTimeMillis();
-                Thread.sleep(1);
-
-            }
-            countChar.setFlag(true);
+        start = System.currentTimeMillis();
+        CountChar countChar = new CountChar();
+        Thread threadCount = new Thread(countChar);
+        threadCount.start();
+        while (finish - start < 10) {
             finish = System.currentTimeMillis();
-            Thread.sleep(10);
-            System.out.println(threadCount.isAlive());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+        finish = System.currentTimeMillis();
+        threadCount.interrupt();
         System.out.println("Time of program working is: " + (finish - start));
     }
 }
