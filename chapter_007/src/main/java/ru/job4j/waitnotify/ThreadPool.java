@@ -51,6 +51,28 @@ public class ThreadPool {
     }
 
     /**
+     * exit from WAITING state for all threads in thread pool.
+     * @return - true, if all threads interrupted.
+     */
+    boolean shutDown() {
+        while (true) {
+            int count = 0;
+            for (int i = 0; i < nThreads; i++) {
+                if (threads[i].getState() == Thread.State.WAITING) {
+                    count++;
+                }
+            }
+            if (count == 8) {
+                for (int i = 0; i < nThreads; i++) {
+                    threads[i].interrupt();
+                    System.out.println(threads[i].getName() + " interupted");
+                }
+                break;
+            }
+        }
+        return true;
+    }
+    /**
      * inner class of workers are waiting for work.
      */
     private class PoolWorker extends Thread {
@@ -67,8 +89,9 @@ public class ThreadPool {
                         try {
                             System.out.println(Thread.currentThread().getName() + " ожидает работу");
                             queue.wait();
+                            System.out.println("Сюда после прерывания уже не попасть");
                         } catch (InterruptedException ie) {
-                            ie.printStackTrace();
+                            System.out.println(Thread.currentThread().getName() + " прерван");
                         }
                     }
                     work = queue.removeFirst();

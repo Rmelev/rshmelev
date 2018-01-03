@@ -14,5 +14,6 @@ public class ThreadPoolTest {
         for (int i = 0; i < 30; i++) {
             threadPool.add(new Work(i));
         }
+        threadPool.shutDown();
     }
 }

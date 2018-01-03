@@ -3,7 +3,7 @@ package ru.job4j.waitnotify;
 /**
  * Work.
  */
-public class Work implements Runnable {
+public class Work {
     /**
      * number of work.
      */
@@ -20,7 +20,6 @@ public class Work implements Runnable {
     /**
      * Overrided run().
      */
-    @Override
     public void run() {
         System.out.println(i + "-ую работу выполняет: " + Thread.currentThread().getName());
     }
