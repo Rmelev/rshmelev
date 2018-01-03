@@ -1,5 +1,6 @@
 package ru.job4j.synchronize;
 
+import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 
 import java.util.TreeMap;
@@ -12,13 +13,14 @@ public class UserStorage {
     /**
      * storage for Users.
      */
+    @GuardedBy("this")
     private TreeMap<Integer, User> users = new TreeMap<>();
 
     /**
      * getter.
      * @return - users.
      */
-    public TreeMap<Integer, User> getUsers() {
+    synchronized TreeMap<Integer, User> getUsers() {
         return this.users;
     }
 
@@ -26,7 +28,7 @@ public class UserStorage {
      * add User to storage.
      * @param user - user.
      */
-    void add(User user) {
+    synchronized void add(User user) {
         users.put(user.getId(), user);
     }
 
@@ -42,7 +44,7 @@ public class UserStorage {
      * remove User in storage.
      * @param user - user.
      */
-    void delete(User user) {
+    synchronized void delete(User user) {
         users.remove(user.getId());
     }
 

@@ -1,6 +1,5 @@
 package ru.job4j.synchronize;
 
-import net.jcip.annotations.GuardedBy;
 /**
  * class bank client.
  */
@@ -21,14 +20,13 @@ public class User implements Comparable<User> {
     /**
      * User's amount of money.
      */
-    @GuardedBy("this")
     private double amount;
 
     /**
      * getter.
      * @return - amount.
      */
-    synchronized double getAmount() {
+    double getAmount() {
         return amount;
     }
 
@@ -36,7 +34,7 @@ public class User implements Comparable<User> {
      * setter.
      * @param amount - amount.
      */
-    synchronized void setAmount(double amount) {
+    void setAmount(double amount) {
         this.amount = amount;
     }
 
@@ -54,7 +52,7 @@ public class User implements Comparable<User> {
      * @return - string representation.
      */
     @Override
-    public synchronized String toString() {
+    public String toString() {
         return "User{" + "id=" + id + ", amount=" + amount + '}' + '\n';
     }
 
