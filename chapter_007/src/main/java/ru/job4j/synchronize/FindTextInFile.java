@@ -6,6 +6,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * class for search text in file system.
@@ -30,7 +32,7 @@ public class FindTextInFile {
     /**
      * list of files with right extendes, where we will search text.
      */
-    private ArrayList<String> listOfFilesForSearch = new ArrayList<>();
+    private BlockingQueue<String> listOfFilesForSearch = new LinkedBlockingQueue<>();
     /**
      * result list with files, containing text.
      */
@@ -96,15 +98,23 @@ public class FindTextInFile {
      * @return - files, where text is contained.
      * @throws IOException - exception.
      */
-    synchronized List<String> result(String text) throws IOException {
-        for (String tempFile : listOfFilesForSearch) {
-            File fileToRead = new File(tempFile);
+    List<String> result(String text) throws IOException {
+        if (listOfFilesForSearch.size() == 0) {
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        while (listOfFilesForSearch.size() > 0) {
+            String st = listOfFilesForSearch.poll();
+            File fileToRead = new File(st);
             FileReader fr = new FileReader(fileToRead);
             BufferedReader br = new BufferedReader(fr);
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.contains(text)) {
-                    listOfContainingFiles.add(tempFile);
+                    listOfContainingFiles.add(st);
                     break;
                 }
             }
