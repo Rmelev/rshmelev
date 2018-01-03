@@ -38,17 +38,20 @@ public class NonBlockCash {
      */
     void update(String key, Model model) throws OptimisticException {
         cache.computeIfPresent(key, (k, m) -> {
-                if (model.getVersion() == m.getVersion()) {
-                    model.setVersion();
-                    return model;
-                } else {
-                    throw new OptimisticException();
-                }
+            //в качестве второго аргумента метод computeIfPresent берет значение, соответствующее ключу key.
+            //а k присваивается ссылка на key: val = remappingFunction.apply(key, e.val); (это из доков).
+            if (model.getVersion() == m.getVersion()) {
+                model.incrementVersion();
+                return model;
+            } else {
+                throw new OptimisticException();
+            }
         });
     }
 
     /**
      * delete element.
+     *
      * @param key - key.
      */
     void delete(String key) {

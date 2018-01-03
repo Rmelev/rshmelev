@@ -21,8 +21,10 @@ public class NonBlockCashTest {
     public void whenAddDeleteUpdateElemThenCorrectResult() {
         Model m1 = new Model("Margo");
         Model m2 = new Model("Diane");
+        Model m3 = new Model("Ro");
         cash.add("ahh", m1);
         cash.add("uhh", m2);
+        cash.add("ehh", m3);
         assertThat(cash.getCache().get("ahh"), is(m1));
         assertThat(cash.getCache().get("uhh"), is(m2));
         cash.delete("ahh");

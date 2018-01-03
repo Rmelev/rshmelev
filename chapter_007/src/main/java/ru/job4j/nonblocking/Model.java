@@ -11,13 +11,13 @@ public class Model {
     /**
      * number of changes in element.
      */
-    private int version;
+    private volatile int version;
 
     /**
      * Constructor.
      * @param name - name.
      */
-    public Model(String name) {
+    Model(String name) {
         this.name = name;
     }
 
@@ -25,7 +25,7 @@ public class Model {
      * setter.
      * @param name - name.
      */
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
@@ -33,15 +33,15 @@ public class Model {
      * getter.
      * @return - name.
      */
-    public String getName() {
+    String getName() {
         return this.name;
     }
 
     /**
      * set next version after element change.
      */
-    public void setVersion() {
-        this.version = version + 1;
+    void incrementVersion() {
+        this.version++;
     }
 
     /**
@@ -54,7 +54,7 @@ public class Model {
 
     /**
      * overrided toString().
-     * @return
+     * @return - string representation.
      */
     @Override
     public String toString() {
