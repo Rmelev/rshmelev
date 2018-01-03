@@ -21,4 +21,12 @@ public class Count {
     public synchronized int incremant() {
         return counter++;
     }
+
+    /**
+     * getter.
+     * @return - current value of counter.
+     */
+    public synchronized int get() {
+        return this.counter;
+    }
 }
