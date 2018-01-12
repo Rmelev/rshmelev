@@ -1,6 +1,6 @@
 package ru.job4j.testtask;
 
-public abstract class Term {
+public abstract class Term implements Runnable {
     private int x;
     private int y;
     Term(int x, int y) {
