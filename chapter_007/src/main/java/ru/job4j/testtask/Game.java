@@ -5,13 +5,37 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
+/**
+ * BomberMan Game class.
+ */
 public class Game {
+    /**
+     * game board.
+     */
     private final ReentrantLock[][] board;
+    /**
+     * pool of threads to execute.
+     */
     private ExecutorService poll;
+    /**
+     * number of Monster thread.
+     */
     private static int iM = 0;
+    /**
+     * number of Wall thread.
+     */
     private static int iW = 0;
-    private final static int[][] dirArr = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
+    /**
+     * array of theoretical steps.
+     */
+    private final int[][] dirArr = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
+    /**
+     * Constructor.
+     * @param monstersNum - number of Monsters.
+     * @param wallsNum - number of Walls.
+     * @param boardSize - size of square game board.
+     */
     private Game(int monstersNum, int wallsNum, int boardSize) {
         poll = Executors.newFixedThreadPool(monstersNum + wallsNum + 1);
         board = new ReentrantLock[boardSize][boardSize];
@@ -42,40 +66,63 @@ public class Game {
         }
     }
 
+    /**
+     * Player.
+     */
     class Player extends Term {
+        /**
+         * Constructor.
+         * @param x - x position.
+         * @param y - y position.
+         */
         Player(int x, int y) {
             super(x, y);
         }
 
-        String[] arrMove = {"left", "up", "right", "down"};
+        /**
+         * array of theoretical steps in string representation (for user manual input).
+         */
+        private String[] arrMove = {"left", "up", "right", "down"};
 
-        int[] move (String dir, int newX, int newY) {
-            int[] newPos = {newX, newY};
+        /**
+         * method for step in decided direction.
+         * @param dir - direction.
+         * @param curX - current x position.
+         * @param curY - current y position.
+         * @return - new position.
+         */
+        int[] move(String dir, int curX, int curY) {
+            int[] newPos = {curX, curY};
             switch (dir) {
                 case "left":
-                    newPos[0] = newX - 1;
-                    newPos[1] = newY;
+                    newPos[0] = curX - 1;
+                    newPos[1] = curY;
                     System.out.println("////////// иду влево: " + Thread.currentThread().getName());
                     break;
                 case "up":
-                    newPos[0] = newX;
-                    newPos[1] = newY + 1;
+                    newPos[0] = curX;
+                    newPos[1] = curY + 1;
                     System.out.println("//////// иду вверх: " + Thread.currentThread().getName());
                     break;
                 case "right":
-                    newPos[0] = newX + 1;
-                    newPos[1] = newY;
+                    newPos[0] = curX + 1;
+                    newPos[1] = curY;
                     System.out.println("///////// иду вправо: " + Thread.currentThread().getName());
                     break;
                 case "down":
-                    newPos[0] = newX;
-                    newPos[1] = newY - 1;
+                    newPos[0] = curX;
+                    newPos[1] = curY - 1;
                     System.out.println("////////// иду вниз: " + Thread.currentThread().getName());
                     break;
+                default:
+                    System.out.println("Неправильный ввод. Попробуйте еще раз.");
             }
             return newPos;
         }
 
+        /**
+         * overrided run().
+         */
         @Override
         public void run() {
             Thread.currentThread().setName("Player");
@@ -116,13 +163,24 @@ public class Game {
         }
     }
 
+    /**
+     * Monster.
+     */
     class Monster extends Term {
+        /**
+         * Constructor.
+         * @param x - x position.
+         * @param y - y position.
+         */
         Monster(int x, int y) {
             super(x, y);
         }
+        /**
+         * overrided run().
+         */
         @Override
         public void run() {
-            int r[];
+            int[] r;
             Thread.currentThread().setName("Monster" + iM);
             iM++;
             board[super.getX()][super.getY()].lock();
@@ -142,19 +200,30 @@ public class Game {
                         System.out.println(board[newX][newY] + ": newX " + newX + ", newY " + newY);
                     }
                 }
-            } catch(InterruptedException e){
+            } catch (InterruptedException e) {
                 System.out.println("++++++++++++++++++Монстр вышел из-за закрытия ThreadPool  " + Thread.currentThread().getName());
                 e.printStackTrace();
-            } finally{
+            } finally {
                 board[newX][newY].unlock();
             }
         }
     }
 
+    /**
+     * Wall.
+     */
     class Wall extends Term {
+        /**
+         * Constructor.
+         * @param x - x position.
+         * @param y - y position.
+         */
         Wall(int x, int y) {
             super(x, y);
         }
+        /**
+         * overrided run().
+         */
         @Override
         public void run() {
             Thread.currentThread().setName("Wall" + iW);
@@ -172,6 +241,9 @@ public class Game {
         }
     }
 
+    /**
+     * current states of threads (locked/unlocked).
+     */
     private void stateOf() {
         for (int i = 0; i < 10; i++) {
             for (int j = 0; j < 10; j++) {
@@ -180,6 +252,10 @@ public class Game {
         }
     }
 
+    /**
+     * main().
+     * @param args - args.
+     */
     public static void main(String[] args) {
         Game game = new Game(3, 2, 10);
         try {
