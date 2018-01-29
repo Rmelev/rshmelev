@@ -1,0 +1,63 @@
+CREATE TABLE car_body
+(
+	id	SERIAL		NOT NULL PRIMARY KEY,
+	name	VARCHAR(50)	NOT NULL,
+	color	VARCHAR(50)	NOT NULL
+);
+CREATE TABLE trans_miss
+(
+	id	SERIAL		NOT NULL PRIMARY KEY,
+	type	VARCHAR(50)	NOT NULL,
+	comment	VARCHAR(50)
+);
+CREATE TABLE engine
+(
+	id	SERIAL		NOT NULL PRIMARY KEY,
+	type	VARCHAR(50)	NOT NULL,
+	vol	INT		NOT NULL,
+	comment	VARCHAR(50)
+);
+CREATE TABLE car
+(
+	id		SERIAL		NOT NULL PRIMARY KEY,
+	model		VARCHAR(50)	NOT NULL,
+	car_body	INT		NOT NULL,
+	trans_miss	INT		NOT NULL,
+	engine		INT		NOT NULL
+);
+ALTER TABLE car ADD CONSTRAINT outkey FOREIGN KEY (car_body) REFERENCES car_body(id);
+ALTER TABLE car ADD CONSTRAINT outkey2 FOREIGN KEY (trans_miss) REFERENCES trans_miss(id);
+ALTER TABLE car ADD CONSTRAINT outkey3 FOREIGN KEY (engine) REFERENCES engine(id);
+INSERT INTO car_body (name, color) VALUES ('sedan', 'white');
+INSERT INTO car_body (name, color) VALUES ('coupe', 'red');
+INSERT INTO car_body (name, color) VALUES ('universe', 'blue');
+INSERT INTO trans_miss (type, comment) VALUES ('auto', 'for_moscow');
+INSERT INTO trans_miss (type, comment) VALUES ('semi_auto', 'for_poors');
+INSERT INTO trans_miss (type, comment) VALUES ('hand', 'for_russians');
+INSERT INTO engine (type, vol, comment) VALUES ('ordinal', 2000, 'trump');
+INSERT INTO engine (type, vol, comment) VALUES ('turbo', 3000, 'ilon');
+INSERT INTO engine (type, vol, comment) VALUES ('force', 4000, 'vin_diesel');
+INSERT INTO car (model, car_body, trans_miss, engine) VALUES ('mers', 2, 2, 1);
+INSERT INTO car (model, car_body, trans_miss, engine) VALUES ('lambo', 2, 3, 1);
+INSERT INTO car (model, car_body, trans_miss, engine) VALUES ('bentlya', 3, 3, 2);
+ALTER TABLE car_body ADD COLUMN for_model VARCHAR(50);
+ALTER TABLE trans_miss ADD COLUMN for_model VARCHAR(50);
+ALTER TABLE engine ADD COLUMN for_model VARCHAR(50);
+UPDATE car_body SET for_model = 'mers' WHERE id = 1;
+UPDATE car_body SET for_model = 'bentlya' WHERE id = 2;
+UPDATE trans_miss SET for_model = 'semi_auto' WHERE id = 2;
+UPDATE trans_miss SET for_model = 'hand' WHERE id = 3;
+UPDATE engine SET for_model = 'force' WHERE id = 1;
+UPDATE engine SET for_model = 'turbo' WHERE id = 3;
+SELECT * FROM car;
+SELECT c_b.name AS non_use_details  
+FROM  car_body AS c_b LEFT OUTER JOIN car AS c 
+ON c.car_body = c_b.id WHERE c_b.for_model IS NULL
+UNION
+SELECT t_m.type  
+FROM  trans_miss AS t_m LEFT OUTER JOIN car AS c 
+ON c.trans_miss = t_m.id WHERE t_m.for_model IS NULL
+UNION
+SELECT e.type  
+FROM  engine AS e LEFT OUTER JOIN car AS c 
+ON c.engine = e.id WHERE e.for_model IS NULL;
