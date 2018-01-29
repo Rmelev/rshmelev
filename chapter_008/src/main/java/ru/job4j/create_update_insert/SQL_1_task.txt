@@ -1,0 +1,75 @@
+CREATE DATABASE postgres;
+/*CREATE TABLE Role
+(
+	user_role	CHAR(15)	NOT NULL	PRIMARY KEY,
+	role_desc	VARCHAR(2000)	NOT NULL
+);
+CREATE TABLE Users 
+(
+	user_id		SERIAL		NOT NULL	PRIMARY KEY,
+	first_name 	CHAR(15) 	NOT NULL,
+	last_name	CHAR(25)	NOT NULL,
+	user_role	CHAR(15)	NOT NULL	REFERENCES	Role
+);
+CREATE TABLE Rules
+(
+	rules_id	SERIAL		NOT NULL	PRIMARY KEY,
+	rules_desc	VARCHAR(2000)	NOT NULL
+);
+CREATE TABLE Comm_Role_Rules
+(
+	user_role	CHAR(15)	NOT NULL	REFERENCES	Role,
+	rules_id	INTEGER		NOT NULL	REFERENCES	Rules
+);
+CREATE TABLE Category
+(
+	category_type	CHAR(25)	NOT NULL	PRIMARY KEY,
+	cat_desc	VARCHAR(2000)	NOT NULL
+);
+CREATE TABLE State
+(
+	state_type	CHAR(25)	NOT NULL	PRIMARY KEY,
+	state_desc	VARCHAR(2000)	NOT NULL
+);
+CREATE TABLE Item
+(
+	item_id		SERIAL		NOT NULL	PRIMARY KEY,
+	date		TIMESTAMP	NOT NULL,
+	user_id		INTEGER		NOT NULL	REFERENCES	Users,
+	category_type	CHAR(25)	NOT NULL	REFERENCES	Category,
+	state_type	CHAR(25)	NOT NULL	REFERENCES	State
+);
+CREATE TABLE Attachs
+(
+	attach_id	SERIAL		NOT NULL	PRIMARY KEY,
+	item_id		INTEGER		NOT NULL	REFERENCES	Item,
+	attach		VARCHAR(2000)	NOT NULL
+);
+CREATE TABLE Comments
+(
+	comments_id	SERIAL		NOT NULL	PRIMARY KEY,
+	item_id		INTEGER		NOT NULL	REFERENCES	Item,
+	comment		VARCHAR(2000)	NOT NULL
+);
+INSERT INTO Role (user_role, role_desc) VALUES ('admin', 'Понятия не имею, чем он занят');
+INSERT INTO Role (user_role, role_desc) VALUES ('user', 'Такая же история, как с admin');
+INSERT INTO Users (first_name, last_name, user_role) VALUES ('Roman', 'Shmelev', 'admin');
+INSERT INTO Users (first_name, last_name, user_role) VALUES ('Bojan', 'Baluyan', 'user');
+INSERT INTO Rules (rules_desc)  VALUES ('1st rule');
+INSERT INTO Rules (rules_desc)  VALUES ('2nd rule');
+INSERT INTO Rules (rules_desc)  VALUES ('3d rule');
+INSERT INTO Comm_Role_Rules (user_role, rules_id) VALUES ('admin', 1);
+INSERT INTO Comm_Role_Rules (user_role, rules_id) VALUES ('admin', 2);
+INSERT INTO Comm_Role_Rules (user_role, rules_id) VALUES ('admin', 3);
+INSERT INTO Comm_Role_Rules (user_role, rules_id) VALUES ('user', 1);
+INSERT INTO Category (category_type, cat_desc) VALUES ('ordinary', 'можно не делать');
+INSERT INTO Category (category_type, cat_desc) VALUES ('urgent', 'напомните через час');
+INSERT INTO Category (category_type, cat_desc) VALUES ('important', 'смотря от кого');
+INSERT INTO State (state_type, state_desc) VALUES ('in work', 'скорее всего забыли');
+INSERT INTO State (state_type, state_desc) VALUES ('finished', 'лучше проверить');
+INSERT INTO Item (date, user_id, category_type, state_type) VALUES ('2010-01-17 09:10:11', 2, 'urgent', 'in work');
+INSERT INTO Item (date, user_id, category_type, state_type) VALUES ('2017-02-28 03:04:05', 3, 'important', 'finished');
+INSERT INTO Attachs (item_id, attach) VALUES ('2', '1й путь к приложенному файлу');
+INSERT INTO Attachs (item_id, attach) VALUES ('3', '2й путь к приложенному файлу');
+INSERT INTO Comments (item_id, comment) VALUES ('2', 'Кто ему вообще разрешил заявки подавать?');
+INSERT INTO Comments (item_id, comment) VALUES ('3', 'Нужно уточнить, не очень понятна цель');
