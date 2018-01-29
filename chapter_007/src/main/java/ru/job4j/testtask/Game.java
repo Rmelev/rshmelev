@@ -132,14 +132,14 @@ public class Game {
             int newY = super.getY();
             try {
                 while (!Thread.currentThread().isInterrupted()) {
-                    if (newX > board.length - 2) {
-                        playerNewPos = this.move("left", newX - 1, newY);
-                    } else if (newX < 2) {
-                        playerNewPos = this.move("right", newX + 1, newY);
-                    } else if (newY > board.length - 2) {
-                        playerNewPos = this.move("up", newX, newY - 1);
-                    } else if (newY < 2) {
-                        playerNewPos = this.move("down", newX, newY + 1);
+                    if (newX > board.length - 1) {
+                        playerNewPos = this.move("left", newX, newY);
+                    } else if (newX < 1) {
+                        playerNewPos = this.move("right", newX, newY);
+                    } else if (newY > board.length - 1) {
+                        playerNewPos = this.move("up", newX, newY);
+                    } else if (newY < 1) {
+                        playerNewPos = this.move("down", newX, newY);
                     } else {
                         playerNewPos = this.move(arrMove[(int) (Math.random() * 4)], newX, newY);
                     }
