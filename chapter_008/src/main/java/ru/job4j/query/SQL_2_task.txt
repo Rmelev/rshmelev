@@ -1,0 +1,9 @@
+SELECT * FROM Product AS P, Type AS T WHERE P.type_id = T.id AND T.name = 'СЫР';
+-- или SELECT * FROM Product AS P INNER JOIN Type AS T ON P.type_id = T.id AND T.name = 'СЫР';
+SELECT * FROM Product WHERE name LIKE '%мороженное%';
+SELECT * FROM Product WHERE expired_date BETWEEN '2017-02-01 00:00:00' AND '2017-02-28 23:59:59';
+SELECT MAX(price) AS max_price FROM Product;
+SELECT COUNT(*) AS type_num FROM Product AS p INNER JOIN Type AS t ON p.type_id = t.id AND t.name = 'СЫР';
+SELECT * FROM Product AS p INNER JOIN Type AS t ON p.type_id = t.id AND t.name IN ('СЫР', 'МОЛОКО');
+SELECT * FROM Product WHERE quantity < 10;
+SELECT p.name AS product, t.name AS type_of_producr FROM Product AS p INNER JOIN Type AS t ON p.type_id = t.id;
