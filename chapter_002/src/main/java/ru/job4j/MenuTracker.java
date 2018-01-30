@@ -1,6 +1,8 @@
 package ru.job4j;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -103,7 +105,7 @@ public class MenuTracker {
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Please, enter the task's name: ");
             String desc = input.ask("Please, enter the task's desk: ");
-            tracker.getItems().add(new Item(name, desc, 12345L));
+            tracker.add(new Item(name, desc, System.currentTimeMillis()));
         }
     }
 
@@ -132,7 +134,10 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             for (Item item : tracker.getItems()) {
-                System.out.println(String.format("%s  %s  %s", item.getId(), item.getName(), item.getDesc()));
+                Date date = new Date(item.getCreated());
+                SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String dateText = df2.format(date);
+                System.out.println(String.format("%s  %s  %s  %s", item.getId(), item.getName(), item.getDesc(), dateText));
             }
         }
     }
@@ -162,14 +167,10 @@ public class MenuTracker {
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
-            String id = input.ask("Please, enter the task's id: ");
-            if (tracker.findById(id) == null) {
-                System.out.println("Tracker haven't this item");
-                return;
-            }
+            int id = Integer.valueOf(input.ask("Please, enter the task's id: "));
             String name = input.ask("Please, enter the task's name: ");
             String desc = input.ask("Please, enter the task's desk: ");
-            Item item = new Item(name, desc, 12345L);
+            Item item = new Item(name, desc, System.currentTimeMillis());
             item.setId(id);
             tracker.update(item);
         }
@@ -200,13 +201,8 @@ public class MenuTracker {
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
-            String id = input.ask("Please, enter the task's id: ");
-            if (tracker.findById(id) == null) {
-                System.out.println("Tracker haven't this item");
-                return;
-            }
-            tracker.getItems().remove(tracker.findById(id));
-
+            int id = Integer.valueOf(input.ask("Please, enter the task's id: "));
+            tracker.delete(id);
         }
     }
 
@@ -235,17 +231,8 @@ public class MenuTracker {
          * @param tracker - tracker.
          */
         public void execute(Input input, Tracker tracker) {
-            String id = input.ask("Input id of the item to find: ");
-            if (tracker.findById(id) == null) {
-                System.out.println("Tracker haven't this item");
-                return;
-            }
-            for (Item item : tracker.getItems()) {
-                if (item != null && item.getId().equals(id)) {
-                    System.out.println(item.getId() + " " + item.getName() + " " + item.getDesc());
-                }
-            }
-
+            int id = Integer.valueOf(input.ask("Please, enter the task's id: "));
+            tracker.findById(id);
         }
     }
 
@@ -275,16 +262,7 @@ public class MenuTracker {
          */
         public void execute(Input input, Tracker tracker) {
             String name = input.ask("Input name to search for related items: ");
-            if (tracker.findByName(name) == null) {
-                System.out.println("Tracker haven't items with this name");
-                return;
-            }
-            for (Item item : tracker.getItems()) {
-                if (item != null && item.getName().equals(name)) {
-                    System.out.println(item.getId() + " " + item.getName() + " " + item.getDesc());
-                }
-            }
-
+            tracker.findByName(name);
         }
     }
 

@@ -7,7 +7,7 @@ public class Item {
     /**
      * ID of item.
      */
-    private String id;
+    private int id;
     /**
      * name of item.
      */
@@ -32,23 +32,22 @@ public class Item {
      * @param created - date of created.
      */
     public Item(String name, String desc, long created) {
-        this.id = Long.toString((long) (Math.random() * 10000) + System.currentTimeMillis());
         this.name = name;
         this.desc = desc;
         this.created = created;
     }
 
     /**
-     * default Constructor.
+     * default Constructor (for early Tracker version).
      */
     public Item() {
-        this.id = Long.toString((long) (Math.random() * 10000) + System.currentTimeMillis());
+        this.id = (int) (Math.random() * 1000000);
     }
 
     /**
      * @param id - item ID.
      */
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -83,7 +82,7 @@ public class Item {
     /**
      * @return - ID.
      */
-    public String getId() {
+    public int getId() {
         return this.id;
     }
 

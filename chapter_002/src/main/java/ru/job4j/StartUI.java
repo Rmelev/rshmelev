@@ -26,16 +26,23 @@ public class StartUI {
      * method for run program.
      */
     public void init() {
+        tracker.fillProperites();
+        tracker.dbConnection();
+        tracker.dbCreateIfNotExist();
         MenuTracker menu = new MenuTracker(this.input, tracker);
         int[] ranges = menu.initializer();
-        do {
-            menu.show();
-            int key = input.ask("Select: ", ranges);
-            if (key == 7) {
-                return;
-            }
-            menu.select(key);
-        } while (true);
+        try {
+            do {
+                menu.show();
+                int key = input.ask("Select: ", ranges);
+                if (key == 7) {
+                    return;
+                }
+                menu.select(key);
+            } while (true);
+        } finally {
+            tracker.connClose();
+        }
     }
 
     /**
