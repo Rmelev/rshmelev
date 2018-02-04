@@ -6,4 +6,4 @@
 * @version $Id$
 * @since 0.1
 */
-package ru.job4j.create_update_insert;
+package ru.job4j.createupdateinsert;

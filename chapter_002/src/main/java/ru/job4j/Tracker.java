@@ -72,6 +72,8 @@ public class Tracker {
      * input connection data in Properties object.
      */
     void fillProperites() {
+        //try (InputStream in = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+        //так можно, но для этого db.properties нужно положить в chapter_002/src/main/resources
         try (InputStream in = Files.newInputStream(Paths.get(PATH))) {
             prop.load(in);
         } catch (IOException ioe) {

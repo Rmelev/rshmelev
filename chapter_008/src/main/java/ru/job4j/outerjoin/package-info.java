@@ -6,4 +6,4 @@
 * @version $Id$
 * @since 0.1
 */
-package ru.job4j.outer_join;
+package ru.job4j.outerjoin;
