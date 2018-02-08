@@ -10,4 +10,15 @@
         <url-pattern>/echo</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UserServlet</servlet-name>
+        <servlet-class>ru.job4j.crudservlet.UserServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UserServlet</servlet-name>
+        <url-pattern>/database</url-pattern>
+    </servlet-mapping>
+
 </web-app>
