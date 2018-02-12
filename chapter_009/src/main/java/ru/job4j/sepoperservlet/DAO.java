@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.job4j.crudservlet.User;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.sql.Connection;
@@ -12,6 +14,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * common class for interaction with database.
@@ -47,6 +50,23 @@ public class DAO {
      * delete query.
      */
     private static final String DELETE_USER = "DELETE FROM users2512 WHERE user_login=?";
+
+    /**
+     * Properties.
+     */
+    private Properties prop = new Properties();
+
+    public Properties getProp() {
+        return prop;
+    }
+
+    public void fillProperties() {
+        try (InputStream in = getClass().getClassLoader().getResourceAsStream("db.properties")) {
+            prop.load(in);
+        } catch (IOException ioe) {
+            LOG.error(ioe.getMessage(), ioe);
+        }
+    }
 
     /**
      * create table method.

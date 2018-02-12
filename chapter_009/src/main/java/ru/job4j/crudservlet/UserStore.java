@@ -20,10 +20,7 @@ public class UserStore extends DAO {
      * Logger.
      */
     private static final Logger LOG = LoggerFactory.getLogger(UserStore.class);
-    /**
-     * Properties.
-     */
-    private Properties prop = new Properties();
+
 
     /**
      * Getter.
@@ -60,17 +57,6 @@ public class UserStore extends DAO {
     }
 
     /**
-     * fill properties for database initialization.
-     */
-    void fillProperties() {
-        try (InputStream in = getClass().getClassLoader().getResourceAsStream("db.properties")) {
-            prop.load(in);
-        } catch (IOException ioe) {
-            LOG.error(ioe.getMessage(), ioe);
-        }
-    }
-
-    /**
      * connection with db.
      */
     void dbConnection() {
@@ -81,7 +67,7 @@ public class UserStore extends DAO {
         }
         try {
             super.setConn(DriverManager.getConnection(
-                    prop.getProperty("url"), prop.getProperty("user"), prop.getProperty("password", ""
+                    getProp().getProperty("url"), getProp().getProperty("user"), getProp().getProperty("password", ""
                     )
             ));
         } catch (SQLException sqle) {

@@ -32,7 +32,6 @@ public class UserServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         db.fillProperties();
-        LOG.error("Прошел пропертиез");
         db.dbConnection();
         db.dbCreate();
     }

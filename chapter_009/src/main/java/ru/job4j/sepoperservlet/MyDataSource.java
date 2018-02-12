@@ -32,10 +32,11 @@ public class MyDataSource extends DAO {
      */
     private MyDataSource() throws IOException, SQLException {
         ds = new BasicDataSource();
-        ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://localhost:5432/postgres");
-        ds.setUsername("romansmelev");
-        ds.setPassword("");
+        fillProperties();
+        ds.setDriverClassName(getProp().getProperty("driver"));
+        ds.setUrl(getProp().getProperty("url"));
+        ds.setUsername(getProp().getProperty("user"));
+        ds.setPassword(getProp().getProperty("password", ""));
     }
 
     /**
