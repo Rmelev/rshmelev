@@ -56,10 +56,17 @@ public class DAO {
      */
     private Properties prop = new Properties();
 
+    /**
+     * getter.
+     * @return - properties.
+     */
     public Properties getProp() {
         return prop;
     }
 
+    /**
+     * fill properties from properties file.
+     */
     public void fillProperties() {
         try (InputStream in = getClass().getClassLoader().getResourceAsStream("db.properties")) {
             prop.load(in);

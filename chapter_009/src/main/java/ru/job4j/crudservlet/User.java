@@ -18,6 +18,7 @@ public class User {
      * email.
      */
     private String email;
+
     /**
      * user was created.
      */
@@ -57,6 +58,14 @@ public class User {
      */
     public String getEmail() {
         return email;
+    }
+
+    /**
+     * Getter.
+     * @return - create date.
+     */
+    public Timestamp getCreateDate() {
+        return createDate;
     }
 
     /**
