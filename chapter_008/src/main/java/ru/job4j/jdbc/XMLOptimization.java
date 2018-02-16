@@ -49,7 +49,7 @@ public class XMLOptimization {
     public static void main(String[] args) {
         long start = System.currentTimeMillis();
         XMLOptimization optim = new XMLOptimization();
-        optim.setDbConnect("jdbc:sqlite:/Users/romansmelev/projects/rshmelev/chapter_008/src/main/java/ru/job4j/jdbc/test.db");
+        optim.setDbConnect("jdbc:sqlite:chapter_008/src/main/java/ru/job4j/jdbc/test.db");
         optim.setN(1000000);
         JDBC jdbc = new JDBC(optim.dbConnect, optim.n);
         XmlXsltXml xmlObj = new XmlXsltXml();
