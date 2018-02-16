@@ -23,7 +23,8 @@ public class UserServlet extends HttpServlet {
     /**
      * database.
      */
-    private UserStore db = UserStore.getInstance();
+    //private UserStore db = UserStore.getInstance();
+    private UserStoreEnum db = UserStoreEnum.INSTANCE;
 
     /**
      * init start configuration.
