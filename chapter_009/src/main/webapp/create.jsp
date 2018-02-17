@@ -11,7 +11,7 @@
     <title>Create User</title>
 </head>
 <body>
-<form action='./create' method='post'>
+<form action=<%=request.getContextPath() + "/create"%> method='post'>
     Add: login <input type='text' name='login'/>
     name <input type='text' name='name'/>
     email <input type='text' name='email'/>

@@ -7,14 +7,14 @@
 </head>
 <body>
 </table>
-<a href='./create'>Add element</a>
-<form action='./edit' method='post'>
+<a href=<%=request.getContextPath() + "/create"%>>Add element</a>
+<form action=<%=request.getContextPath() + "/edit"%> method='post'>
     Edit: login <input type='text' name='login'/>
     New name <input type='text' name='name'/>
     New email <input type='text' name='email'/>
     <input type='submit'> <br/>
 </form>
-<form action='./delete' method='post'>
+<form action=<%=request.getContextPath() + "/delete"%> method='post'>
     Delete: login <input type='text' name='login'/>
     <input type='submit'> <br/>
 </form>

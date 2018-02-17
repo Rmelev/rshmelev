@@ -20,10 +20,6 @@ import org.slf4j.LoggerFactory;
 public enum UserStoreEnum {
     INSTANCE;
 
-    public static UserStoreEnum getInstance(){
-        return INSTANCE;
-    }
-
     /**
      * Logger.
      */
