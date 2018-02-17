@@ -25,6 +25,6 @@ public class EditUserServlet extends ChoiceServlet {
                 req.getParameter("login"),
                 req.getParameter("email"),
                 new Timestamp(System.currentTimeMillis())));
-        resp.sendRedirect("./choice");
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

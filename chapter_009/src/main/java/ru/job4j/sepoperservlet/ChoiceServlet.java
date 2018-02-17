@@ -71,7 +71,8 @@ public class ChoiceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        RequestDispatcher view = req.getRequestDispatcher("./choice.jsp");
+        req.setAttribute("users", MyDataSource.getInstance().getUsers());
+        RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/choice.jsp");
         view.forward(req, resp);
     }
 }

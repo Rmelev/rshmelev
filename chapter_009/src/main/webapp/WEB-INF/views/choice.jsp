@@ -1,6 +1,8 @@
 <%@ page import="ru.job4j.crudservlet.User" %>
 <%@ page import="ru.job4j.sepoperservlet.MyDataSource" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="Java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
 <head>
     <title>User's operation choice</title>
@@ -8,13 +10,13 @@
 <body>
 </table>
 <a href=<%=request.getContextPath() + "/create"%>>Add element</a>
-<form action=<%=request.getContextPath() + "/edit"%> method='post'>
+<form action='${pageContext.servletContext.contextPath}/edit' method='post'>
     Edit: login <input type='text' name='login'/>
     New name <input type='text' name='name'/>
     New email <input type='text' name='email'/>
     <input type='submit'> <br/>
 </form>
-<form action=<%=request.getContextPath() + "/delete"%> method='post'>
+<form action='${pageContext.servletContext.contextPath}/delete' method='post'>
     Delete: login <input type='text' name='login'/>
     <input type='submit'> <br/>
 </form>
@@ -25,13 +27,13 @@
         <th>email</th>
         <th>createDate</th>
     </tr>
-        <% for (User nextUser : MyDataSource.getInstance().getUsers()) {%>
+    <c:forEach items="${users}" var="user">
     <tr>
-        <td><%=nextUser.getName()%></td>
-        <td><%=nextUser.getLogin()%></td>
-        <td><%=nextUser.getEmail()%></td>
-        <td><%=nextUser.getCreateDate()%></td>
+        <td><c:out value="${user.name}"></c:out></td>
+        <td><c:out value="${user.login}"></c:out></td>
+        <td><c:out value="${user.email}"></c:out></td>
+        <td><c:out value="${user.createDate}"></c:out></td>
     </tr>
-        <% } %>
+    </c:forEach>
 </body>
 </html>

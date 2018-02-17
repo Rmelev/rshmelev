@@ -17,7 +17,13 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Enum for thread-safe Singlton.
+ */
 public enum UserStoreEnum {
+    /**
+     * Singlton instance.
+     */
     INSTANCE;
 
     /**

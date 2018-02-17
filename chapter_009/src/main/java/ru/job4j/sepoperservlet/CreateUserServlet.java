@@ -27,7 +27,7 @@ public class CreateUserServlet extends ChoiceServlet {
                 req.getParameter("login"),
                 req.getParameter("email"),
                 new Timestamp(System.currentTimeMillis())));
-        resp.sendRedirect("./choice.jsp");
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 
     /**
@@ -40,7 +40,7 @@ public class CreateUserServlet extends ChoiceServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        RequestDispatcher view = req.getRequestDispatcher("./create.jsp");
+        RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/create.jsp");
         view.forward(req, resp);
     }
 }
