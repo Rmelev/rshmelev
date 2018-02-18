@@ -7,12 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 import java.sql.Timestamp;
 
-/**
- * create user.
- */
-public class CreateUserServlet extends ChoiceServlet {
+public class EditAdminServlet extends ChoiceServlet {
     /**
      * post().
      * @param req - req.
@@ -22,27 +20,12 @@ public class CreateUserServlet extends ChoiceServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        this.getDs().createUser(new User(req.getParameter("name"),
+        this.getDs().editUser(new User(req.getParameter("name"),
                 req.getParameter("login"),
                 req.getParameter("email"),
                 new Timestamp(System.currentTimeMillis()),
                 req.getParameter("password"),
-                (Role.getRole(req.getParameter("role")).toString())));
+                req.getParameter("role")));
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
-    }
-
-    /**
-     * get().
-     * @param req - req.
-     * @param resp - resp.
-     * @throws ServletException - ServletException.
-     * @throws IOException - IOException.
-     */
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/create.jsp");
-        view.forward(req, resp);
     }
 }

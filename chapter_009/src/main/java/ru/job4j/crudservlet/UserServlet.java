@@ -2,6 +2,7 @@ package ru.job4j.crudservlet;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.sepoperservlet.Role;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -79,7 +80,9 @@ public class UserServlet extends HttpServlet {
         db.createUser(new User(req.getParameter("name"),
                 req.getParameter("login"),
                 req.getParameter("email"),
-                new Timestamp(System.currentTimeMillis())));
+                new Timestamp(System.currentTimeMillis()),
+                req.getParameter("password"),
+                (Role.getRole(req.getParameter("role")).toString())));
     }
     /**
      * opdate records into database.
@@ -93,7 +96,9 @@ public class UserServlet extends HttpServlet {
         db.editUser(new User(req.getParameter("name"),
                 req.getParameter("login"),
                 req.getParameter("email"),
-                new Timestamp(System.currentTimeMillis())));
+                new Timestamp(System.currentTimeMillis()),
+                req.getParameter("password"),
+                (Role.getRole(req.getParameter("role")).toString())));
     }
     /**
      * delete records from database.

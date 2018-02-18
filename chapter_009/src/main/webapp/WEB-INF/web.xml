@@ -1,5 +1,25 @@
 <web-app>
 
+    <filter>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>ru.job4j.sepoperservlet.AuthFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <url-pattern>*</url-pattern>
+    </filter-mapping>
+
+    <!--<filter>-->
+        <!--<filter-name>EditFilter</filter-name>-->
+        <!--<filter-class>ru.job4j.sepoperservlet.EditFilter</filter-class>-->
+    <!--</filter>-->
+<!---->
+    <!--<filter-mapping>-->
+        <!--<filter-name>EditFilter</filter-name>-->
+        <!--<url-pattern>/edit</url-pattern>-->
+    <!--</filter-mapping>-->
+
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
         <servlet-class>ru.job4j.servlets.EchoServlet</servlet-class>
@@ -49,7 +69,17 @@
 
     <servlet-mapping>
         <servlet-name>EditUserServlet</servlet-name>
-        <url-pattern>/edit</url-pattern>
+        <url-pattern>/edituser</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>EditAdminServlet</servlet-name>
+        <servlet-class>ru.job4j.sepoperservlet.EditAdminServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>EditAdminServlet</servlet-name>
+        <url-pattern>/editadmin</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -61,6 +91,23 @@
         <servlet-name>DeleteUserServlet</servlet-name>
         <url-pattern>/delete</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>Signin</servlet-name>
+        <servlet-class>ru.job4j.sepoperservlet.SigninController</servlet-class>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>Signin</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
 
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>ru.job4j.sepoperservlet.QuitServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/quit</url-pattern>
+    </servlet-mapping>
 </web-app>

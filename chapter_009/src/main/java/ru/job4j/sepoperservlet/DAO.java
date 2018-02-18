@@ -32,16 +32,18 @@ public class DAO {
             + "  user_name VARCHAR(255), "
             + "  user_login VARCHAR(255) UNIQUE, "
             + "  user_email VARCHAR(255), "
-            + "  date_create TIMESTAMP)";
+            + "  date_create TIMESTAMP, "
+            + "  password VARCHAR(255), "
+            + "  role VARCHAR(255))";
     /**
      * create record query.
      */
     private static final String CREATE_USER = "INSERT INTO users2512 "
-            + " (user_name, user_login, user_email, date_create) VALUES (?, ?, ?, ?)";
+            + " (user_name, user_login, user_email, date_create, password, role) VALUES (?, ?, ?, ?, ?, ?)";
     /**
      * edit record query.
      */
-    private static final String EDIT_USER = "UPDATE users2512 SET user_name=?, user_email=?, date_create=? WHERE user_login=?";
+    private static final String EDIT_USER = "UPDATE users2512 SET user_name=?, user_email=?, date_create=?, password=?, role=? WHERE user_login=?";
     /**
      * get all records from table.
      */
@@ -117,6 +119,8 @@ public class DAO {
             ps.setString(2, user.getLogin());
             ps.setString(3, user.getEmail());
             ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
+            ps.setString(5, user.getPassword());
+            ps.setString(6, user.getRole());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             LOG.error(sqle.getMessage(), sqle);
@@ -132,7 +136,9 @@ public class DAO {
             ps.setString(1, user.getName());
             ps.setString(2, user.getEmail());
             ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
-            ps.setString(4, user.getLogin());
+            ps.setString(4, user.getPassword());
+            ps.setString(5, user.getRole());
+            ps.setString(6, user.getLogin());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             LOG.error(sqle.getMessage(), sqle);
@@ -148,7 +154,8 @@ public class DAO {
         try (PreparedStatement ps = conn.prepareStatement(GET_USER); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 User user = new User(rs.getString("user_name"), rs.getString("user_login"),
-                        rs.getString("user_email"), rs.getTimestamp("date_create"));
+                        rs.getString("user_email"), rs.getTimestamp("date_create"),
+                        rs.getString("password"), rs.getString("role"));
                 userList.add(user);
                 System.out.println(user);
             }
@@ -169,5 +176,38 @@ public class DAO {
         } catch (SQLException sqle) {
             LOG.error(sqle.getMessage(), sqle);
         }
+    }
+
+    public boolean isCredentional(String login, String password) {
+        boolean exists = false;
+        for (User nextUser : getUsers()) {
+            if (nextUser.getLogin().equals(login) && nextUser.getPassword().equals(password)) {
+                exists = true;
+                break;
+            }
+        }
+        return exists;
+    }
+
+    public String getRole(String login, String password) {
+        String role = "user";
+        for (User nextUser : getUsers()) {
+            if (nextUser.getLogin().equals(login) && nextUser.getPassword().equals(password)) {
+                role = nextUser.getRole();
+                break;
+            }
+        }
+        return role;
+    }
+
+    public String getName(String login, String password) {
+        String name = "unknown";
+        for (User nextUser : getUsers()) {
+            if (nextUser.getLogin().equals(login) && nextUser.getPassword().equals(password)) {
+                name = nextUser.getName();
+                break;
+            }
+        }
+        return name;
     }
 }

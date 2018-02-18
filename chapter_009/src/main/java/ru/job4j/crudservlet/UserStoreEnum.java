@@ -16,6 +16,7 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.job4j.sepoperservlet.Role;
 
 /**
  * Enum for thread-safe Singlton.
@@ -157,7 +158,8 @@ public enum UserStoreEnum {
         try (PreparedStatement ps = conn.prepareStatement(GET_USER); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 User user = new User(rs.getString("user_name"), rs.getString("user_login"),
-                        rs.getString("user_email"), rs.getTimestamp("date_create"));
+                        rs.getString("user_email"), rs.getTimestamp("date_create"),
+                        rs.getString("password"), rs.getString("role"));
                 userList.add(user);
                 System.out.println(user);
             }
