@@ -16,7 +16,6 @@ import java.util.Properties;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.sepoperservlet.Role;
 
 /**
  * Enum for thread-safe Singlton.

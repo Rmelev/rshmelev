@@ -47,7 +47,7 @@ public class DAO {
     /**
      * get all records from table.
      */
-    private static final String GET_USER = "SELECT * FROM users2512";
+    private static final String GET_USER = "SELECT * FROM users2512 ORDER BY id";
     /**
      * delete query.
      */
@@ -157,7 +157,6 @@ public class DAO {
                         rs.getString("user_email"), rs.getTimestamp("date_create"),
                         rs.getString("password"), rs.getString("role"));
                 userList.add(user);
-                System.out.println(user);
             }
         } catch (SQLException sqle) {
             LOG.error(sqle.getMessage(), sqle);
@@ -178,6 +177,12 @@ public class DAO {
         }
     }
 
+    /**
+     * is database have user with this login and password.
+     * @param login - login.
+     * @param password - password.
+     * @return - true, if db have.
+     */
     public boolean isCredentional(String login, String password) {
         boolean exists = false;
         for (User nextUser : getUsers()) {
@@ -189,6 +194,12 @@ public class DAO {
         return exists;
     }
 
+    /**
+     * getter.
+     * @param login - login.
+     * @param password - password.
+     * @return - user's role.
+     */
     public String getRole(String login, String password) {
         String role = "user";
         for (User nextUser : getUsers()) {
@@ -200,6 +211,12 @@ public class DAO {
         return role;
     }
 
+    /**
+     * getter.
+     * @param login - login.
+     * @param password - password.
+     * @return - user's name.
+     */
     public String getName(String login, String password) {
         String name = "unknown";
         for (User nextUser : getUsers()) {

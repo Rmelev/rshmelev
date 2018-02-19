@@ -13,10 +13,11 @@
 </form>
 
 <c:if test="${sessionScope.role eq 'admin'}">
-    <jsp:include page="adminEdit.jsp" />
+    <c:import url="adminEdit.jsp"/>
 </c:if>
 <c:if test="${sessionScope.role eq 'user'}">
-    <jsp:include page="userEdit.jsp" />
+    <c:import url="userEdit.jsp"/>
+    <%--<jsp:include page="userEdit.jsp" />--%>
 </c:if>
 
 <table style="border-style: solid double" cellpadding="1" cellspacing="1" border="1">

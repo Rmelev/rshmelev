@@ -10,19 +10,37 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+/**
+ * servlet for sign in operation interface.
+ */
 public class SigninController extends HttpServlet {
+    /**
+     * Getter.
+     */
     private static final Logger LOG = LoggerFactory.getLogger(SigninController.class);
 
+    /**
+     * doGet.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/WEB-INF/views/LoginView.jsp").forward(req, resp);
     }
-
+    /**
+     * doPost.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        String role = req.getParameter("role");
         if (MyDataSource.getInstance().isCredentional(login, password)) {
             HttpSession session = req.getSession();
             synchronized (session) {

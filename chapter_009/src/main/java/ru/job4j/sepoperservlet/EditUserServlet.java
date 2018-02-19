@@ -2,7 +2,6 @@ package ru.job4j.sepoperservlet;
 
 import ru.job4j.crudservlet.User;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

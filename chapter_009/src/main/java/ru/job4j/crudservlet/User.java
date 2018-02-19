@@ -1,7 +1,5 @@
 package ru.job4j.crudservlet;
 
-import ru.job4j.sepoperservlet.Role;
-
 import java.sql.Timestamp;
 
 /**
@@ -29,15 +27,19 @@ public class User {
      * user's password.
      */
     private String password;
-
+    /**
+     * user's role.
+     */
     private String role;
 
     /**
-     * Constructor.
+     *
      * @param name - name.
      * @param login - login.
      * @param email - email.
-     * @param createDate - date.
+     * @param createDate - create date.
+     * @param password - password.
+     * @param role - role.
      */
     public User(String name, String login, String email, Timestamp createDate, String password, String role) {
         this.name = name;
@@ -86,10 +88,18 @@ public class User {
         return password;
     }
 
+    /**
+     * Getter.
+     * @return - role.
+     */
     public String getRole() {
         return role;
     }
 
+    /**
+     * Setter.
+     * @param role - role.
+     */
     public void setRole(String role) {
         this.role = role;
     }
