@@ -82,7 +82,9 @@ public class UserServlet extends HttpServlet {
                 req.getParameter("email"),
                 new Timestamp(System.currentTimeMillis()),
                 req.getParameter("password"),
-                (Role.getRole(req.getParameter("role")).toString())));
+                (Role.getRole(req.getParameter("role")).toString()),
+                req.getParameter("country"),
+                req.getParameter("city")));
     }
     /**
      * opdate records into database.
@@ -98,7 +100,9 @@ public class UserServlet extends HttpServlet {
                 req.getParameter("email"),
                 new Timestamp(System.currentTimeMillis()),
                 req.getParameter("password"),
-                (Role.getRole(req.getParameter("role")).toString())));
+                (Role.getRole(req.getParameter("role")).toString()),
+                req.getParameter("country"),
+                req.getParameter("city")));
     }
     /**
      * delete records from database.

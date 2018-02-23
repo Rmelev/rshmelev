@@ -75,4 +75,18 @@ public class ChoiceServlet extends HttpServlet {
         RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/choice.jsp");
         view.forward(req, resp);
     }
+    /**
+     * get().
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - ServletException.
+     * @throws IOException - IOException.
+     */
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("text/html");
+        req.setAttribute("users", MyDataSource.getInstance().getUsers());
+        RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/choice.jsp");
+        view.forward(req, resp);
+    }
 }

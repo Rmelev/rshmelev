@@ -82,9 +82,11 @@ public class CreateUserServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
         when(request.getParameter("name")).thenReturn("name");
         when(request.getParameter("login")).thenReturn("login");
-        when(request.getParameter("email")).thenReturn("email");
+        when(request.getParameter("email")).thenReturn("email@");
         when(request.getParameter("password")).thenReturn("password");
         when(request.getParameter("role")).thenReturn("user");
+        when(request.getParameter("country")).thenReturn("country");
+        when(request.getParameter("city")).thenReturn("city");
 
         servlet.doPost(request, response);
 

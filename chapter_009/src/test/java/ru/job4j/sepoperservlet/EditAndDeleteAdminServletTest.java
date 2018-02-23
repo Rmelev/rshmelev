@@ -38,23 +38,23 @@ public class EditAndDeleteAdminServletTest {
         HttpServletResponse response = mock(HttpServletResponse.class);
 
         List<User> users = MyDataSource.getInstance().getUsers();
-        assertThat(users.get(users.size() - 1).getEmail(), is("email"));
+        assertThat(users.get(users.size() - 1).getEmail(), is("email@"));
         when(request.getParameter("name")).thenReturn("name");
         when(request.getParameter("login")).thenReturn("login");
-        when(request.getParameter("email")).thenReturn("email-new");
+        when(request.getParameter("email")).thenReturn("@email-new");
         when(request.getParameter("password")).thenReturn("password");
         when(request.getParameter("role")).thenReturn("user");
         servletEdit.doPost(request, response); //edit created user.
 
         List<User> usersAfterEdit = MyDataSource.getInstance().getUsers();
-        assertThat(usersAfterEdit.get(users.size() - 1).getEmail(), is("email-new"));
+        assertThat(usersAfterEdit.get(users.size() - 1).getEmail(), is("@email-new"));
 
         assertThat(users.get(users.size() - 1).getLogin(), is("login"));
         when(request.getParameter("login")).thenReturn("login");
         servlet.doPost(request, response); //delete created + edited user.
 
         List<User> usersAfterDelete = MyDataSource.getInstance().getUsers();
-        assertThat(usersAfterDelete.get(usersAfterDelete.size() - 1).getLogin(), is("NoLight"));
+        assertThat(usersAfterDelete.size(), is(usersAfterEdit.size() - 1));
         verify(request, atLeast(1)).getParameter("login");
     }
 }

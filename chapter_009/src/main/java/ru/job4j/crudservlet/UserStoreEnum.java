@@ -158,7 +158,8 @@ public enum UserStoreEnum {
             while (rs.next()) {
                 User user = new User(rs.getString("user_name"), rs.getString("user_login"),
                         rs.getString("user_email"), rs.getTimestamp("date_create"),
-                        rs.getString("password"), rs.getString("role"));
+                        rs.getString("password"), rs.getString("role"),
+                        rs.getString("country"), rs.getString("city"));
                 userList.add(user);
                 System.out.println(user);
             }

@@ -31,6 +31,15 @@ public class User {
      * user's role.
      */
     private String role;
+    /**
+     * user's country.
+     */
+    private String country;
+    /**
+     * user's city.
+     */
+    private String city;
+
 
     /**
      *
@@ -40,14 +49,18 @@ public class User {
      * @param createDate - create date.
      * @param password - password.
      * @param role - role.
+     * @param country - country.
+     * @param city - city.
      */
-    public User(String name, String login, String email, Timestamp createDate, String password, String role) {
+    public User(String name, String login, String email, Timestamp createDate, String password, String role, String country, String city) {
         this.name = name;
         this.login = login;
         this.email = email;
         this.createDate = createDate;
         this.password = password;
         this.role = role;
+        this.country = country;
+        this.city = city;
     }
 
     /**
@@ -103,6 +116,34 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+    /**
+     * Getter.
+     * @return - country.
+     */
+    public String getCountry() {
+        return country;
+    }
+    /**
+     * Setter.
+     * @param country - role.
+     */
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    /**
+     * Getter.
+     * @return - city.
+     */
+    public String getCity() {
+        return city;
+    }
+    /**
+     * Setter.
+     * @param city - role.
+     */
+    public void setCity(String city) {
+        this.city = city;
+    }
 
     /**
      * @return - string representation.
@@ -113,6 +154,8 @@ public class User {
                 + ", login=" + login
                 + ", email=" + email
                 + ", createDate=" + createDate
-                + ", role=" + role + '}';
+                + ", role=" + role
+                + ", country=" + country
+                + ", city=" + city + '}';
     }
 }

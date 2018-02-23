@@ -34,16 +34,19 @@ public class DAO {
             + "  user_email VARCHAR(255), "
             + "  date_create TIMESTAMP, "
             + "  password VARCHAR(255), "
-            + "  role VARCHAR(255))";
+            + "  role VARCHAR(255), "
+            + "  country VARCHAR(255), "
+            + "  city VARCHAR(255))";
     /**
      * create record query.
      */
     private static final String CREATE_USER = "INSERT INTO users2512 "
-            + " (user_name, user_login, user_email, date_create, password, role) VALUES (?, ?, ?, ?, ?, ?)";
+            + " (user_name, user_login, user_email, date_create, password, role, country, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
     /**
      * edit record query.
      */
-    private static final String EDIT_USER = "UPDATE users2512 SET user_name=?, user_email=?, date_create=?, password=?, role=? WHERE user_login=?";
+    private static final String EDIT_USER = "UPDATE users2512 SET user_name=?, user_email=?,"
+            + " date_create=?, password=?, role=?, country=?, city=? WHERE user_login=?";
     /**
      * get all records from table.
      */
@@ -121,6 +124,8 @@ public class DAO {
             ps.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
             ps.setString(5, user.getPassword());
             ps.setString(6, user.getRole());
+            ps.setString(7, user.getCountry());
+            ps.setString(8, user.getCity());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             LOG.error(sqle.getMessage(), sqle);
@@ -138,7 +143,9 @@ public class DAO {
             ps.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
             ps.setString(4, user.getPassword());
             ps.setString(5, user.getRole());
-            ps.setString(6, user.getLogin());
+            ps.setString(6, user.getCountry());
+            ps.setString(7, user.getCity());
+            ps.setString(8, user.getLogin());
             ps.executeUpdate();
         } catch (SQLException sqle) {
             LOG.error(sqle.getMessage(), sqle);
@@ -155,7 +162,8 @@ public class DAO {
             while (rs.next()) {
                 User user = new User(rs.getString("user_name"), rs.getString("user_login"),
                         rs.getString("user_email"), rs.getTimestamp("date_create"),
-                        rs.getString("password"), rs.getString("role"));
+                        rs.getString("password"), rs.getString("role"),
+                        rs.getString("country"), rs.getString("city"));
                 userList.add(user);
             }
         } catch (SQLException sqle) {
