@@ -29,6 +29,7 @@ public class EditAndDeleteAdminServletTest {
      */
     @Test
     public void whenInvokeDoPostThenDeleteUserServletRun() throws ServletException, IOException {
+        DAO dao = new DAO();
         DeleteUserServlet servlet = new DeleteUserServlet();
         EditAdminServlet servletEdit = new EditAdminServlet();
         servlet.init();
@@ -37,7 +38,7 @@ public class EditAndDeleteAdminServletTest {
         HttpServletRequest request = mock(HttpServletRequest.class);
         HttpServletResponse response = mock(HttpServletResponse.class);
 
-        List<User> users = MyDataSource.getInstance().getUsers();
+        List<User> users = dao.getUsers();
         assertThat(users.get(users.size() - 1).getEmail(), is("email@"));
         when(request.getParameter("name")).thenReturn("name");
         when(request.getParameter("login")).thenReturn("login");
@@ -46,14 +47,14 @@ public class EditAndDeleteAdminServletTest {
         when(request.getParameter("role")).thenReturn("user");
         servletEdit.doPost(request, response); //edit created user.
 
-        List<User> usersAfterEdit = MyDataSource.getInstance().getUsers();
+        List<User> usersAfterEdit = dao.getUsers();
         assertThat(usersAfterEdit.get(users.size() - 1).getEmail(), is("@email-new"));
 
         assertThat(users.get(users.size() - 1).getLogin(), is("login"));
         when(request.getParameter("login")).thenReturn("login");
         servlet.doPost(request, response); //delete created + edited user.
 
-        List<User> usersAfterDelete = MyDataSource.getInstance().getUsers();
+        List<User> usersAfterDelete = dao.getUsers();
         assertThat(usersAfterDelete.size(), is(usersAfterEdit.size() - 1));
         verify(request, atLeast(1)).getParameter("login");
     }

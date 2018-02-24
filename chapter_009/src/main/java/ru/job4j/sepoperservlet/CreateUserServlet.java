@@ -28,7 +28,7 @@ public class CreateUserServlet extends ChoiceServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         if (isValid(name, login, email, password, req)) {
-            this.getDs().createUser(new User(req.getParameter("name"),
+            this.getDao().createUser(new User(req.getParameter("name"),
                     req.getParameter("login"),
                     req.getParameter("email"),
                     new Timestamp(System.currentTimeMillis()),

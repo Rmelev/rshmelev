@@ -28,7 +28,7 @@ public class EditAdminServlet extends ChoiceServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
         if (isValid(name, login, email, password, req)) {
-            this.getDs().editUser(new User(req.getParameter("name"),
+            this.getDao().editUser(new User(req.getParameter("name"),
                     req.getParameter("login"),
                     req.getParameter("email"),
                     new Timestamp(System.currentTimeMillis()),

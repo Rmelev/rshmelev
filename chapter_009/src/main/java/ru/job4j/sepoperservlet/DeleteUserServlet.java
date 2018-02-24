@@ -18,7 +18,7 @@ public class DeleteUserServlet extends ChoiceServlet {
      */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        this.getDs().deleteUser(req.getParameter("login"));
+        this.getDao().deleteUser(req.getParameter("login"));
         resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

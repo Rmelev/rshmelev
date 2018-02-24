@@ -46,6 +46,10 @@ public class CreateUserServletTest {
      * create servlet.
      */
     private CreateUserServlet servlet = new CreateUserServlet();
+    /**
+     * database.
+     */
+    private DAO dao = new DAO();
 
     /**
      * before action.
@@ -91,7 +95,7 @@ public class CreateUserServletTest {
         servlet.doPost(request, response);
 
         verify(request, atLeast(1)).getParameter("login");
-        List<User> users = MyDataSource.getInstance().getUsers();
+        List<User> users = dao.getUsers();
         assertThat(users.get(users.size() - 1).getLogin(), is("login"));
         assertEquals("gora", users.get(0).getLogin());
         assertThat(users.get(users.size() - 1).getPassword(), is("password"));

@@ -20,6 +20,11 @@ public class SigninController extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(SigninController.class);
 
     /**
+     * database.
+     */
+    private DAO dao = new DAO();
+
+    /**
      * doGet.
      * @param req - req.
      * @param resp - resp.
@@ -41,12 +46,12 @@ public class SigninController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String login = req.getParameter("login");
         String password = req.getParameter("password");
-        if (MyDataSource.getInstance().isCredentional(login, password)) {
+        if (dao.isCredentional(login, password)) {
             HttpSession session = req.getSession();
             synchronized (session) {
                 session.setAttribute("login", login);
-                session.setAttribute("role", MyDataSource.getInstance().getRole(login, password));
-                session.setAttribute("name", MyDataSource.getInstance().getName(login, password));
+                session.setAttribute("role", dao.getRole(login, password));
+                session.setAttribute("name", dao.getName(login, password));
             }
             resp.sendRedirect(String.format("%s/", req.getContextPath()));
         } else {

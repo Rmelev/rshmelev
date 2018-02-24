@@ -30,7 +30,7 @@ public class EditUserServlet extends ChoiceServlet {
         HttpSession session = req.getSession();
         if (isValid(name, email, password, req)) {
             synchronized (session) {
-                this.getDs().editUser(new User(req.getParameter("name"),
+                this.getDao().editUser(new User(req.getParameter("name"),
                         (String) session.getAttribute("login"),
                         req.getParameter("email"),
                         new Timestamp(System.currentTimeMillis()),

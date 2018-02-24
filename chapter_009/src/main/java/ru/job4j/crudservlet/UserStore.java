@@ -10,6 +10,7 @@ import ru.job4j.sepoperservlet.DAO;
 
 /**
  * database operations.
+ * bad, because use singlton.
  */
 public class UserStore extends DAO {
     /**

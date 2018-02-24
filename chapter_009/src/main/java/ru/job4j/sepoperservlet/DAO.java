@@ -94,7 +94,7 @@ public class DAO {
     /**
      * connection to database.
      */
-    private Connection conn;
+    private static Connection conn = UserStoreEnum.INSTANCE.dbConnection();
 
     /**
      * getter.

@@ -1,6 +1,3 @@
-<%@ page import="ru.job4j.crudservlet.User" %>
-<%@ page import="ru.job4j.sepoperservlet.MyDataSource" %>
-<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="Java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html>
