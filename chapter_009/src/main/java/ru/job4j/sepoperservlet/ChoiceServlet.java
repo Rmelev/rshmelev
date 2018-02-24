@@ -22,16 +22,11 @@ public class ChoiceServlet extends HttpServlet {
     private static final Logger LOG = LoggerFactory.getLogger(ChoiceServlet.class);
 
     /**
-     * database.
-     */
-    private DAO dao = new DAO();
-
-    /**
      * Getter.
      * @return - database.
      */
     public DAO getDao() {
-        return dao;
+        return DAO.getDATABASE();
     }
 
     /**
@@ -46,13 +41,14 @@ public class ChoiceServlet extends HttpServlet {
     @Override
     public void init() {
         conn = UserStoreEnum.INSTANCE.dbConnection();
-        dao.dbCreate();
+        DAO.getDATABASE().dbCreate();
     }
 
     /**
      * close connection to database.
      */
     @Override
+
     public void destroy() {
         try {
             conn.close();
@@ -71,7 +67,7 @@ public class ChoiceServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        req.setAttribute("users", dao.getUsers());
+        req.setAttribute("users", DAO.getDATABASE().getUsers());
         RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/choice.jsp");
         view.forward(req, resp);
     }
@@ -85,7 +81,7 @@ public class ChoiceServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html");
-        req.setAttribute("users", dao.getUsers());
+        req.setAttribute("users", DAO.getDATABASE().getUsers());
         RequestDispatcher view = req.getRequestDispatcher("WEB-INF/views/choice.jsp");
         view.forward(req, resp);
     }

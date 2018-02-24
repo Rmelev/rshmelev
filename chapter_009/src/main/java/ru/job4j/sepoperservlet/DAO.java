@@ -104,13 +104,12 @@ public class DAO {
         return conn;
     }
 
-    /**
-     * setter.
-     * @param conn - connection.
-     */
-    public void setConn(Connection conn) {
-        this.conn = conn;
+    private static final DAO DATABASE = new DAO();
+
+    public static DAO getDATABASE() {
+        return DATABASE;
     }
+
 
     /**
      * create user.

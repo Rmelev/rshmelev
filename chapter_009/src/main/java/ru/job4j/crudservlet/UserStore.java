@@ -18,15 +18,6 @@ public class UserStore extends DAO {
      */
     private static final Logger LOG = LoggerFactory.getLogger(UserStore.class);
 
-
-    /**
-     * Getter.
-     * @return - conn.
-     */
-    public Connection getConn() {
-        return super.getConn();
-    }
-
     /**
      * static instance exists in one single instance.
      */
@@ -62,13 +53,6 @@ public class UserStore extends DAO {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        try {
-            super.setConn(DriverManager.getConnection(
-                    getProp().getProperty("url"), getProp().getProperty("user"), getProp().getProperty("password", ""
-                    )
-            ));
-        } catch (SQLException sqle) {
-            LOG.error(sqle.getMessage(), sqle);
-        }
+        fillProperties();
     }
 }
