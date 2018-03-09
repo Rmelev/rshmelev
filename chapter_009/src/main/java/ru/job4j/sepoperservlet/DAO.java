@@ -104,8 +104,15 @@ public class DAO {
         return conn;
     }
 
+    /**
+     * database.
+     */
     private static final DAO DATABASE = new DAO();
 
+    /**
+     * Getter.
+     * @return - database.
+     */
     public static DAO getDATABASE() {
         return DATABASE;
     }
