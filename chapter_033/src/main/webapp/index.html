@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODO List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https:////netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="index.js"></script>
+    <style>
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <div>
+                    <h4>Add item</h4>
+                </div>
+                <textarea id="add" rows="3" style="width: 100%; padding-bottom: 20px" name="desc" placeholder="description"></textarea><br>
+                <button onclick='return addItem();'>Add item</button>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <h4>Filters</h4>
+            </div>
+            <div style="padding-bottom: 105px">
+                <label>Select finished <input id="status" type="checkbox" onchange="return getItems()"/></label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <thead style="background: #53e1ff">
+                <tr>
+                    <td>ID</td>
+                    <td>Description</td>
+                    <td>Create Date</td>
+                    <td>Done</td>
+                </tr>
+                </thead>
+                <tbody id="items"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

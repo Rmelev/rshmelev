@@ -1,0 +1,31 @@
+<web-app>
+	<servlet>
+		<servlet-name>AddItemServlet</servlet-name>
+		<servlet-class>ru.job4j.todo.servlets.AddItemServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AddItemServlet</servlet-name>
+		<url-pattern>/add</url-pattern>
+	</servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShowAllServlet</servlet-name>
+        <servlet-class>ru.job4j.todo.servlets.ShowAllServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowAllServlet</servlet-name>
+        <url-pattern>/show</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateStatus</servlet-name>
+        <servlet-class>ru.job4j.todo.servlets.UpdateStatus</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UpdateStatus</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+</web-app>
