@@ -1,8 +1,11 @@
 package ru.job4j.carstore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Order {
     private int id;
@@ -12,7 +15,9 @@ public class Order {
     private Timestamp date;
     private User user;
     private Car car;
-    private List<Image> images;
+
+    @JsonIgnoreProperties("order")
+    private List<Image> images = new CopyOnWriteArrayList<>();
 
     public Order() {
     }
@@ -99,5 +104,19 @@ public class Order {
     @Override
     public int hashCode() {
         return Objects.hash(id, description, price, sold, date, user, car, images);
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", sold=" + sold +
+                ", date=" + date +
+                ", user=" + user +
+                ", car=" + car +
+                ", images=" + images +
+                '}';
     }
 }

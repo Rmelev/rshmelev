@@ -1,10 +1,15 @@
 package ru.job4j.carstore.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Image {
     private int id;
-    private String url;
+    private byte[] data;
+
+    @JsonIgnoreProperties("images")
     private Order order;
 
     public Image() {
@@ -18,12 +23,12 @@ public class Image {
         this.id = id;
     }
 
-    public String getUrl() {
-        return url;
+    public byte[] getData() {
+        return data;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setData(byte[] data) {
+        this.data = data;
     }
 
     public Order getOrder() {
@@ -40,12 +45,12 @@ public class Image {
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
         return id == image.id &&
-                Objects.equals(url, image.url) &&
+                Arrays.equals(data, image.data) &&
                 Objects.equals(order, image.order);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, url, order);
+        return Objects.hash(id, data, order);
     }
 }

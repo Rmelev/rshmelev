@@ -1,0 +1,121 @@
+<web-app>
+    <servlet>
+        <servlet-name>ShowAllServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.ShowAllServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowAllServlet</servlet-name>
+        <url-pattern>/show</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>AddOrderServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.AddOrderServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AddOrderServlet</servlet-name>
+        <url-pattern>/add</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetBrandServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.GetBrandServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetBrandServlet</servlet-name>
+        <url-pattern>/getBrands</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetModelServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.GetModelServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetModelServlet</servlet-name>
+        <url-pattern>/getModels</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetEngineServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.GetEngineServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetEngineServlet</servlet-name>
+        <url-pattern>/getEngines</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetTransmissionServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.GetTransmissionServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetTransmissionServlet</servlet-name>
+        <url-pattern>/getTransmissions</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>GetBodyServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.GetBodyServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>GetBodyServlet</servlet-name>
+        <url-pattern>/getBodies</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>SignInServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.SignInServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>SignInServlet</servlet-name>
+        <url-pattern>/signin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>UpdateStatusServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.UpdateStatusServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UpdateStatusServlet</servlet-name>
+        <url-pattern>/updateStatus</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CredentialServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.CredentialServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CredentialServlet</servlet-name>
+        <url-pattern>/valid</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LogOutServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.LogOutServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>LogOutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.ImageServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/image</url-pattern>
+    </servlet-mapping>
+</web-app>

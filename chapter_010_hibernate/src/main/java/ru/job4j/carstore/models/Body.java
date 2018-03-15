@@ -6,7 +6,13 @@ import java.util.Objects;
  * car body.
  */
 public class Body {
+    /**
+     * id.
+     */
     private int id;
+    /**
+     * name.
+     */
     private String name;
 
     /**
@@ -62,5 +68,16 @@ public class Body {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    /**
+     * @return - string representation.
+     */
+    @Override
+    public String toString() {
+        return "Body{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

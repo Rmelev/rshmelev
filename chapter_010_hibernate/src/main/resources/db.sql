@@ -52,10 +52,10 @@ CREATE TABLE orders (
   id_car INTEGER NOT NULL
 );
 
-CREATE TABLE images (
+CREATE TABLE image (
   id SERIAL PRIMARY KEY,
-  url VARCHAR(255) NOT NULL,
-  id_order INTEGER REFERENCES orders(id) NOT NULL
+  data BYTEA,
+  order_id INTEGER REFERENCES orders(id)
 );
 
 INSERT INTO body(name) VALUES ('sedan');

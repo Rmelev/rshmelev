@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https:////netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!--<script src="index.js"></script>-->
+    <style>
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            var valid = credential();
+            if (valid !== null) {
+                getItems(valid.id);
+            } else {
+                getItems(null);
+            }
+        });
+
+        /**
+         * get all items.
+         * @param userId - identificator for add order and update status.
+         */
+        function getItems(userId) {
+            $.ajax('./show', {
+                method: 'get',
+                dataType: "json",
+                success: function(data) {
+                    if (userId !== null) {
+                        $('#forlogin').hide();
+                        $('#forpassword').hide();
+                        $('#forinput').hide();
+                        document.getElementById("username").innerHTML = "<h3>You sign in as: " + credential().login + "</h3>";
+                        document.getElementById("add").innerHTML = "<h3>Add Order</h3>"
+                    }
+                    document.getElementById("items").innerHTML = "";
+                    $.each(data, function (i, el) {
+                        var line = "<tr>"
+                            + "<td>" + el.id + "</td>"
+                            + "<td>" + new Date(el.date) + "</td>"
+                            + "<td>" + el.description + "</td>"
+                            + "<td>" + el.car.color + "</td>"
+                            + "<td>" + el.car.model.brand.name + "</td>"
+                            + "<td>" + el.car.model.name + "</td>"
+                            + "<td>" + el.car.body.name + "</td>"
+                            + "<td>" + el.car.transmission.name + "</td>"
+                            + "<td>" + el.car.engine.name + "</td>"
+                            + "<td>" + el.price + "</td>"
+                            //                            + "<td>" + el.id + "</td>"
+                            + "<td><button type='button' class='btn btn-link pictures' onclick= 'return callGallery(" + el.id + ")' >Gallery</button></td>"
+                            + "<td>" + el.sold + "</td>"
+                            + "<td>" + el.user.email + "</td>";
+                        if (userId !== null && userId === el.user.id) {
+                            if (el.sold === true) {
+                                line += "<td style='text-align: center'>" +
+                                    "<input type='checkbox' checked onchange='return updateStatus("+el.id+","+ el.sold+")'/></td></tr>";
+                            } else {
+                                line += "<td style='text-align: center'>" +
+                                    "<input type='checkbox' onchange='return updateStatus("+ el.id +","+ el.sold+")'/></td></tr>";
+                            }
+                        } else {
+                            if (el.sold === true) {
+                                line += "<td>sold</td></tr>";
+                            } else {
+                                line += "<td>for sale</td></tr>";
+                            }
+                        }
+                        document.getElementById("items").innerHTML += line;
+                    })
+                }
+            });
+        }
+
+        /**
+         * update status sold/for sale
+         * @param id - current user id.
+         * @param status - current order status.
+         */
+        function updateStatus(id, status) {
+            $.ajax('./updateStatus', {
+                method: 'post',
+                data: {
+                    'id': id,
+                    'sold': status
+                }
+            });
+        }
+
+        /**
+         * check user in database.
+         * @returns {*} - existence user or null.
+         */
+        function credential() {
+            var result = null;
+            $.ajax('./valid', {
+                method: 'get',
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    result = data
+                }
+            });
+            return result;
+        }
+
+        /**
+         * sign to add or update order.
+         */
+        function signin() {
+            $.ajax('./signin', {
+                method: 'get',
+                async: false,
+                dataType: 'json',
+                data: {
+                    'login': $('#login').val(),
+                    'password': $('#password').val()
+                },
+                success: function (data) {
+                    if (data !== null) {
+                        getItems(data.id);
+                    } else {
+                        alert('Enter correct login & password');
+                    }
+                }
+            });
+        }
+
+        /**
+         * log out from user rights.
+         */
+        function logOut() {
+            $.ajax('./logout', {
+                method: 'get',
+                complete: location.href = "./index.html"
+            });
+        }
+
+        function callGallery(orderId) {
+            $.ajax({
+                url: "image",
+                method: "get",
+                data: {'order': orderId},
+//                success: function (data) {
+////                    alert(data);
+//                    var images = JSON.parse(data);
+//                    alert(images.length);
+//                    if (images != '') {
+//                        var optional = "";
+//
+//                        for (var i = 0; i != images.length; ++i) {
+//
+//                            optional += "<div class='item active'>";
+//
+//                            optional += "<img src= '" + images[i] + "'   width='460' height='345'>";
+//
+//                            optional += "</div>";
+//                        }
+//                        var table = document.getElementById("carousel-body");
+//                        table.innerHTML = optional;
+//                    }
+
+                success: function (data) {
+                    var returnData = jQuery.parseJSON(data);
+                    for (var i = 0; i !== returnData.length; ++i) {
+                        $("#picture").append("<a href='index.html'><img src= '" + returnData[i] + "'   width='400' height='300'></a>");
+                    }
+                }
+            })
+        }
+
+    </script>
+
+</head>
+<body>
+<div class="container" style="margin-left: 10px; padding-left: 10px; margin-right: 10px; padding-right: 10px">
+    <label><input type="submit" value="LogOut" onclick="logOut();"></label><br><br>
+    <label id="forlogin">Login:   <input id="login" type="text" placeholder="login"/></label><br>
+    <label id="forpassword">Passoword: <input id="password" type="password" placeholder="password"/></label><br>
+    <label id="forinput"><input type="submit" value="Sign In" onclick="signin();"></label>
+    <p id="username"></p><br><br>
+    <a id="add" href="./add.html"></a>
+    <div class="row">
+        <div id="picture"></div>
+        <div class="col-md-10">
+            <table class="table table-bordered">
+                <thead style="background: #53e1ff">
+                <tr>
+                    <td>ID</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>Description</td>
+                    <td>Color</td>
+                    <td>Brand</td>
+                    <td>Model</td>
+                    <td>Body</td>
+                    <td>Transmission</td>
+                    <td>Engine</td>
+                    <td>Price</td>
+                    <td>Images</td>
+                    <td>Sold</td>
+                    <td>Contact</td>
+                    <td>Status</td>
+                </tr>
+                </thead>
+                <tbody id="items"></tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
