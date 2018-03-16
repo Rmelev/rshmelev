@@ -16,12 +16,9 @@
     </style>
     <script>
         $(document).ready(function() {
-            var valid = credential();
-            if (valid !== null) {
-                getItems(valid.id);
-            } else {
-                getItems(null);
-            }
+            var id = credential();
+            getItems(id);
+            brandSelector();
         });
 
         /**
@@ -32,14 +29,19 @@
             $.ajax('./show', {
                 method: 'get',
                 dataType: "json",
+                data: {
+                    lastDay : $("#orderDate").prop('checked'),
+                    withFoto : $('#foto').prop('checked'),
+                    brand : $('#brand').val()
+                },
                 success: function(data) {
-                    if (userId !== null) {
-                        $('#forlogin').hide();
-                        $('#forpassword').hide();
-                        $('#forinput').hide();
-                        document.getElementById("username").innerHTML = "<h3>You sign in as: " + credential().login + "</h3>";
-                        document.getElementById("add").innerHTML = "<h3>Add Order</h3>"
+                    if (userId !== -1) {
+                        $('#forlogin').empty();
+                        $('#forpassword').empty();
+                        $('#forinput').empty();
+                        document.getElementById("add").innerHTML = "<h3><u>Add Order</u></h3>"
                     }
+                    $('#items').empty();
                     document.getElementById("items").innerHTML = "";
                     $.each(data, function (i, el) {
                         var line = "<tr>"
@@ -73,9 +75,41 @@
                             }
                         }
                         document.getElementById("items").innerHTML += line;
-                    })
+                    });
+                    if (userId !== -1) {
+                        currentUser();
+                    }
                 }
             });
+        }
+
+        function currentUser() {
+            $.ajax('./currentUser', {
+                method: 'get',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    document.getElementById("username").innerHTML = "<h3> You log in as: " + data + "</h3>";
+                }
+            });
+        }
+
+
+        /**
+         * check user in database.
+         * @returns {*} - existence user or null.
+         */
+        function credential() {
+            var result = '-2';
+            $.ajax('./valid', {
+                method: 'get',
+                async: false,
+                dataType: "json",
+                success: function (data) {
+                    result = data.valueOf();
+                }
+            });
+            return result;
         }
 
         /**
@@ -93,22 +127,6 @@
             });
         }
 
-        /**
-         * check user in database.
-         * @returns {*} - existence user or null.
-         */
-        function credential() {
-            var result = null;
-            $.ajax('./valid', {
-                method: 'get',
-                async: false,
-                dataType: "json",
-                success: function (data) {
-                    result = data
-                }
-            });
-            return result;
-        }
 
         /**
          * sign to add or update order.
@@ -138,7 +156,9 @@
         function logOut() {
             $.ajax('./logout', {
                 method: 'get',
-                complete: location.href = "./index.html"
+                complete: function() {
+                    location.href = "./index.html"
+                }
             });
         }
 
@@ -147,30 +167,27 @@
                 url: "image",
                 method: "get",
                 data: {'order': orderId},
-//                success: function (data) {
-////                    alert(data);
-//                    var images = JSON.parse(data);
-//                    alert(images.length);
-//                    if (images != '') {
-//                        var optional = "";
-//
-//                        for (var i = 0; i != images.length; ++i) {
-//
-//                            optional += "<div class='item active'>";
-//
-//                            optional += "<img src= '" + images[i] + "'   width='460' height='345'>";
-//
-//                            optional += "</div>";
-//                        }
-//                        var table = document.getElementById("carousel-body");
-//                        table.innerHTML = optional;
-//                    }
-
                 success: function (data) {
                     var returnData = jQuery.parseJSON(data);
+                    if (returnData.length === 0) {
+                        alert('Owner did not add images');
+                    }
                     for (var i = 0; i !== returnData.length; ++i) {
                         $("#picture").append("<a href='index.html'><img src= '" + returnData[i] + "'   width='400' height='300'></a>");
                     }
+                }
+            })
+        }
+
+        function brandSelector() {
+            $.ajax('./getBrands', {
+                method: 'get',
+                dataType: "json",
+                success: function (data) {
+                    document.getElementById("brand").innerHTML = "<option></option>"
+                    $.each(data, function (i, el) {
+                        document.getElementById("brand").innerHTML += "<option>" + el.name + "</option>";
+                    });
                 }
             })
         }
@@ -180,12 +197,39 @@
 </head>
 <body>
 <div class="container" style="margin-left: 10px; padding-left: 10px; margin-right: 10px; padding-right: 10px">
-    <label><input type="submit" value="LogOut" onclick="logOut();"></label><br><br>
-    <label id="forlogin">Login:   <input id="login" type="text" placeholder="login"/></label><br>
-    <label id="forpassword">Passoword: <input id="password" type="password" placeholder="password"/></label><br>
-    <label id="forinput"><input type="submit" value="Sign In" onclick="signin();"></label>
-    <p id="username"></p><br><br>
+    <br>
+    <label><input type="submit" class="btn btn-success" value="LogOut" onclick="logOut();"></label>
+    <label id="forlogin">&nbsp;&nbsp;&nbsp;Login:&nbsp;<input id="login" type="text" placeholder="login"/></label>
+    <label id="forpassword">&nbsp;&nbsp;Password:&nbsp;<input id="password" type="password" placeholder="password"/></label>
+    <label id="forinput">&nbsp;&nbsp;&nbsp;<input class="btn btn-success" type="submit" value="Sign In" onclick="signin();"></label>
+    <p id="username"></p>
     <a id="add" href="./add.html"></a>
+    <div align="center">
+        <h3 align="center" >Filter</h3>
+        <form class="form-inline">
+            <div class="form-group">
+                <label>
+                    &nbsp;&nbsp;&nbsp;Car brand:
+                    <select class="selector" id="brand"></select>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    &nbsp;&nbsp;&nbsp;Image:
+                    <input type="checkbox" class="form-control" id ="foto">
+                </label>
+            </div>
+            <div class="form-group">
+                <label>
+                    &nbsp;&nbsp;&nbsp;Last day:
+                    <input type="checkbox" class="form-control" id ="orderDate">
+                </label>
+
+            </div>
+            <label>&nbsp;&nbsp;&nbsp;<button type="button" class="btn btn-success" id="flt-ord-btn" onclick="return getItems(credential())">Filter</button></label>
+        </form>
+
+    </div>
     <div class="row">
         <div id="picture"></div>
         <div class="col-md-10">

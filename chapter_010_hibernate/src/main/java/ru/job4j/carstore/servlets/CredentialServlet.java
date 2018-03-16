@@ -15,11 +15,22 @@ public class CredentialServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
-        HttpSession session = req.getSession();
-        User user = (User) session.getAttribute("user");
+        HttpSession session = req.getSession(false);
+        Integer id;
+        if (session == null) {
+            id = -1;
+        } else {
+            if (session.getAttribute("user_id") == null) {
+                System.out.println("Hi");
+            }
+            id = (Integer) session.getAttribute("user_id");
+            if (id == null) {
+                id = -1;
+            }
+        }
         PrintWriter writer = resp.getWriter();
         ObjectMapper mapper = new ObjectMapper();
-        writer.append(mapper.writeValueAsString(user));
+        writer.append(mapper.writeValueAsString(id));
         writer.flush();
     }
 }

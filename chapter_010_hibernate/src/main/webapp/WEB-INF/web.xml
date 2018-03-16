@@ -118,4 +118,14 @@
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>CurrentUserServlet</servlet-name>
+        <servlet-class>ru.job4j.carstore.servlets.CurrentUserServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CurrentUserServlet</servlet-name>
+        <url-pattern>/currentUser</url-pattern>
+    </servlet-mapping>
 </web-app>

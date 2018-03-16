@@ -4,6 +4,8 @@ import org.junit.Test;
 import ru.job4j.carstore.dao.BodyDAO;
 import ru.job4j.carstore.models.Body;
 
+import java.sql.Timestamp;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -19,4 +21,9 @@ public class DAOTest {
         assertThat(bodyDAO.getById(1).getName(), is("coupe"));
     }
 
+    @Test
+    public void jfjnnfnlfnlknfkl() {
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        System.out.println(timestamp.toLocalDateTime().getDayOfMonth());
+    }
 }

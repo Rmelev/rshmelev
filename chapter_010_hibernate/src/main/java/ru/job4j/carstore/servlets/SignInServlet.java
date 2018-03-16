@@ -27,6 +27,7 @@ public class SignInServlet extends HttpServlet {
                 validUser = next;
                 session.setAttribute("user", next);
                 session.setAttribute("user_id", next.getId());
+                session.setAttribute("login", next.getLogin());
                 break;
             }
         }
