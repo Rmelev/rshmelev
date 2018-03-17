@@ -26,10 +26,21 @@ import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * get all car images.
+ */
 public class ImageServlet extends HttpServlet {
+    /**
+     * imageDAO.
+     */
     private ImageDAO imageDAO = ImageDAO.getInstance();
-
+    /**
+     * get.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("image/jpeg");
@@ -44,7 +55,13 @@ public class ImageServlet extends HttpServlet {
         writer.append(mapper.writeValueAsString(newList));
         writer.flush();
     }
-
+    /**
+     * post.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -74,7 +91,7 @@ public class ImageServlet extends HttpServlet {
                     Image image = new Image();
                     image.setData(imageData);
                     image.setOrder(order);
-                    imageDAO.save(image);
+                    imageDAO.add(image);
                     order.getImages().add(image);
 
                 }

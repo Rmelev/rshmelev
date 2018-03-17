@@ -9,7 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * update sold status.
+ */
 public class UpdateStatusServlet extends HttpServlet {
+    /**
+     * post.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");

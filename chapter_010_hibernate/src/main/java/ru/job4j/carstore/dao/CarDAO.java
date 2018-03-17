@@ -2,6 +2,9 @@ package ru.job4j.carstore.dao;
 
 
 import ru.job4j.carstore.models.Car;
+
+import java.util.List;
+
 /**
  * car DAO.
  */
@@ -17,5 +20,20 @@ public class CarDAO  extends AbstractDAO<Car> {
      */
     public static CarDAO getInstance() {
         return INSTANCE;
+    }
+
+    @Override
+    public List<Car> getAll() {
+        return null;
+    }
+
+    @Override
+    public Car getById(int id) {
+        return null;
+    }
+
+    @Override
+    public Car getByName(String name) {
+        return null;
     }
 }

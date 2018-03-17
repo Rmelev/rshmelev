@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * user DAO.
  */
-public class UserDAO implements DAO<User> {
+public class UserDAO extends AbstractDAO<User> {
     /**
      * Logger.
      */
@@ -32,22 +32,8 @@ public class UserDAO implements DAO<User> {
         return INSTANCE;
     }
 
-    public User add(final User body) {
-        Transaction transaction = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            session.save(body);
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return body;
-    }
     /**
-     * get all
+     * get all.
      * @return - all.
      */
     @Override
@@ -87,19 +73,19 @@ public class UserDAO implements DAO<User> {
         }
         return user;
     }
+
     /**
-     * get by name.
-     * @param name - name.
+     * get by login.
+     * @param login - login.
      * @return - entity.
      */
-    @Override
-    public User getByName(String name) {
+    public User getByLogin(String login) {
         Transaction transaction = null;
         User user = null;
         try (Session session = HibernateFactory.getFactory().openSession()) {
             transaction = session.beginTransaction();
-            final Query query = session.createQuery("from User as user where user.name=:name");
-            query.setParameter("name", name);
+            final Query query = session.createQuery("from User as user where user.login=:login");
+            query.setParameter("login", login);
             user = (User) query.iterate().next();
             transaction.commit();
         } catch (HibernateException he) {
@@ -109,5 +95,15 @@ public class UserDAO implements DAO<User> {
             }
         }
         return user;
+    }
+
+    /**
+     * only for override parent method.
+     * @param name - name.
+     * @return - entity.
+     */
+    @Override
+    public User getByName(String name) {
+        return getByLogin(name);
     }
 }

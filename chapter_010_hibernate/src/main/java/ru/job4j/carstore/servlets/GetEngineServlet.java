@@ -12,7 +12,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * get all car engines.
+ */
 public class GetEngineServlet extends HttpServlet {
+    /**
+     * get.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");

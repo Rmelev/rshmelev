@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Brand DAO.
  */
-public class BrandDAO implements DAO<Brand> {
+public class BrandDAO extends AbstractDAO<Brand> {
     /**
      * Logger.
      */
@@ -34,7 +34,7 @@ public class BrandDAO implements DAO<Brand> {
     }
 
     /**
-     * get all
+     * get all.
      * @return - all.
      */
     @Override

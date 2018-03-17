@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * body DAO.
  */
-public class BodyDAO implements DAO<Body> {
+public class BodyDAO extends AbstractDAO<Body> {
     /**
      * Logger.
      */
@@ -38,11 +38,12 @@ public class BodyDAO implements DAO<Body> {
      * @param body - body.
      * @return - added entity.
      */
-    public Body add(final Body body) {
+    public int add(final Body body) {
+        int bodyId = -1;
         Transaction transaction = null;
         try (Session session = HibernateFactory.getFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(body);
+            bodyId = (int) session.save(body);
             transaction.commit();
         } catch (HibernateException he) {
             LOG.error(he.getMessage(), he);
@@ -50,11 +51,11 @@ public class BodyDAO implements DAO<Body> {
                 transaction.rollback();
             }
         }
-        return body;
+        return bodyId;
     }
 
     /**
-     * get all
+     * get all.
      * @return - all.
      */
     @Override

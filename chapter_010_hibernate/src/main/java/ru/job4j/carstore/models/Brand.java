@@ -48,11 +48,15 @@ public class Brand {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Brand brand = (Brand) o;
-        return id == brand.id &&
-                Objects.equals(name, brand.name);
+        return id == brand.id
+                && Objects.equals(name, brand.name);
     }
     /**
      * @return - hashcode.
@@ -60,5 +64,16 @@ public class Brand {
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
+    }
+
+    /**
+     * @return - string representation.
+     */
+    @Override
+    public String toString() {
+        return "Brand{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + '}';
     }
 }

@@ -55,11 +55,15 @@ public class Body {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Body body = (Body) o;
-        return id == body.id &&
-                Objects.equals(name, body.name);
+        return id == body.id
+                && Objects.equals(name, body.name);
     }
 
     /**
@@ -75,9 +79,9 @@ public class Body {
      */
     @Override
     public String toString() {
-        return "Body{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return "Body{"
+                + "id=" + id
+                + ", name='" + name + '\''
+                + '}';
     }
 }

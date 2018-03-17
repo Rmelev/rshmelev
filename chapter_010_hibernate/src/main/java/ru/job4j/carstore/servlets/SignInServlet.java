@@ -13,7 +13,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+/**
+ * sign in servlet.
+ */
 public class SignInServlet extends HttpServlet {
+    /**
+     * get.
+     * @param req - req.
+     * @param resp - resp.
+     * @throws ServletException - exc.
+     * @throws IOException - exc.
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/json");
@@ -22,8 +32,8 @@ public class SignInServlet extends HttpServlet {
         User validUser = null;
         List<User> list = UserDAO.getInstance().getAll();
         for (User next : list) {
-            if (next.getLogin().equals(req.getParameter("login")) &&
-                    next.getPassword().equals(req.getParameter("password"))) {
+            if (next.getLogin().equals(req.getParameter("login"))
+                    && next.getPassword().equals(req.getParameter("password"))) {
                 validUser = next;
                 session.setAttribute("user", next);
                 session.setAttribute("user_id", next.getId());

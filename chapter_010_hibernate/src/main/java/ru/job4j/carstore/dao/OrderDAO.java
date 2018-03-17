@@ -31,7 +31,7 @@ public class OrderDAO extends AbstractDAO<Order> {
         return INSTANCE;
     }
     /**
-     * get all
+     * get all.
      * @return - all.
      */
     public List<Order> getAll() {
@@ -54,7 +54,8 @@ public class OrderDAO extends AbstractDAO<Order> {
      * @param id - id
      * @return - entity.
      */
-    public Order getById(Integer id) {
+    @Override
+    public Order getById(int id) {
         Transaction transaction = null;
         Order order = null;
         try (Session session = HibernateFactory.getFactory().openSession()) {
@@ -70,6 +71,11 @@ public class OrderDAO extends AbstractDAO<Order> {
         return order;
     }
 
+    /**
+     * getByLastDay.
+     * @param list - list.
+     * @return - list of added orders in last day (from 00:00).
+     */
     public List<Order> getByLastDay(List<Order> list) {
         List<Order> newlist = new ArrayList<>();
         int month = LocalDateTime.now().getDayOfMonth();
@@ -81,6 +87,11 @@ public class OrderDAO extends AbstractDAO<Order> {
         return newlist;
     }
 
+    /**
+     * with foto.
+     * @param list - list.
+     * @return - with foto.
+     */
     public List<Order> getByWithFoto(List<Order> list) {
         List<Order> newlist = new ArrayList<>();
         for (Order nextOrder : list) {
@@ -91,6 +102,12 @@ public class OrderDAO extends AbstractDAO<Order> {
         return newlist;
     }
 
+    /**
+     * by brand.
+     * @param list - list.
+     * @param brand - brand.
+     * @return - by brand.
+     */
     public List<Order> getByBrand(List<Order> list, String brand) {
         List<Order> newlist = new ArrayList<>();
         for (Order nextOrder : list) {
@@ -99,5 +116,15 @@ public class OrderDAO extends AbstractDAO<Order> {
             }
         }
         return newlist;
+    }
+
+    /**
+     * only for override parent method.
+     * @param name - entity name.
+     * @return - null.
+     */
+    @Override
+    public Order getByName(String name) {
+        return null;
     }
 }

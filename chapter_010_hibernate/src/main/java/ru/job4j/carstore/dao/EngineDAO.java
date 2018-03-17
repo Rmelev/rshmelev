@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * engine DAO.
  */
-public class EngineDAO implements DAO<Engine> {
+public class EngineDAO extends AbstractDAO<Engine> {
     /**
      * Logger.
      */
@@ -34,7 +34,7 @@ public class EngineDAO implements DAO<Engine> {
     }
 
     /**
-     * get all
+     * get all.
      * @return - all.
      */
     @Override

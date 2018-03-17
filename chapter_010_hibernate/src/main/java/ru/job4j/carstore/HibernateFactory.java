@@ -35,7 +35,6 @@ public class HibernateFactory {
     }
 
     /**
-     * overrided close from Autocloseable.
      * @throws Exception - exc.
      */
     public void close() throws Exception {

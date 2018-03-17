@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * transmission DAO.
  */
-public class TransmissionDAO implements DAO<Transmission> {
+public class TransmissionDAO extends AbstractDAO<Transmission> {
     /**
      * Logger.
      */
@@ -32,7 +32,7 @@ public class TransmissionDAO implements DAO<Transmission> {
         return INSTANCE;
     }
     /**
-     * get all
+     * get all.
      * @return - all.
      */
     @Override

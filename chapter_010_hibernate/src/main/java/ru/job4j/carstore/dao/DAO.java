@@ -21,7 +21,7 @@ public interface DAO<T> {
 
     /**
      * @param name - entity name.
-     * @return
+     * @return - entity.
      */
     T getByName(String name);
 }

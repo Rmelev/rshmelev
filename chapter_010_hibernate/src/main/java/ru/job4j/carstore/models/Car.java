@@ -2,6 +2,9 @@ package ru.job4j.carstore.models;
 
 import java.util.Objects;
 
+/**
+ * car.
+ */
 public class Car {
     /**
      * id.
@@ -133,15 +136,19 @@ public class Car {
      */
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         Car car = (Car) o;
-        return id == car.id &&
-                Objects.equals(color, car.color) &&
-                Objects.equals(model, car.model) &&
-                Objects.equals(body, car.body) &&
-                Objects.equals(transmission, car.transmission) &&
-                Objects.equals(engine, car.engine);
+        return id == car.id
+                && Objects.equals(color, car.color)
+                && Objects.equals(model, car.model)
+                && Objects.equals(body, car.body)
+                && Objects.equals(transmission, car.transmission)
+                && Objects.equals(engine, car.engine);
     }
     /**
      * @return - hashcode.
@@ -155,13 +162,13 @@ public class Car {
      */
     @Override
     public String toString() {
-        return "Car{" +
-                "id=" + id +
-                ", color='" + color + '\'' +
-                ", model=" + model +
-                ", body=" + body +
-                ", transmission=" + transmission +
-                ", engine=" + engine +
-                '}';
+        return "Car{"
+                + "id=" + id
+                + ", color='" + color + '\''
+                + ", model=" + model
+                + ", body=" + body
+                + ", transmission=" + transmission
+                + ", engine=" + engine
+                + '}';
     }
 }
