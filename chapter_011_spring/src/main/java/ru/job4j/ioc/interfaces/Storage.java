@@ -1,4 +1,4 @@
-package ru.job4j.ioc.storage;
+package ru.job4j.ioc.interfaces;
 
 import ru.job4j.ioc.model.User;
 
@@ -11,4 +11,11 @@ public interface Storage {
      * @param user - user.
      */
     void add(User user);
+
+    /**
+     * get by id.
+     * @param id - id.
+     * @return - entity.
+     */
+    User getById(int id);
 }

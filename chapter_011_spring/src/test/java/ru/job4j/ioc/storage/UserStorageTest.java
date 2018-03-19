@@ -1,12 +1,10 @@
-package ru.job4j.storage;
+package ru.job4j.ioc.storage;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.job4j.ioc.model.User;
-import ru.job4j.ioc.storage.MemoryStorage;
-import ru.job4j.ioc.storage.Storage;
-import ru.job4j.ioc.storage.UserStorage;
+import ru.job4j.ioc.interfaces.Storage;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -20,27 +18,33 @@ public class UserStorageTest {
     @Test
     public void whenNoSpringThenSimpleResult() {
         UserStorage storage = new UserStorage(new MemoryStorage());
-        storage.add(new User("Muscul"));
+        User user = new User();
+        user.setName("Muscul");
+        storage.add(user);
     }
     /**
      * test2.
      */
     @Test
     public void whenInitializeMemoryStorageBeanThenResult() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context-test.xml");
         Storage memory = context.getBean(MemoryStorage.class);
         assertNotNull(memory);
         UserStorage storage = new UserStorage(memory);
-        storage.add(new User("Ferry"));
+        User user = new User();
+        user.setName("Ferry");
+        storage.add(user);
     }
     /**
      * test3.
      */
     @Test
     public void whenInitializeUserStorageBeanThenResult() {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context.xml");
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-context-test.xml");
         UserStorage storage = context.getBean(UserStorage.class);
         assertNotNull(storage);
-        storage.add(new User("Picka4u"));
+        User user = new User();
+        user.setName("Picka4u");
+        storage.add(user);
     }
 }
