@@ -1,11 +1,7 @@
 package ru.job4j.carstore.dao;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.carstore.HibernateFactory;
 import ru.job4j.carstore.models.Order;
 
 import java.time.LocalDateTime;
@@ -35,19 +31,7 @@ public class OrderDAO extends AbstractDAO<Order> {
      * @return - all.
      */
     public List<Order> getAll() {
-        Transaction transaction = null;
-        List<Order> list = new ArrayList<>();
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            list = session.createQuery("from Order as o order by o.id").list();
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return list;
+        return listGetTx(session -> session.createQuery("from Order as o order by o.id").list());
     }
     /**
      * get by id.
@@ -56,19 +40,7 @@ public class OrderDAO extends AbstractDAO<Order> {
      */
     @Override
     public Order getById(int id) {
-        Transaction transaction = null;
-        Order order = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            order = session.get(Order.class, id);
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return order;
+        return super.getById(id);
     }
 
     /**
@@ -116,15 +88,5 @@ public class OrderDAO extends AbstractDAO<Order> {
             }
         }
         return newlist;
-    }
-
-    /**
-     * only for override parent method.
-     * @param name - entity name.
-     * @return - null.
-     */
-    @Override
-    public Order getByName(String name) {
-        return null;
     }
 }

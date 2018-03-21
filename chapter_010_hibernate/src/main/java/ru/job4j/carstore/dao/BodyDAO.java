@@ -1,15 +1,9 @@
 package ru.job4j.carstore.dao;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.carstore.HibernateFactory;
 import ru.job4j.carstore.models.Body;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,19 +33,7 @@ public class BodyDAO extends AbstractDAO<Body> {
      * @return - added entity.
      */
     public int add(final Body body) {
-        int bodyId = -1;
-        Transaction transaction = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            bodyId = (int) session.save(body);
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return bodyId;
+        return super.add(body);
     }
 
     /**
@@ -60,19 +42,7 @@ public class BodyDAO extends AbstractDAO<Body> {
      */
     @Override
     public List<Body> getAll() {
-        Transaction transaction = null;
-        List<Body> list = new ArrayList<>();
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            list = session.createQuery("from Body").list();
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return list;
+        return super.getAll();
     }
 
     /**
@@ -82,19 +52,7 @@ public class BodyDAO extends AbstractDAO<Body> {
      */
     @Override
     public Body getById(int id) {
-        Transaction transaction = null;
-        Body body = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            body = session.get(Body.class, id);
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return body;
+        return super.getById(id);
     }
 
     /**
@@ -102,22 +60,7 @@ public class BodyDAO extends AbstractDAO<Body> {
      * @param name - name.
      * @return - entity.
      */
-    @Override
     public Body getByName(String name) {
-        Transaction transaction = null;
-        Body body = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            final Query query = session.createQuery("from Body as body where body.name=:name");
-            query.setParameter("name", name);
-            body = (Body) query.iterate().next();
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return body;
+        return super.getByName(name);
     }
 }

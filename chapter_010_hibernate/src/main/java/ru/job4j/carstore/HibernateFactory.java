@@ -16,20 +16,20 @@ public class HibernateFactory {
     /**
      * session factory.
      */
-    private static final SessionFactory factory = new Configuration().configure().buildSessionFactory();
+    private static final SessionFactory FACTORY = new Configuration().configure().buildSessionFactory();
 
     /**
      * getter.
      * @return - factory.
      */
     public static SessionFactory getFactory() {
-        return factory;
+        return FACTORY;
     }
 
     /**
      * @throws Exception - exc.
      */
     public void close() throws Exception {
-        factory.close();
+        FACTORY.close();
     }
 }

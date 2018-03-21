@@ -24,16 +24,12 @@ public class CarDAO  extends AbstractDAO<Car> {
 
     @Override
     public List<Car> getAll() {
-        return null;
+        return super.getAll();
     }
 
     @Override
     public Car getById(int id) {
-        return null;
+        return super.getById(id);
     }
 
-    @Override
-    public Car getByName(String name) {
-        return null;
-    }
 }

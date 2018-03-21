@@ -18,10 +18,4 @@ public interface DAO<T> {
      * @return - entity.
      */
     T getById(int id);
-
-    /**
-     * @param name - entity name.
-     * @return - entity.
-     */
-    T getByName(String name);
 }

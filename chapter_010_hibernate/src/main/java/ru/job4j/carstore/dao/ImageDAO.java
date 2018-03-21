@@ -1,14 +1,9 @@
 package ru.job4j.carstore.dao;
 
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.job4j.carstore.HibernateFactory;
 import ru.job4j.carstore.models.Image;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,19 +33,7 @@ public class ImageDAO extends AbstractDAO<Image> {
      * @return - all.
      */
     public List<Image> getAll() {
-        Transaction transaction = null;
-        List<Image> list = new ArrayList<>();
-        try (Session session = HibernateFactory.getFactory().openSession()) {
-            transaction = session.beginTransaction();
-            list = session.createQuery("from Image").list();
-            transaction.commit();
-        } catch (HibernateException he) {
-            LOG.error(he.getMessage(), he);
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        }
-        return list;
+        return super.getAll();
     }
     /**
      * get by id.
@@ -59,15 +42,7 @@ public class ImageDAO extends AbstractDAO<Image> {
      */
     @Override
     public Image getById(int id) {
-        return null;
+        return super.getById(id);
     }
-    /**
-     * get by name.
-     * @param name - name.
-     * @return - entity.
-     */
-    @Override
-    public Image getByName(String name) {
-        return null;
-    }
+
 }
