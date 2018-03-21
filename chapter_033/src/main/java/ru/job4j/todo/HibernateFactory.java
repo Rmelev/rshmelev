@@ -16,22 +16,13 @@ public class HibernateFactory implements AutoCloseable {
     /**
      * session factory.
      */
-    private static SessionFactory factory;
+    private static final SessionFactory factory = new Configuration().configure().buildSessionFactory();
 
     /**
      * getter.
      * @return - factory.
      */
     public static SessionFactory getFactory() {
-        if (factory == null) {
-            try {
-                factory = new Configuration().configure().buildSessionFactory();
-
-            } catch (Throwable ex) {
-                LOG.error("Create session error", ex);
-                throw new ExceptionInInitializerError();
-            }
-        }
         return factory;
     }
 
