@@ -22,6 +22,7 @@ public class ImageDAO extends AbstractDAO<Image> {
 
     /**
      * Getter for instance.
+     *
      * @return instance.
      */
     public static ImageDAO getInstance() {
@@ -30,13 +31,16 @@ public class ImageDAO extends AbstractDAO<Image> {
 
     /**
      * get all.
+     *
      * @return - all.
      */
     public List<Image> getAll() {
         return super.getAll();
     }
+
     /**
      * get by id.
+     *
      * @param id - id
      * @return - entity.
      */
@@ -44,5 +48,4 @@ public class ImageDAO extends AbstractDAO<Image> {
     public Image getById(int id) {
         return super.getById(id);
     }
-
 }

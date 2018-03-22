@@ -1,21 +1,37 @@
 package ru.job4j.carstore.models;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 /**
  * car model.
  */
+@Entity
+@Table(name = "model")
 public class Model {
     /**
      * id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     /**
      * name.
      */
+    @Column(name = "name", nullable = false)
     private String name;
     /**
      * brand.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_brand", nullable = false)
     private Brand brand;
     /**
      * default constructor.

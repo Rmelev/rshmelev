@@ -1,7 +1,19 @@
 package ru.job4j.carstore.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Objects;
@@ -9,39 +21,54 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * order.
  */
+@Entity
+@Table(name = "orders")
 public class Order {
     /**
      * id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     /**
      * description.
      */
+    @Column(name = "description")
     private String description;
     /**
      *price.
      */
+    @Column(name = "price")
     private int price;
     /**
      *sold status.
      */
+    @Column(name = "sold", nullable = false)
     private boolean sold;
     /**
      *date.
      */
+    @Column(name = "date")
     private Timestamp date;
     /**
      *user.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_user", nullable = false)
     private User user;
     /**
      *car.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_car", nullable = false)
     private Car car;
     /**
      *images.
      */
-    @JsonIgnoreProperties("order")
+    @JsonIgnore
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     private List<Image> images = new CopyOnWriteArrayList<>();
     /**
      * default constructor.

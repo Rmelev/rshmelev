@@ -6,6 +6,7 @@
         <property name="connection.username">romansmelev</property>
         <property name="connection.password"></property>
         <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+        <property name="show_sql">true</property>
 
         <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
         <property name="hibernate.c3p0.min_size">7</property>
@@ -16,14 +17,14 @@
         <property name="hibernate.c3p0.validate">true</property>
         <property name="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>
 
-        <mapping resource="ru/job4j/carstore/models/Body.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Brand.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Car.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Engine.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Image.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Model.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Order.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/Transmission.hbm.xml"/>
-        <mapping resource="ru/job4j/carstore/models/User.hbm.xml"/>
+        <mapping class="ru.job4j.carstore.models.Body"/>
+        <mapping class="ru.job4j.carstore.models.Brand"/>
+        <mapping class="ru.job4j.carstore.models.Car"/>
+        <mapping class="ru.job4j.carstore.models.Engine"/>
+        <mapping class="ru.job4j.carstore.models.Image"/>
+        <mapping class="ru.job4j.carstore.models.Model"/>
+        <mapping class="ru.job4j.carstore.models.Order"/>
+        <mapping class="ru.job4j.carstore.models.Transmission"/>
+        <mapping class="ru.job4j.carstore.models.User"/>
     </session-factory>
 </hibernate-configuration>

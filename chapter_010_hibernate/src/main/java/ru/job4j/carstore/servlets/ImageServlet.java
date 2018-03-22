@@ -45,7 +45,9 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("image/jpeg");
         System.out.println(req.getParameter("order"));
-        List<Image> list =  OrderDAO.getINSTANCE().getById(Integer.valueOf(req.getParameter("order"))).getImages();
+        Order order = OrderDAO.getINSTANCE().getById(Integer.valueOf(req.getParameter("order")));
+        List<Image> list =  order.getImages();
+//        Image image =  order.getImages().get(0);
         List<String> newList = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         PrintWriter writer = resp.getWriter();
@@ -104,54 +106,3 @@ public class ImageServlet extends HttpServlet {
         writer.flush();
     }
 }
-//        boolean isMultipart = ServletFileUpload.isMultipartContent(req);
-//
-//        if (isMultipart) {
-//            FileItemFactory factory = new DiskFileItemFactory();
-//            ServletFileUpload upload = new ServletFileUpload(factory);
-//
-//            try {
-//                List items = upload.parseRequest(req);
-//                Iterator iterator = items.iterator();
-//                while (iterator.hasNext()) {
-//                    FileItem item = (FileItem) iterator.next();
-//
-//                    if (!item.isFormField()) {
-//                        String fileName = item.getName();
-//
-//                        String root = getServletContext().getRealPath("/");
-//                        File path = new File(root + "/uploads");
-//                        if (!path.exists()) {
-//                            boolean status = path.mkdirs();
-//                        }
-//
-//                        File uploadedFile = new File(path + "/" + fileName);
-//                        System.out.println(uploadedFile.getAbsolutePath());
-//                        item.write(uploadedFile);
-//                        System.out.println(item);
-//                    }
-//                }
-//            } catch (FileUploadException e) {
-//                e.printStackTrace();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
-//}
-
-/*          // Create a factory for disk-based file items
-        DiskFileItemFactory factory = new DiskFileItemFactory();
-
-            // Configure a repository (to ensure a secure temp location is used)
-        ServletContext servletContext = this.getServletConfig().getServletContext();
-        File repository = (File) servletContext.getAttribute("javax.servlet.context.tempdir");
-        factory.setRepository(repository);
-
-            // Create a new file upload handler
-        ServletFileUpload upload = new ServletFileUpload(factory);
-
-            // Parse the request
-        List<FileItem> items = upload.parseRequest(request);
-
-*/
