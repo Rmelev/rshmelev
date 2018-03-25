@@ -44,10 +44,8 @@ public class ImageServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("image/jpeg");
-        System.out.println(req.getParameter("order"));
         Order order = OrderDAO.getINSTANCE().getById(Integer.valueOf(req.getParameter("order")));
         List<Image> list =  order.getImages();
-//        Image image =  order.getImages().get(0);
         List<String> newList = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
         PrintWriter writer = resp.getWriter();

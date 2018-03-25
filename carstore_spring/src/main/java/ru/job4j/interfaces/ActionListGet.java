@@ -1,17 +1,18 @@
-package ru.job4j.ioc.interfaces;
+package ru.job4j.interfaces;
 
 import org.hibernate.Session;
+
+import java.util.List;
 
 /**
  * action interface, return result of execute.
  * @param <T> -  type of entities.
  */
-public interface ActionGet<T> {
-
+public interface ActionListGet<T> {
     /**
      * execute something, return result.
      * @param session - session.
-     * @return - entity.
+     * @return - list of entities.
      */
-    T execute(Session session);
+    List<T> execute(Session session);
 }

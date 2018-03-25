@@ -1,8 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="Java" %>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Add Order</title>
+    <title>Car Store</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https:////netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
@@ -22,7 +22,7 @@
          * Add order.
          */
         function addOrder() {
-            $.ajax('./add', {
+            $.ajax('./addOrder', {
                 method: 'post',
                 dataType: "json",
                 data : {
@@ -134,27 +134,23 @@
         }
 
         function back() {
-            location.href = "./index.html";
+            location.href = "./";
 //            history.back();
         }
 
         function addImage() {
-//            var images = document.getElementById("file-image" + i);
-//            $.each(images, function (i, el) {
-//                data.append('file-'+i, el)
-//            });
             var data = new FormData();
             var x = document.getElementById("file-image");
             var file = x.files[0];
             data.append("file", file);
             $.ajax({
-                url: "image",
+                url: "addImage",
                 method: "post",
                 processData : false,
                 contentType : false,
                 data: data,
-                success: function (data) {
-                        alert("Image was added successful! You can add another image.");
+                complete: function (data) {
+                    alert("Image was added successful! You can add another image.");
                 }
             });
         }
@@ -170,7 +166,7 @@
     <div class="row">
         <div class="col-md-8">
             <label>
-            Color: <input type="text" id="color" value="red">
+                Color: <input type="text" id="color" value="red">
             </label>
             <br><br>
             <label>
@@ -201,7 +197,7 @@
             <br/><br/>
 
             <label>
-            Price: <input type="number" id="price" value="50000">
+                Price: <input type="number" id="price" value="50000">
             </label>
             <br/><br/>
 

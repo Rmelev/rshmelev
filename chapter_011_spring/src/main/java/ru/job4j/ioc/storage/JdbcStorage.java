@@ -2,12 +2,14 @@ package ru.job4j.ioc.storage;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import ru.job4j.ioc.interfaces.Storage;
 import ru.job4j.ioc.model.User;
 
 /**
  * storage in DB.
  */
+@Component
 public class JdbcStorage extends AbstractStorage<User> implements Storage {
     /**
      * Logger.

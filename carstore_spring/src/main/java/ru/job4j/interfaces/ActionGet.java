@@ -1,4 +1,4 @@
-package ru.job4j.ioc.interfaces;
+package ru.job4j.interfaces;
 
 import org.hibernate.Session;
 
@@ -7,7 +7,6 @@ import org.hibernate.Session;
  * @param <T> -  type of entities.
  */
 public interface ActionGet<T> {
-
     /**
      * execute something, return result.
      * @param session - session.

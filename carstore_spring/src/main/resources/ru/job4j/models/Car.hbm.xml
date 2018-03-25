@@ -1,0 +1,23 @@
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="ru.job4j.models" default-lazy="false">
+    <class name="Car" table="cars">
+        <id name="id" column="id">
+            <generator class="identity"/>
+        </id>
+        <property name="color" column="color"/>
+        <many-to-one name="model"
+                     column="id_model"
+                     class="ru.job4j.models.Model"/>
+        <many-to-one name="body"
+                     column="id_body"
+                     class="ru.job4j.models.Body"/>
+        <many-to-one name="transmission"
+                     column="id_transmission"
+                     class="ru.job4j.models.Transmission"/>
+        <many-to-one name="engine"
+                     column="id_engine"
+                     class="ru.job4j.models.Engine"/>
+    </class>
+</hibernate-mapping>
