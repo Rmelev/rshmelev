@@ -22,19 +22,30 @@
          * Add order.
          */
         function addOrder() {
+            var order = {
+                'description' : $('#description').val(),
+                'price' : $('#price').val(),
+                'car' : {
+                    'color' : $('#color').val(),
+                    'model' :{
+                        'name' : $('#model').val(),
+                        'brand' : {'name': $('#brand').val()}
+                    },
+                    'body' : {'name' : $('#body').val()},
+                    'transmission' : {'name' : $('#transmission').val()},
+                    'engine' : {'name' : $('#engine').val()}
+                }
+            };
+
             $.ajax('./addOrder', {
-                method: 'post',
-                dataType: "json",
-                data : {
-                    color : $('#color').val(),
-                    price : $('#price').val(),
-                    description : $('#description').val(),
-                    brand: $('#brand').val(),
-                    model : $('#model').val(),
-                    body : $('#body').val(),
-                    transmission : $('#transmission').val(),
-                    engine : $('#engine').val()
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
                 },
+                method: "POST",
+                async: false,
+                processData:false,
+                data : JSON.stringify(order),
                 complete : function(data){
                     alert("Order added successful!");
                 }
@@ -135,7 +146,6 @@
 
         function back() {
             location.href = "./";
-//            history.back();
         }
 
         function addImage() {
@@ -150,7 +160,10 @@
                 contentType : false,
                 data: data,
                 complete: function (data) {
-                    alert("Image was added successful! You can add another image.");
+                    var result  = JSON.parse(data.responseText);
+                    if (result.success) {
+                        alert("Image was added successful! You can add another image.");
+                    }
                 }
             });
         }
@@ -165,47 +178,48 @@
     <h3 style="padding-bottom: 30px">Create new order</h3>
     <div class="row">
         <div class="col-md-8">
-            <label>
-                Color: <input type="text" id="color" value="red">
-            </label>
-            <br><br>
-            <label>
-                Car brand: <br/>
-                <select class="selector" id="brand" onchange="return modelSelector()"></select>
-            </label>
+            <form id="form" accept-charset="UTF-8">
+                <label>
+                    Color: <input type="text" id="color" value="red" name="color">
+                </label>
+                <br><br>
+                <label>
+                    Car brand: <br/>
+                    <select class="selector" id="brand" name="brand" onchange="return modelSelector()"></select>
+                </label>
 
-            <label>
-                Car model: <br/>
-                <select class="selector" id="model"></select>
-            </label>
+                <label>
+                    Car model: <br/>
+                    <select class="selector" id="model" name="model"></select>
+                </label>
 
-            <label>
-                Engine type: <br/>
-                <select class="selector" id="engine"></select>
-            </label>
+                <label>
+                    Engine type: <br/>
+                    <select class="selector" id="engine" name="engine"></select>
+                </label>
 
-            <label>
-                Transmission: <br/>
-                <select class="selector" id="transmission"></select>
-            </label>
+                <label>
+                    Transmission: <br/>
+                    <select class="selector" id="transmission" name="transmission"></select>
+                </label>
 
-            <label>
-                Body type: <br/>
-                <select class="selector" id="body"></select>
-            </label>
+                <label>
+                    Body type: <br/>
+                    <select class="selector" id="body" name="body"></select>
+                </label>
 
-            <br/><br/>
+                <br/><br/>
 
-            <label>
-                Price: <input type="number" id="price" value="50000">
-            </label>
-            <br/><br/>
+                <label>
+                    Price: <input type="number" id="price" name="price" value="50000">
+                </label>
+                <br/><br/>
 
-            <label>
-                Description: <br/>
-                <textarea style="width: 300%; padding-bottom: 20px" id="description">Third try</textarea>
-            </label>
-
+                <label>
+                    Description: <br/>
+                    <textarea style="width: 300%; padding-bottom: 20px" id="description" name="description">Third try</textarea>
+                </label>
+            </form>
         </div>
     </div>
     <br/>

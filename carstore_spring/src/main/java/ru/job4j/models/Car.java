@@ -1,34 +1,49 @@
 package ru.job4j.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * car.
  */
+@Entity
+@Table(name = "cars")
 public class Car {
     /**
      * id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     /**
      * color.
      */
+    @Column(name = "color")
     private String color;
     /**
      * model.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_model", nullable = false)
     private Model model;
     /**
      * body.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_body", nullable = false)
     private Body body;
     /**
      * transmission.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_transmission", nullable = false)
     private Transmission transmission;
     /**
      * engine.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_engine", nullable = false)
     private Engine engine;
     /**
      * default constructor.

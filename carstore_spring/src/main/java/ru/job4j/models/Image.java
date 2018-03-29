@@ -2,25 +2,33 @@ package ru.job4j.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Objects;
 
 /**
  * car image.
  */
+@Entity
+@Table(name = "image")
 public class Image {
     /**
      * id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     /**
      * image as byte array.
      */
+    @Column(name = "data")
     private byte[] data;
     /**
      * order.
      */
-    @JsonIgnoreProperties("images")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
     private Order order;
     /**
      * default constructor.

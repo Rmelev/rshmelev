@@ -2,19 +2,19 @@ package ru.job4j.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.FileCleanerCleanup;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileCleaningTracker;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.job4j.dao.BodyDAO;
@@ -39,6 +39,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -50,6 +51,9 @@ import java.util.List;
  */
 @Controller
 public class AddOrderController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(AddOrderController.class);
+
     /**
      * orderDAO.
      */
@@ -121,33 +125,41 @@ public class AddOrderController {
 
     /**
      * add order.
-     * @param order - order.
+     * @param request - req.
      * @param session - session.
-     * @param color - color.
-     * @param model - model.
-     * @param body - body.
-     * @param transmission - transmission.
-     * @param engine - engine.
      * @return - add.jsp.
-     * @throws IOException - exc.
      */
-    @RequestMapping(value = "/addOrder", method = RequestMethod.POST, consumes = "application/json")
-    public String addOrder(@ModelAttribute Order order, HttpSession session, @RequestParam("color") String color,
-                           @RequestParam("model") String model, @RequestParam("body") String body,
-                           @RequestParam("transmission") String transmission, @RequestParam("engine") String engine) throws IOException {
+    @PostMapping(value = "/addOrder", consumes = "application/json;charset=UTF-8")
+    public String addOrder(HttpServletRequest request, HttpSession session) {
 
-        Car car = new Car();
-        car.setColor(color);
-        car.setModel(modelDAO.getByName(model));
-        car.setBody(bodyDAO.getByName(body));
-        car.setEngine(engineDAO.getByName(engine));
-        car.setTransmission(transmissionDAO.getByName(transmission));
-        carDAO.add(car);
-        order.setUser((User) session.getAttribute("user"));
-        order.setDate(new Timestamp(System.currentTimeMillis()));
-        order.setCar(car);
-
-        int orderId = orderDAO.add(order);
+        String jsonBody = "fff";
+        // interesting part for control request content.
+        try {
+            jsonBody = IOUtils.toString(request.getInputStream());
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        Order obj = null;
+        Car car = null;
+        try {
+            obj = mapper.readValue(jsonBody, Order.class);
+        } catch (IOException e) {
+            LOG.error(e.getMessage(), e);
+        }
+        obj.setDate(new Timestamp(System.currentTimeMillis()));
+        obj.setUser((User) session.getAttribute("user"));
+        car = obj.getCar();
+        Model md = modelDAO.getModelByName(car.getModel().getName());
+        Body bd = bodyDAO.getBodyByName(car.getBody().getName());
+        Transmission td = transmissionDAO.getTransmissionByName(car.getTransmission().getName());
+        Engine ed = engineDAO.getEngineByName(car.getEngine().getName());
+        car.setBody(bd);
+        car.setModel(md);
+        car.setTransmission(td);
+        car.setEngine(ed);
+        carDAO.save(car);
+        int orderId = orderDAO.save(obj).getId();
         session.setAttribute("order_id", orderId);
 
         return "add";
@@ -161,20 +173,20 @@ public class AddOrderController {
      * @throws IOException - exc.
      * @throws ServletException - exc.
      */
-    @RequestMapping(value = "/addImage", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
-    public ObjectNode addImage(HttpSession session, HttpServletRequest req) throws IOException, ServletException {
+    @PostMapping(value = "/addImage")
+    public String addImage(HttpSession session, HttpServletRequest req) throws IOException, ServletException {
         boolean isMultipartContent = ServletFileUpload.isMultipartContent(req);
         Integer userId = (int) session.getAttribute("user_id");
         Integer orderId = (int) session.getAttribute("order_id");
-        OrderDAO orderDAO = OrderDAO.getINSTANCE();
-        Order order = orderDAO.getById(orderId);
+        Order order = null;
+        if (orderDAO.findById(orderId).isPresent()) {
+            order = orderDAO.findById(orderId).get();
+        }
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode node = mapper.createObjectNode();
         node.put("success", false);
-//        JsonObject object = new JsonObject();
-//        object.addProperty("success", false);
 
         if (isMultipartContent && userId != -1 && orderId != -1) {
             DiskFileItemFactory factory = new DiskFileItemFactory();
@@ -194,18 +206,17 @@ public class AddOrderController {
                     Image image = new Image();
                     image.setData(imageData);
                     image.setOrder(order);
-                    imageDAO.add(image);
+                    imageDAO.save(image);
                     order.getImages().add(image);
 
                 }
                 node.put("success", true);
-//                object.addProperty("success", true);
             } catch (FileUploadException fue) {
                 fue.printStackTrace();
             }
         }
 
-        return node;
+        return mapper.writeValueAsString(node);
     }
 
     /**
@@ -216,7 +227,7 @@ public class AddOrderController {
     @RequestMapping(value = "/getBrands", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String getBrands() throws IOException {
-        List<Brand> list = brandDAO.getAll();
+        List<Brand> list = (List<Brand>) brandDAO.findAll();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(list);
     }
@@ -229,7 +240,7 @@ public class AddOrderController {
     @RequestMapping(value = "/getTransmissions", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String getTransmissions() throws IOException {
-        List<Transmission> list = transmissionDAO.getAll();
+        List<Transmission> list = (List<Transmission>) transmissionDAO.findAll();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(list);
     }
@@ -242,7 +253,7 @@ public class AddOrderController {
     @RequestMapping(value = "/getModels", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String getModels(@RequestParam("brand") String brand) throws IOException {
-        List<Model> list = modelDAO.getAll();
+        List<Model> list = (List<Model>) modelDAO.findAll();
         List<Model> newlist = new ArrayList<>();
         for (Model next : list) {
             if (next.getBrand().getName().equals(brand)) {
@@ -260,7 +271,7 @@ public class AddOrderController {
     @RequestMapping(value = "/getEngines", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String getEngines() throws IOException {
-        List<Engine> list = engineDAO.getAll();
+        List<Engine> list = (List<Engine>) engineDAO.findAll();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(list);
     }
@@ -272,7 +283,7 @@ public class AddOrderController {
     @RequestMapping(value = "/getBodies", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String getBodies() throws IOException {
-        List<Body> list = bodyDAO.getAll();
+        List<Body> list = (List<Body>) bodyDAO.findAll();
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(list);
     }

@@ -146,6 +146,7 @@
         function updateStatus(id, status) {
             $.ajax('./updateStatus', {
                 method: 'post',
+                dataType: "json",
                 data: {
                     'id': id,
                     'sold': status
@@ -185,6 +186,7 @@
         function logOut() {
             $.ajax('./logout', {
                 method: 'get',
+                dataType: "json",
                 complete: function() {
                     location.href = "./"
                 }
@@ -196,8 +198,9 @@
                 url: "image",
                 method: "get",
                 data: {'order': orderId},
-                success: function (data) {
-                    var returnData = jQuery.parseJSON(data);
+                dataType: "json",
+                complete: function (data) {
+                    var returnData = JSON.parse(data.responseText);
                     if (returnData.length === 0) {
                         alert('Owner did not add images');
                     }

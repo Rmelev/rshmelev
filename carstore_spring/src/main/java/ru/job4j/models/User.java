@@ -1,26 +1,35 @@
 package ru.job4j.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * car.
  */
+@Entity
+@Table(name = "users")
 public class User {
     /**
      * id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     /**
      * login.
      */
+    @Column(name = "login", nullable = false)
     private String login;
     /**
      * password.
      */
+    @Column(name = "password", nullable = false)
     private String password;
     /**
      * email.
      */
+    @Column(name = "email")
     private String email;
     /**
      * default constructor.

@@ -1,22 +1,31 @@
 package ru.job4j.models;
 
+import javax.persistence.*;
 import java.util.Objects;
 
 /**
  * car model.
  */
+@Entity
+@Table(name = "model")
 public class Model {
     /**
      * id.
      */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
     /**
      * name.
      */
+    @Column(name = "name", nullable = false)
     private String name;
     /**
      * brand.
      */
+    @ManyToOne
+    @JoinColumn(name = "id_brand", nullable = false)
     private Brand brand;
     /**
      * default constructor.

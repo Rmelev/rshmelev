@@ -1,6 +1,9 @@
 package ru.job4j.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.JsonArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +23,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -28,6 +34,8 @@ import java.util.List;
  */
 @Controller
 public class CarStoreController {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CarStoreController.class);
     /**
      * orderDAO.
      */
@@ -65,24 +73,35 @@ public class CarStoreController {
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String showUsers(HttpServletRequest req, HttpSession session, ModelMap model) throws IOException {
-        List<Brand> brands = (List<Brand>) brandDAO.getAll();
+        List<Brand> brands = (List<Brand>) brandDAO.findAll();
         model.addAttribute("brands", brands);
         Boolean lastDay = Boolean.valueOf((String) session.getAttribute("data"));
         Boolean withFoto = Boolean.valueOf((String) session.getAttribute("foto"));
         String brand = req.getParameter("brand");
-        List<Order> list = orderDAO.getAll();
+        List<Order> list = (List<Order>) orderDAO.findAll();
         if (lastDay != null && withFoto != null && brand != null) {
-            List<Order> newList;
+            List<Order> newList = new ArrayList<>();
             if (lastDay) {
-                newList = orderDAO.getByLastDay(list);
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(System.currentTimeMillis());
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+                long dayStart = calendar.getTimeInMillis();
+                newList = orderDAO.findAllByDateGreaterThan(new Timestamp(dayStart));
                 list = newList;
             }
             if (withFoto) {
-                newList = orderDAO.getByWithFoto(list);
+                for (Order nextOrder : list) {
+                    if (nextOrder.getImages().size() > 0) {
+                        newList.add(nextOrder);
+                    }
+                }
                 list = newList;
             }
             if (!brand.equals("")) {
-                newList = orderDAO.getByBrand(list, brand);
+                newList = orderDAO.findAllByCarModelBrandName(brand);
                 list = newList;
             }
         }
@@ -92,37 +111,6 @@ public class CarStoreController {
         return "index";
     }
 
-    /**
-     * filter.
-     * @param lDay - last date.
-     * @param wFoto - with foto.
-     * @param brand - brand.
-     * @param model - model.
-     * @return - filtered list.
-     * @throws IOException - exc.
-     */
-    @RequestMapping(value = "/filter", method = RequestMethod.GET)
-    public String filterUsers(@RequestParam("lastDay") String lDay, @RequestParam("withFoto") String wFoto, @RequestParam("brand") String brand, ModelMap model) throws IOException {
-        Boolean lastDay = Boolean.valueOf(lDay);
-        Boolean withFoto = Boolean.valueOf(wFoto);
-        List<Order> list = orderDAO.getAll();
-        List<Order> newList;
-        if (lastDay) {
-            newList = orderDAO.getByLastDay(list);
-            list = newList;
-        }
-        if (withFoto) {
-            newList = orderDAO.getByWithFoto(list);
-            list = newList;
-        }
-        if (!brand.equals("")) {
-            newList = orderDAO.getByBrand(list, brand);
-            list = newList;
-        }
-        model.addAttribute("orders", list);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(list);
-    }
 
     /**
      * log in.
@@ -138,7 +126,7 @@ public class CarStoreController {
     public String signIn(@RequestParam("login") String login, @RequestParam("password") String password, HttpSession session, ModelMap model) throws IOException {
         session.setAttribute("user", null);
         User validUser = null;
-        List<User> list = userDAO.getAll();
+        List<User> list = (List<User>) userDAO.findAll();
         for (User next : list) {
             if (next.getLogin().equals(login)
                     && next.getPassword().equals(password)) {
@@ -209,7 +197,7 @@ public class CarStoreController {
      * @param session -  session.
      * @throws IOException - exc.
      */
-    @RequestMapping(value = "/fotoReverse", consumes = "applacation/json")
+    @RequestMapping(value = "/fotoReverse")
     public void fotoReverse(HttpSession session) throws IOException {
         if (session.getAttribute("foto") == null) {
             session.setAttribute("foto", "true");
@@ -223,7 +211,7 @@ public class CarStoreController {
      * @param session -  session.
      * @throws IOException - exc.
      */
-    @RequestMapping(value = "/dataReverse", consumes = "applacation/json")
+    @RequestMapping(value = "/dataReverse")
     public void dataReverse(HttpSession session) throws IOException {
         if (session.getAttribute("data") == null) {
             session.setAttribute("data", "true");
@@ -250,10 +238,10 @@ public class CarStoreController {
      * @return - list of images.
      * @throws IOException - exc.
      */
-    @RequestMapping(value = "/image", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/image", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String showImage(@RequestParam("order") String orderId) throws IOException {
-        Order order = orderDAO.getById(Integer.valueOf(orderId));
+        Order order = orderDAO.findById(Integer.valueOf(orderId)).get();
         List<Image> list = order.getImages();
         List<String> newList = new ArrayList<>();
         ObjectMapper mapper = new ObjectMapper();
@@ -261,5 +249,14 @@ public class CarStoreController {
             newList.add(String.format("data:image/jpeg;base64,%s", DatatypeConverter.printBase64Binary(nextImage.getData())));
         }
         return mapper.writeValueAsString(newList);
+//        JsonArray array = new JsonArray();
+//        Order order = orderDAO.findById(Integer.valueOf(orderId)).get();
+//        List<Image> list = order.getImages();
+//        List<String> newList = new ArrayList<>();
+//
+//        for (Image image:list) {
+//            array.add(String.format("data:image/jpeg;base64,%s", DatatypeConverter.printBase64Binary(image.getData())));
+//        }
+//        return array.toString();
     }
 }
