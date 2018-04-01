@@ -25,5 +25,6 @@
         <mapping resource="ru/job4j/models/Order.hbm.xml"/>
         <mapping resource="ru/job4j/models/Transmission.hbm.xml"/>
         <mapping resource="ru/job4j/models/User.hbm.xml"/>
+        <mapping resource="ru/job4j/models/Role.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

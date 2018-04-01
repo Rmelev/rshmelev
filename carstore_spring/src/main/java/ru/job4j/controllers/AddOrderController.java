@@ -2,7 +2,6 @@ package ru.job4j.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -14,7 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import ru.job4j.dao.BodyDAO;
@@ -39,7 +42,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -51,7 +53,9 @@ import java.util.List;
  */
 @Controller
 public class AddOrderController {
-
+    /**
+     * Logger.
+     */
     private static final Logger LOG = LoggerFactory.getLogger(AddOrderController.class);
 
     /**
@@ -139,9 +143,9 @@ public class AddOrderController {
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
+
         ObjectMapper mapper = new ObjectMapper();
         Order obj = null;
-        Car car = null;
         try {
             obj = mapper.readValue(jsonBody, Order.class);
         } catch (IOException e) {
@@ -149,7 +153,7 @@ public class AddOrderController {
         }
         obj.setDate(new Timestamp(System.currentTimeMillis()));
         obj.setUser((User) session.getAttribute("user"));
-        car = obj.getCar();
+        Car car = obj.getCar();
         Model md = modelDAO.getModelByName(car.getModel().getName());
         Body bd = bodyDAO.getBodyByName(car.getBody().getName());
         Transmission td = transmissionDAO.getTransmissionByName(car.getTransmission().getName());
@@ -287,6 +291,4 @@ public class AddOrderController {
         ObjectMapper mapper = new ObjectMapper();
         return mapper.writeValueAsString(list);
     }
-
-
 }

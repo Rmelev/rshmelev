@@ -1,10 +1,11 @@
 package ru.job4j.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.JsonArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,6 @@ import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -34,7 +34,9 @@ import java.util.List;
  */
 @Controller
 public class CarStoreController {
-
+    /**
+     * Logger.
+     */
     private static final Logger LOG = LoggerFactory.getLogger(CarStoreController.class);
     /**
      * orderDAO.
@@ -106,80 +108,16 @@ public class CarStoreController {
             }
         }
 
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String name = auth.getName();
+        User user = userDAO.findUserByLogin(name);
+        session.setAttribute("user", user);
+        int id = user.getId();
+        session.setAttribute("user_id", id);
+        model.addAttribute("curId", id);
+        model.addAttribute("curName", name);
         model.addAttribute("orders", list);
-
         return "index";
-    }
-
-
-    /**
-     * log in.
-     * @param login - login.
-     * @param password - password.
-     * @param session - session.
-     * @param model - model.
-     * @return - user, if input valid.
-     * @throws IOException - exc.
-     */
-    @RequestMapping(value = "/signin", method = RequestMethod.GET, produces = "application/json")
-    @ResponseBody
-    public String signIn(@RequestParam("login") String login, @RequestParam("password") String password, HttpSession session, ModelMap model) throws IOException {
-        session.setAttribute("user", null);
-        User validUser = null;
-        List<User> list = (List<User>) userDAO.findAll();
-        for (User next : list) {
-            if (next.getLogin().equals(login)
-                    && next.getPassword().equals(password)) {
-                validUser = next;
-                session.setAttribute("user", next);
-                session.setAttribute("user_id", next.getId());
-                session.setAttribute("login", next.getLogin());
-                break;
-            }
-        }
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(validUser);
-    }
-
-    /**
-     * check current user.
-     * @param session - session.
-     * @return - user id or -1.
-     * @throws IOException - exc.
-     */
-    @RequestMapping(value = "/valid", produces = "applacation/json")
-    @ResponseBody
-    public String valid(HttpSession session) throws IOException {
-        Integer id;
-        if (session == null) {
-            id = -1;
-        } else {
-            if (session.getAttribute("user_id") == null) {
-                System.out.println("Hi");
-            }
-            id = (Integer) session.getAttribute("user_id");
-            if (id == null) {
-                id = -1;
-            }
-        }
-        return String.valueOf(id);
-    }
-
-    /**
-     * check currents user login.
-     * @param session - session.
-     * @return - login of current user.
-     * @throws IOException - exc.
-     */
-    @RequestMapping(value = "/currentUser", produces = "applacation/json")
-    @ResponseBody
-    public String currentUser(HttpSession session) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        String login = (String) session.getAttribute("login");
-        if (login == null) {
-            login = "Guest";
-        }
-        return mapper.writeValueAsString(login);
     }
 
     /**
@@ -187,7 +125,7 @@ public class CarStoreController {
      * @param session - session
      * @throws IOException - exc.
      */
-    @RequestMapping(value = "/logout")
+    @RequestMapping(value = "/logout", method = RequestMethod.GET, consumes = "applacation/json")
     public void logOut(HttpSession session) throws IOException {
         session.invalidate();
     }
@@ -249,14 +187,5 @@ public class CarStoreController {
             newList.add(String.format("data:image/jpeg;base64,%s", DatatypeConverter.printBase64Binary(nextImage.getData())));
         }
         return mapper.writeValueAsString(newList);
-//        JsonArray array = new JsonArray();
-//        Order order = orderDAO.findById(Integer.valueOf(orderId)).get();
-//        List<Image> list = order.getImages();
-//        List<String> newList = new ArrayList<>();
-//
-//        for (Image image:list) {
-//            array.add(String.format("data:image/jpeg;base64,%s", DatatypeConverter.printBase64Binary(image.getData())));
-//        }
-//        return array.toString();
     }
 }

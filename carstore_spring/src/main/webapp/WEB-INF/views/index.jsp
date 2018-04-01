@@ -16,8 +16,7 @@
     </style>
     <script>
         $(document).ready(function() {
-            var id = credential();
-            getItems(id);
+            getItems(${curId});
         });
 
         /**
@@ -32,12 +31,6 @@
                     brand : $('#brand').val()
                 },
                 complete: function(data) {
-                    if (userId !== -1) {
-                        $('#forlogin').empty();
-                        $('#forpassword').empty();
-                        $('#forinput').empty();
-                        document.getElementById("add").innerHTML = "<h3><u>Add Order</u></h3>"
-                    }
                     $('#items').empty();
                     document.getElementById("items").innerHTML = "";
                     <c:forEach items="${orders}" var="el">
@@ -56,7 +49,7 @@
                         + "<td><button type='button' class='btn btn-link pictures' onclick= 'return callGallery(" + ${el.id} + ")' >Gallery</button></td>"
                         + "<td><c:out value="${el.sold}"/></td>"
                         + "<td><c:out value="${el.user.email}"/></td>";
-                    if (userId !== null && userId === ${el.user.id}) {
+                    if (${curId} !== null && ${curId} === ${el.user.id}) {
                         var sold = ${el.sold};
                         if (sold === true) {
                             line += "<td style='text-align: center'>" +
@@ -99,83 +92,7 @@
                     </c:choose>
                     document.getElementById("d").innerHTML += d;
 
-                    if (userId !== -1) {
-                        currentUser();
-                    }
-                }
-            })
-        }
-
-        function currentUser() {
-            $.ajax('./currentUser', {
-                method: 'get',
-                async: false,
-                dataType: 'json',
-                complete: function (data) {
-                    var uska = JSON.parse(data.responseText);
-//                    alert('Data: ' + uska);
-                    document.getElementById("username").innerHTML = "<h3> You log in as: " + uska + "</h3>";
-                }
-            });
-        }
-
-
-        /**
-         * check user in database.
-         * @returns {*} - existence user or null.
-         */
-        function credential() {
-            var result = '-2';
-            $.ajax('./valid', {
-                method: 'get',
-                async: false,
-                dataType: "json",
-                complete: function (data) {
-//                    alert(data.responseText + ' in credential');
-                    result = JSON.parse(data.responseText);
-                }
-            });
-            return result;
-        }
-
-        /**
-         * update status sold/for sale
-         * @param id - current user id.
-         * @param status - current order status.
-         */
-        function updateStatus(id, status) {
-            $.ajax('./updateStatus', {
-                method: 'post',
-                dataType: "json",
-                data: {
-                    'id': id,
-                    'sold': status
-                }
-            });
-        }
-
-
-        /**
-         * sign to add or update order.
-         */
-//        $("#auth").click(function () {
-        function signin() {
-            $.ajax('./signin', {
-                method: 'get',
-                async: false,
-                dataType: 'json',
-                data: {
-                    'login': $('#login').val(),
-                    'password': $('#password').val()
-                },
-                complete: function (data) {
-                    uska = JSON.parse(data.responseText);
-//                    alert(uska.id + ' id in signin');
-                    if (uska !== null) {
-                        getItems(uska.id);
-                    } else {
-                        alert('Enter correct login & password');
-                    }
+                    document.getElementById("username").innerHTML = "<h3> You log in as: " + "${curName}" + "</h3>";
                 }
             })
         }
@@ -242,13 +159,8 @@
 <div class="container" class="container" style="margin-left: 10px; padding-left: 10px; margin-right: 10px; padding-right: 10px">
     <br>
     <label><input type="submit" class="btn btn-success" value="LogOut" onclick="logOut();"></label>
-    <form id="authorisation">
-        <label id="forlogin">&nbsp;&nbsp;&nbsp;Login:&nbsp;<input id="login" type="text" placeholder="login"/></label>
-        <label id="forpassword">&nbsp;&nbsp;Password:&nbsp;<input id="password" type="password" placeholder="password"/></label>
-        <label id="forinput">&nbsp;&nbsp;&nbsp;<input id="auth" class="btn btn-success" type="submit" value="Sign In" onclick="return signin();"></label>
-    </form>
     <p id="username"></p>
-    <a id="add" href="./add"></a>
+    <a id="add" href="./add"><h3><u>Add Order</u></h3></a>
     <div align="center">
         <h3 align="center" >Filter</h3>
         <form class="form-inline">
@@ -272,7 +184,7 @@
                 </label>
 
             </div>
-            <label>&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" id="flt-ord-btn" value="Filter" onclick="return getItems(credential());"/></label>
+            <label>&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" id="flt-ord-btn" value="Filter" onclick="return getItems(${curId});"/></label>
             <label>&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" id="res-ord-btn" value="Reset" onclick="return resetFilter();"/></label>
         </form>
 

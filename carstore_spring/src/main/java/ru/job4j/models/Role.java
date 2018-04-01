@@ -9,11 +9,11 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 /**
- * car engine.
+ * roles.
  */
 @Entity
-@Table(name = "engine")
-public class Engine {
+@Table(name = "roles")
+public class Role {
     /**
      * id.
      */
@@ -26,38 +26,44 @@ public class Engine {
      */
     @Column(name = "name", nullable = false)
     private String name;
+
     /**
-     * default constructor.
+     * Constructor.
      */
-    public Engine() {
+    public Role() {
     }
+
     /**
      * @return - id.
      */
     public int getId() {
         return id;
     }
+
     /**
      * @param id - id.
      */
     public void setId(int id) {
         this.id = id;
     }
+
     /**
      * @return - name.
      */
     public String getName() {
         return name;
     }
+
     /**
      * @param name - name.
      */
     public void setName(String name) {
         this.name = name;
     }
+
     /**
-     * @param o - obj.
-     * @return - true, if equals
+     * @param o - object.
+     * @return - true, if equals.
      */
     @Override
     public boolean equals(Object o) {
@@ -67,25 +73,26 @@ public class Engine {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Engine engine = (Engine) o;
-        return id == engine.id
-                && Objects.equals(name, engine.name);
+        Role role = (Role) o;
+        return id == role.id
+                && Objects.equals(name, role.name);
     }
+
     /**
-     * @return - hashcode.
+     * @return - hash code.
      */
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
     }
+
     /**
-     * @return - string representation.
+     * @return - to string.
      */
     @Override
     public String toString() {
-        return "Engine{"
+        return "Role{"
                 + "id=" + id
-                + ", name='" + name + '\''
-                + '}';
+                + ", name='" + name + '\'' + '}';
     }
 }

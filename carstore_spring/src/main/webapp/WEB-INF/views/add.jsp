@@ -76,7 +76,6 @@
             $.ajax('./getModels', {
                 method: 'get',
                 data : {
-//                    brand : sel.options[sel.selectedIndex].text
                     brand: $('#brand').val()
                 },
                 dataType: "json",

@@ -1,6 +1,13 @@
 package ru.job4j.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.util.Objects;
 
 /**
@@ -31,6 +38,28 @@ public class User {
      */
     @Column(name = "email")
     private String email;
+
+    /**
+     * @return - role.
+     */
+    public Role getRole() {
+        return role;
+    }
+
+    /**
+     * @param role - role.
+     */
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    /**
+     * role.
+     */
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
+
     /**
      * default constructor.
      */
