@@ -152,26 +152,6 @@
             location.href = "./";
         }
 
-        function addImage() {
-            var data = new FormData();
-            var x = document.getElementById("file-image");
-            var file = x.files[0];
-            data.append("file", file);
-            $.ajax({
-                url: "addImage",
-                method: "post",
-                processData : false,
-                contentType : false,
-                data: data,
-                complete: function (data) {
-                    var result  = JSON.parse(data.responseText);
-                    if (result.success) {
-                        alert("Image was added successful! You can add another image.");
-                    }
-                }
-            });
-        }
-
         /*]]>*/
     </script>
 </head>
@@ -232,9 +212,9 @@
 </div>
 
 <div class="container">
-    <form enctype="multipart/form-data">
-        <input id="file-image" type="file" accept="image/jpeg" multiple="multiple">
-        <input id="file-btn-load" type="button" class="btn btn-success" value="Add image" th:onclick="'javascript:addImage();'">
+    <form method="POST" enctype="multipart/form-data" th:action="@{/addImage}">
+        <input id="file-image" type="file" name="file" accept="image/jpeg" multiple="multiple">
+        <input id="file-btn-load" type="submit" class="btn btn-success" value="Add image">
     </form>
 </div>
 

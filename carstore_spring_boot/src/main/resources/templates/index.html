@@ -88,7 +88,7 @@
                 <input th:case="'true'" type='checkbox' onChange="dataReverse()" checked/>
                 <input th:case="*" type='checkbox' onChange="dataReverse()"/>
             </label>
-            <!--<form th:action="@{/fotoReverse}" method="get">-->
+
             <label th:switch="${foto}">&nbsp;&nbsp;Image&nbsp;
                 <input th:case="'true'" type='checkbox' onChange="fotoReverse()" checked/>
                 <input th:case="*" type='checkbox' onChange="fotoReverse()"/>

@@ -2,25 +2,18 @@ package ru.job4j.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.FileCleanerCleanup;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.io.FileCleaningTracker;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import ru.job4j.repository.BodyDAO;
 import ru.job4j.repository.BrandDAO;
 import ru.job4j.repository.CarDAO;
@@ -179,9 +172,9 @@ public class AddOrderController {
      * @throws IOException - exc.
      * @throws ServletException - exc.
      */
-    @ResponseBody
-    @PostMapping(value = "/addImage", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String addImage(HttpSession session, HttpServletRequest req) throws IOException, ServletException {
+    @PostMapping(value = "/addImage")
+    public String addImage(HttpSession session, HttpServletRequest req, @RequestParam("file") MultipartFile file) throws IOException {
+
         boolean isMultipartContent = ServletFileUpload.isMultipartContent(req);
         Integer userId = (int) session.getAttribute("user_id");
         Integer orderId = (int) session.getAttribute("order_id");
@@ -190,49 +183,17 @@ public class AddOrderController {
             order = orderDAO.findById(orderId).get();
         }
 
+        Image image = new Image();
+        image.setData(file.getBytes());
+        image.setOrder(order);
+        imageDAO.save(image);
+        order.getImages().add(image);
+
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode node = mapper.createObjectNode();
-        node.put("success", false);
+        node.put("success", true);
 
-        if (isMultipartContent && userId != -1 && orderId != -1) {
-            DiskFileItemFactory factory = new DiskFileItemFactory();
-            ServletContext context = ((ServletRequestAttributes) RequestContextHolder.
-                    getRequestAttributes()).getRequest().getServletContext();
-
-            FileCleaningTracker tracker = FileCleanerCleanup.getFileCleaningTracker(context);
-            factory.setFileCleaningTracker(tracker);
-            File repository = (File) context.getAttribute("javax.servlet.context.tempdir");
-            factory.setRepository(repository);
-
-            ServletFileUpload upload = new ServletFileUpload(factory);
-
-            String jsonBody = "fff";
-            // interesting part for control request content.
-            try {
-                jsonBody = IOUtils.toString(req.getInputStream());
-            } catch (IOException e) {
-                LOG.error(e.getMessage(), e);
-            }
-
-
-            try {
-                List<FileItem> items = upload.parseRequest(req);
-                for (FileItem item : items) {
-                    byte[] imageData = item.get();
-                    Image image = new Image();
-                    image.setData(imageData);
-                    image.setOrder(order);
-                    imageDAO.save(image);
-                    order.getImages().add(image);
-
-                }
-                node.put("success", true);
-            } catch (FileUploadException fue) {
-                fue.printStackTrace();
-            }
-        }
-
-        return mapper.writeValueAsString(node);
+        return "add";
     }
 
     /**
