@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Car Store</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https:////netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <style>
+        table, th, td {
+            border: 2px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+    function fotoReverse() {
+        $.ajax({
+            url: "fotoReverse",
+            method: "get",
+            dataType: 'json'
+        });
+    }
+
+        function dataReverse() {
+            $.ajax({
+                url: "dataReverse",
+                method: "get",
+                dataType: 'json'
+            });
+        }
+
+        function resetFilter() {
+            $.ajax({
+                url: "resetFilter",
+                method: "get",
+                dataType: 'json'
+            });
+        }
+
+        function callGallery(orderId) {
+            $.ajax({
+                url: "image",
+                method: "get",
+                data: {'order': orderId},
+                dataType: "json",
+                complete: function (data) {
+                    var returnData = JSON.parse(data.responseText);
+                    if (returnData.length === 0) {
+                        alert('Owner did not add images');
+                    }
+                    for (var i = 0; i !== returnData.length; ++i) {
+                        $("#picture").append("<a href='/'><img src= '" + returnData[i] + "'   width='400' height='300'></a>");
+                    }
+                }
+            })
+        }
+        /*]]>*/
+    </script>
+
+
+</head>
+<body th:inline="text">
+<div class="container">
+    <br>
+    <a th:href="@{/logout}"><input type="submit" class="btn btn-success" value="LogOut"></a>
+    <h3> You log in as: [[${curName}]]</h3>
+    <a id="add" th:href="@{/add}"><h3><u>Add Order</u></h3></a>
+    <div align="center">
+        <h3 align="center" >Filter</h3>
+        <form class="form-inline" th:action="@{/}" method="get">
+            <div class="form-group">
+                <label>
+                    &nbsp;&nbsp;&nbsp;Car brand:
+                    <select class="selector" id="brand" name="brand">
+                        <option></option>
+                        <th:block th:each="brand : ${brands}">
+                            <option th:text="${brand.name}"></option>
+                        </th:block>
+                    </select>
+                </label>
+            </div>
+
+            <label th:switch="${data}">&nbsp;&nbsp;Data&nbsp;
+                <input th:case="'true'" type='checkbox' onChange="dataReverse()" checked/>
+                <input th:case="*" type='checkbox' onChange="dataReverse()"/>
+            </label>
+            <!--<form th:action="@{/fotoReverse}" method="get">-->
+            <label th:switch="${foto}">&nbsp;&nbsp;Image&nbsp;
+                <input th:case="'true'" type='checkbox' onChange="fotoReverse()" checked/>
+                <input th:case="*" type='checkbox' onChange="fotoReverse()"/>
+            </label>
+
+            <label>&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" id="flt-ord-btn" value="Filter"/></label>
+            <label>&nbsp;&nbsp;&nbsp;<input type="submit" class="btn btn-success" id="res-ord-btn" value="Reset" onclick="return resetFilter();"/></label>
+        </form>
+
+    </div>
+    <div class="row">
+        <div id="picture"></div>
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <thead style="background: #4dc8ff">
+                <tr style="color: white">
+                    <td>ID</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>Description</td>
+                    <td>Color</td>
+                    <td>Brand</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Model&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>Body</td>
+                    <td>Transmission</td>
+                    <td>Engine</td>
+                    <td>Price</td>
+                    <td>Sold</td>
+                    <td>Contact</td>
+                    <td>Images</td>
+                </tr>
+                </thead>
+                <tbody th:inline="text" id="items">
+                <th:block th:each='order : ${orders}'>
+                    <tr>
+                        <td th:text='${order.id}'></td>
+                        <td th:text='${order.date}'></td>
+                        <td th:text='${order.description}'></td>
+                        <td th:text='${order.car.color}'></td>
+                        <td th:text='${order.car.model.brand.name}'></td>
+                        <td th:text='${order.car.model.name}'></td>
+                        <td th:text='${order.car.body.name}'></td>
+                        <td th:text='${order.car.transmission.name}'></td>
+                        <td th:text='${order.car.engine.name}'></td>
+                        <td th:text='${order.price}'></td>
+                        <td th:text='${order.sold}'></td>
+                        <td th:text='${order.user.email}'></td>
+                        <td><button type='button' class='btn btn-link pictures' th:onclick="'javascript:callGallery(\'' + ${order.id} + '\');'">Gallery</button></td>
+
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

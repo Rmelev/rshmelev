@@ -97,19 +97,6 @@
             })
         }
 
-        /**
-         * log out from user rights.
-         */
-        function logOut() {
-            $.ajax('./logout', {
-                method: 'get',
-                dataType: "json",
-                complete: function() {
-                    location.href = "./"
-                }
-            });
-        }
-
         function callGallery(orderId) {
             $.ajax({
                 url: "image",
@@ -158,7 +145,7 @@
 <body>
 <div class="container" class="container" style="margin-left: 10px; padding-left: 10px; margin-right: 10px; padding-right: 10px">
     <br>
-    <label><input type="submit" class="btn btn-success" value="LogOut" onclick="logOut();"></label>
+    <a href="<c:url value="/logout"/>"><input type="submit" class="btn btn-success" value="LogOut"></a>
     <p id="username"></p>
     <a id="add" href="./add"><h3><u>Add Order</u></h3></a>
     <div align="center">

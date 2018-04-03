@@ -1,4 +1,4 @@
-package ru.job4j.controllers;
+package ru.job4j.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.job4j.dao.BrandDAO;
-import ru.job4j.dao.OrderDAO;
-import ru.job4j.dao.UserDAO;
-import ru.job4j.models.Brand;
-import ru.job4j.models.Image;
-import ru.job4j.models.Order;
-import ru.job4j.models.User;
+import ru.job4j.repository.BrandDAO;
+import ru.job4j.repository.OrderDAO;
+import ru.job4j.repository.UserDAO;
+import ru.job4j.domain.Brand;
+import ru.job4j.domain.Image;
+import ru.job4j.domain.Order;
+import ru.job4j.domain.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
