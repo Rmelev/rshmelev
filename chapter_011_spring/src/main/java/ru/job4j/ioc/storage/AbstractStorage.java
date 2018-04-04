@@ -2,6 +2,7 @@ package ru.job4j.ioc.storage;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +20,12 @@ public abstract class AbstractStorage<T> {
      */
     private static final Logger LOG = LoggerFactory.getLogger(AbstractStorage.class);
 
+    private SessionFactory sessionFactory;
+
+    public AbstractStorage() {
+        this.sessionFactory = HibernateFactory.getFactory();
+    }
+
     /**
      * transaction, that return result.
      * @param actionGet - action for transact.
@@ -26,8 +33,9 @@ public abstract class AbstractStorage<T> {
      */
     T getTx(ActionGet actionGet) {
         T user = null;
-        Transaction transaction = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        try {
             transaction = session.beginTransaction();
             user = (T) actionGet.execute(session);
             transaction.commit();
@@ -36,6 +44,8 @@ public abstract class AbstractStorage<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
+        } finally {
+            session.close();
         }
         return user;
     }
@@ -45,8 +55,9 @@ public abstract class AbstractStorage<T> {
      * @param action - action for transact.
      */
     void voidTx(Action action) {
-        Transaction transaction = null;
-        try (Session session = HibernateFactory.getFactory().openSession()) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        try {
             transaction = session.beginTransaction();
             action.execute(session);
             transaction.commit();
@@ -55,6 +66,8 @@ public abstract class AbstractStorage<T> {
             if (transaction != null) {
                 transaction.rollback();
             }
+        } finally {
+            session.close();
         }
     }
 
