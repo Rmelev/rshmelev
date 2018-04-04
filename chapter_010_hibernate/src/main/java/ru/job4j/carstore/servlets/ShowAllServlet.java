@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,18 +32,34 @@ public class ShowAllServlet extends HttpServlet {
         Boolean withFoto = Boolean.valueOf(req.getParameter("withFoto"));
         String brand  = req.getParameter("brand");
         List<Order> list = OrderDAO.getINSTANCE().getAll();
-        List<Order> newList;
         if (lastDay) {
-            newList = OrderDAO.getINSTANCE().getByLastDay(list);
-            list = newList;
+            List<Order> newlist = new ArrayList<>();
+            int month = LocalDateTime.now().getDayOfMonth();
+            for (Order nextOrder : list) {
+                if (nextOrder.getDate().toLocalDateTime().getDayOfMonth() == month) {
+                    newlist.add(nextOrder);
+                }
+            }
+            list = newlist;
         }
         if (withFoto) {
-            newList = OrderDAO.getINSTANCE().getByWithFoto(list);
-            list = newList;
+            List<Order> newlist = new ArrayList<>();
+            for (Order nextOrder : list) {
+                if (nextOrder.getImages().size() > 0) {
+                    newlist.add(nextOrder);
+                }
+            }
+            list = newlist;
         }
         if (!brand.equals("")) {
-            newList = OrderDAO.getINSTANCE().getByBrand(list, brand);
-            list = newList;
+
+            List<Order> newlist = new ArrayList<>();
+            for (Order nextOrder : list) {
+                if (nextOrder.getCar().getModel().getBrand().getName().equals(brand)) {
+                    newlist.add(nextOrder);
+                }
+            }
+            list = newlist;
         }
         PrintWriter writer = resp.getWriter();
         ObjectMapper mapper = new ObjectMapper();

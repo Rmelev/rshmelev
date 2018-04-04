@@ -15,6 +15,7 @@ import ru.job4j.carstore.models.Transmission;
 import ru.job4j.carstore.models.User;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -239,7 +240,7 @@ public class OrderDAOTest {
         secondOrder.setImages(new ArrayList<>());
         orderDAO.saveOrUpdate(secondOrder);
         List<Order> expected = new ArrayList<>(Arrays.asList(secondOrder));
-        List<Order> result = orderDAO.getByLastDay(orderDAO.getAll());
+        List<Order> result = getByLastDay(orderDAO.getAll());
         assertThat(result, is(expected));
     }
     /**
@@ -275,7 +276,7 @@ public class OrderDAOTest {
         secondOrder.setImages(images2);
         orderDAO.saveOrUpdate(secondOrder);
         List<Order> expected = new ArrayList<>(Arrays.asList(firstOrder));
-        List<Order> result = orderDAO.getByWithFoto(orderDAO.getAll());
+        List<Order> result = getByWithFoto(orderDAO.getAll());
         assertThat(result, is(expected));
     }
     /**
@@ -344,8 +345,54 @@ public class OrderDAOTest {
             System.out.println(next);
         }
         List<Order> expected = new ArrayList<>(Arrays.asList(firstOrder, secondOrder));
-        List<Order> result = orderDAO.getByBrand(orderDAO.getAll(), "BMW");
+        List<Order> result = getByBrand(orderDAO.getAll(), "BMW");
         assertThat(result, is(expected));
     }
 
+    /**
+     * getByLastDay.
+     * @param list - list.
+     * @return - list of added orders in last day (from 00:00).
+     */
+    public List<Order> getByLastDay(List<Order> list) {
+        List<Order> newlist = new ArrayList<>();
+        int month = LocalDateTime.now().getDayOfMonth();
+        for (Order nextOrder : list) {
+            if (nextOrder.getDate().toLocalDateTime().getDayOfMonth() == month) {
+                newlist.add(nextOrder);
+            }
+        }
+        return newlist;
+    }
+
+    /**
+     * with foto.
+     * @param list - list.
+     * @return - with foto.
+     */
+    public List<Order> getByWithFoto(List<Order> list) {
+        List<Order> newlist = new ArrayList<>();
+        for (Order nextOrder : list) {
+            if (nextOrder.getImages().size() > 0) {
+                newlist.add(nextOrder);
+            }
+        }
+        return newlist;
+    }
+
+    /**
+     * by brand.
+     * @param list - list.
+     * @param brand - brand.
+     * @return - by brand.
+     */
+    public List<Order> getByBrand(List<Order> list, String brand) {
+        List<Order> newlist = new ArrayList<>();
+        for (Order nextOrder : list) {
+            if (nextOrder.getCar().getModel().getBrand().getName().equals(brand)) {
+                newlist.add(nextOrder);
+            }
+        }
+        return newlist;
+    }
 }
