@@ -112,9 +112,11 @@ public class CarStoreController {
         String name = auth.getName();
         User user = userDAO.findUserByLogin(name);
         session.setAttribute("user", user);
-        int id = user.getId();
-        session.setAttribute("user_id", id);
-        model.addAttribute("curId", id);
+        if (user != null) {
+            int id = user.getId();
+            session.setAttribute("user_id", id);
+            model.addAttribute("curId", id);
+        }
         model.addAttribute("curName", name);
         model.addAttribute("orders", list);
         return "index";
