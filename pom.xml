@@ -26,7 +26,8 @@
         <module>chapter_010_hibernate</module>
         <module>chapter_011_spring</module>
         <module>carstore_spring</module>
-	    <module>carstore_spring_boot</module>
+	<module>carstore_spring_boot</module>
+	<module>worktime</module>
     </modules>
 
     <dependencies>
