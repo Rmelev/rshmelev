@@ -4,9 +4,21 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 //тест на вакансию Java-стажер 6.04.
+
+/**
+ *
+ */
 public class Converter {
+    /**
+     *
+     */
     private Iterator<Integer> iterInt;
 
+    /**
+     *
+     * @param it - it.
+     * @return - iterator.
+     */
     Iterator<Integer> convert(Iterator<Iterator<Integer>> it) {
         iterInt = it.next();
 

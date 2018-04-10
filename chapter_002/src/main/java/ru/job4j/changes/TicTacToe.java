@@ -1,13 +1,28 @@
 package ru.job4j.changes;
 
 //тест на вакансию Java-стажер 6.04.
+
+/**
+ *
+ */
 public class TicTacToe {
+    /**
+     *
+     */
     private final int[][] values;
 
+    /**
+     *
+     * @param values - values.
+     */
     public TicTacToe(final int[][] values) {
         this.values = values;
     }
 
+    /**
+     *
+     * @return - booolean.
+     */
     public boolean hasWinner() {
         boolean result = false;
 

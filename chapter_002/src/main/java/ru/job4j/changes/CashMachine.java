@@ -1,23 +1,33 @@
 package ru.job4j.changes;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-import static java.util.Arrays.asList;
-
 //тест на вакансию Java-стажер 6.04.
+
+/**
+ *
+ */
 public class CashMachine {
-
+    /**
+     *
+     */
     private final int[] values;
+    /**
+     *
+     */
+    private List<List<Integer>> result = new ArrayList<>();
+    /**
+     *
+     */
+    private List<Integer> arrR = new ArrayList<>();
 
-    List<List<Integer>> result = new ArrayList<>();
-
-    List<Integer> arrR = new ArrayList<>();
-
-
+    /**
+     *
+     * @param values - values.
+     */
     public CashMachine(final int[] values) {
         this.values = values;
     }
@@ -43,44 +53,44 @@ public class CashMachine {
 //        partition(10);
 //    }
 
-    public List<List<Integer>> exchange(int money) {
-        return exchange(money, values.length - 1, 0);
-    }
-
-    public List<List<Integer>> exchange(int maxcoin, int sum, int part) {
-//        System.out.println("Вызов с maxcoin: " + maxcoin + "  sum:   " + sum);
-//        if (maxcoin == 0 && sum == 0 && arrR.size() == 5) {
-//            arrR.add(values[1]);
+//    public List<List<Integer>> exchange(int money) {
+//        return exchange(money, values.length - 1, 0);
+//    }
+//
+//    public List<List<Integer>> exchange(int maxcoin, int sum, int part) {
+////        System.out.println("Вызов с maxcoin: " + maxcoin + "  sum:   " + sum);
+////        if (maxcoin == 0 && sum == 0 && arrR.size() == 5) {
+////            arrR.add(values[1]);
+////        }
+//        if (sum == 0) {
+//            if (arrR.size() > 0) {
+//
+//                result.add(arrR);
+//                arrR.add(part);
+//            }
+//            arrR = new ArrayList<>();
 //        }
-        if (sum == 0) {
-            if (arrR.size() > 0) {
-
-                result.add(arrR);
-                arrR.add(part);
-            }
-            arrR = new ArrayList<>();
-        }
-        if (sum >= values[maxcoin]) {
-            arrR.add(values[maxcoin]);
-            exchange(maxcoin, sum - values[maxcoin], values[maxcoin]);
-        }
-
-        if (maxcoin > 0) {
-            exchange(maxcoin - 1, sum, values[maxcoin]);
-        }
-        return result;
-    }
+//        if (sum >= values[maxcoin]) {
+//            arrR.add(values[maxcoin]);
+//            exchange(maxcoin, sum - values[maxcoin], values[maxcoin]);
+//        }
+//
+//        if (maxcoin > 0) {
+//            exchange(maxcoin - 1, sum, values[maxcoin]);
+//        }
+//        return result;
+//    }
 //
 //    public List<List<Integer>> exchange(int note) {
 //        return exchange(values.length - 1, note);
 //    }
 
 
-    public static void main(String[] args) {
-        CashMachine machine = new CashMachine(new int[] {1, 5, 10});
-        List<List<Integer>> newList = machine.exchange(2, 10, 0);
-        System.out.println(newList);
-    }
+//    public static void main(String[] args) {
+//        CashMachine machine = new CashMachine(new int[] {1, 5, 10});
+//        List<List<Integer>> newList = machine.exchange(2, 10, 0);
+//        System.out.println(newList);
+//    }
 //    int rem;
 //    int count = 0;
 //
@@ -164,37 +174,47 @@ public class CashMachine {
 //        values[two] = temp;
 //    }
 
-//    public List<List<Integer>> exchange(int note) {
-//        List<Integer> coins = new ArrayList<>();
-//        for (Integer next : values) {
-//            coins.add(next);
-//        }
-//        List<List<Integer>> result = new ArrayList<>();
-//
-//        class Wrapper<T> {
-//            private T function;
-//        }
-//        Wrapper<Function<Integer, BiConsumer<Integer, List<Integer>>>> recursion = new Wrapper<>();
-//        recursion.function = money -> (numberOfCoin, buffer) -> {
-//            if (money < 0 || numberOfCoin < 0)
-//                return;
-//
-//            if (money == 0) {
-//                result.add(buffer);
-//                return;
-//            }
-//
-//            recursion.function.apply(money).accept(numberOfCoin - 1, new ArrayList<>(buffer));
-//            int coin = coins.get(numberOfCoin);
-//            buffer = new ArrayList<>(buffer);
-//            buffer.add(coin);
-//            recursion.function.apply(money - coin).accept(numberOfCoin, buffer);
-//        };
-//
-//        recursion.function.apply(note).accept(coins.size() - 1, new ArrayList<>());
-//
-//        return result;
-//    }
+    /**
+     *
+     * @param note - note.
+     * @return - list.
+     */
+    public List<List<Integer>> exchange(int note) {
+        List<Integer> coins = new ArrayList<>();
+        for (Integer next : values) {
+            coins.add(next);
+        }
+        List<List<Integer>> result = new ArrayList<>();
+
+        /**
+         *
+         * @param <T> - param.
+         */
+        class Wrapper<T> {
+            private T function;
+        }
+        Wrapper<Function<Integer, BiConsumer<Integer, List<Integer>>>> recursion = new Wrapper<>();
+        recursion.function = money -> (numberOfCoin, buffer) -> {
+            if (money < 0 || numberOfCoin < 0) {
+                return;
+            }
+
+            if (money == 0) {
+                result.add(buffer);
+                return;
+            }
+
+            recursion.function.apply(money).accept(numberOfCoin - 1, new ArrayList<>(buffer));
+            int coin = coins.get(numberOfCoin);
+            buffer = new ArrayList<>(buffer);
+            buffer.add(coin);
+            recursion.function.apply(money - coin).accept(numberOfCoin, buffer);
+        };
+
+        recursion.function.apply(note).accept(coins.size() - 1, new ArrayList<>());
+
+        return result;
+    }
 
 //итерационный способ.
 //    public List<List<Integer>> exchange(int note) {
